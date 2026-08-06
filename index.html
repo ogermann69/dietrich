@@ -1,0 +1,3299 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<title>Dietrich</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Dietrich">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<style>
+/* ==========================================================================
+   Dietrich - Design-System
+   Alle Farben stehen hier. An keiner anderen Stelle, auch nicht im Skript,
+   wird ein Farbwert eingetragen; die Zeichenflaeche liest die Werte ueber
+   getComputedStyle aus.
+   ========================================================================== */
+
+:root {
+  /* Grundflaechen, Variante "bruenierter Stahl" (Begruendung siehe Doku).
+     Neutrale Alternative ueber <html data-grund="neutral">. */
+  --df-schwarz:        #0C0E11;  /* Grundflaeche */
+  --df-grau:           #1A1D21;  /* Karten, erhabene Flaechen */
+  --df-linie:          #272A2F;  /* Trennlinien, Raender */
+
+  --df-silber-dunkel:  #6E7278;  /* inaktive Elemente, Verlaufstiefen */
+  --df-silber:         #B8BCC2;  /* Primaerakzent */
+  --df-silber-hell:    #E8EAED;  /* Text primaer, Glanzlichter */
+  --df-text-sekundaer: #8A8D91;  /* Beschriftungen, Hilfstexte */
+  --df-warnung:        #C25B4A;  /* ausschliesslich fuer die Zoom-Warnung */
+
+  /* Verlaufsstufen des Metalls */
+  --df-metall-tief:    #5A5D62;
+  --df-metall-mittel:  #C7CAD0;
+  --df-metall-glanz:   #FFFFFF;
+
+  /* Lichter und Tiefen, nur als Transparenz ueber den Grundfarben */
+  --df-licht-stark:    rgba(255, 255, 255, .22);
+  --df-licht:          rgba(255, 255, 255, .09);
+  --df-licht-fein:     rgba(255, 255, 255, .05);
+  --df-tiefe:          rgba(0, 0, 0, .45);
+  --df-schleier:       rgba(12, 14, 17, .96);
+
+  --df-metall: linear-gradient(135deg,
+    var(--df-metall-tief)   0%,
+    var(--df-metall-mittel) 30%,
+    var(--df-metall-glanz)  50%,
+    var(--df-silber)        65%,
+    var(--df-metall-tief)  100%);
+
+  /* Feine Buerstung, keine Bilddatei */
+  --df-buerste: repeating-linear-gradient(118deg,
+    var(--df-licht-fein) 0 1px,
+    transparent 1px 4px);
+
+  /* Schrift: Anzeige kondensiert und kantig, Funktion ruhig */
+  --df-anzeige: "SF Compact Display", "SF Compact", "Roboto Condensed",
+                "Arial Narrow", "Franklin Gothic Medium", "Segoe UI", system-ui, sans-serif;
+
+  /* Wortmarke: schwerste kondensierte Groteske, die ohne Ladevorgang
+     bereitsteht. Impact liegt auf macOS und Windows, Haettenschweiler
+     ist der Windows-Zwilling, Arial Narrow Bold der letzte Halt vor
+     system-ui. Der Vergleich gegen Arial Black steht in
+     entwurfsentscheidungen.md. */
+  --df-anzeige-marke: Impact, Haettenschweiler, "Arial Narrow Bold",
+                      "Franklin Gothic Heavy", system-ui, sans-serif;
+  --df-funktion: system-ui, -apple-system, "Segoe UI", sans-serif;
+  --df-technisch: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  /* Raster: Vielfache von 4 */
+  --df-r1: 4px;  --df-r2: 8px;  --df-r3: 12px; --df-r4: 16px;
+  --df-r5: 24px; --df-r6: 32px; --df-r7: 48px;
+  --df-eck: 10px;
+  --df-eck-gross: 14px;
+  --df-tipp: 44px;   /* kleinste Antippflaeche */
+}
+
+:root[data-grund="neutral"] {
+  --df-schwarz: #0D0D0F;
+  --df-grau:    #1C1C1E;
+  --df-linie:   #2A2A2D;
+}
+
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+html, body { margin: 0; padding: 0; height: 100%; overflow: hidden; }
+
+body {
+  font-family: var(--df-funktion);
+  background: var(--df-schwarz);
+  color: var(--df-silber-hell);
+  font-size: 16px;
+  line-height: 1.45;
+  -webkit-text-size-adjust: 100%;
+}
+
+/* Verlaufsdefinition fuer die Icons, darf nicht display:none sein.
+   Kleine Flaechen brauchen mehr Licht als grosse: der Verlauf laeuft hier
+   von Silber ueber das Glanzlicht in eine dunkle Kante, statt an beiden
+   Enden dunkel zu beginnen. Sonst wirken Icons in 24 Pixel nur grau. */
+.df-defs { position: absolute; width: 0; height: 0; overflow: hidden; }
+#dfMetall .s0 { stop-color: var(--df-silber); }
+#dfMetall .s1 { stop-color: var(--df-metall-glanz); }
+#dfMetall .s2 { stop-color: var(--df-silber-hell); }
+#dfMetall .s3 { stop-color: var(--df-metall-mittel); }
+#dfMetall .s4 { stop-color: var(--df-metall-tief); }
+
+#anwendung {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding-top: env(safe-area-inset-top);
+}
+
+/* ---------- Bewegung ---------------------------------------------------- */
+
+@keyframes df-auf { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+@keyframes df-blende { from { opacity: 0; } to { opacity: 1; } }
+
+/* Kein Fuellmodus "both": ein angehaltenes Aufblenden darf keine Flaeche
+   dauerhaft unsichtbar lassen, am wenigsten die Messflaeche. */
+.df-eintritt { animation: df-auf .16s ease-out; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .001s !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .001s !important;
+  }
+}
+
+/* ---------- Kopfzeile --------------------------------------------------- */
+
+.kopf {
+  display: flex;
+  align-items: center;
+  gap: var(--df-r3);
+  padding: var(--df-r2) var(--df-r3);
+  background: var(--df-grau);
+  border-bottom: 1px solid var(--df-linie);
+  box-shadow: inset 0 1px 0 var(--df-licht-fein);
+  flex: 0 0 auto;
+  min-height: 56px;
+}
+
+.kopf h1 {
+  font-family: var(--df-anzeige);
+  font-stretch: 87%;
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: .06em;
+  margin: 0;
+  flex: 1 1 auto;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--df-silber-hell);
+}
+
+/* Bartkante des Dietrichs als Signaturelement */
+.balken {
+  flex: 0 0 auto;
+  width: 7px;
+  height: 30px;
+  background: var(--df-metall);
+  background-size: 220% 220%;
+  background-position: 20% 50%;
+  clip-path: polygon(
+    0 0, 100% 0, 100% 44%, 34% 44%, 34% 56%, 100% 56%,
+    100% 72%, 34% 72%, 34% 84%, 100% 84%, 100% 100%, 0 100%);
+}
+
+/* ---------- Wortmarke --------------------------------------------------- */
+
+.marke {
+  display: flex;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: var(--df-r2) var(--df-r4);
+  padding: var(--df-r5) var(--df-r4) var(--df-r4);
+  flex: 0 0 auto;
+  overflow: hidden;   /* keine Schrift darf die Seite breiter machen */
+}
+
+/* Zeichen und Wort bilden einen Block. Seine Schriftgroesse bestimmt
+   beides, damit das Verhaeltnis in jeder Breite stehen bleibt.
+   Untergrenze: auf 320 Pixel Breite bleibt die erste Kachel im Bild. */
+.marke-block {
+  display: flex;
+  align-items: center;
+  gap: .09em;
+  font-size: clamp(3rem, 23vw, 10rem);
+  line-height: .78;
+  flex: 0 0 auto;
+}
+
+/* Kein Quadrat: der Rahmen sitzt eng an der Zeichnung, damit die linke
+   Kante des Zeichens auf der linken Kante der Kacheln steht. */
+.marke .zeichen { height: .8em; width: .438em; flex: 0 0 auto; }
+.marke .zeichen svg { width: 100%; height: 100%; display: block; }
+
+.schrift-huelle { position: relative; display: inline-block; }
+
+/* Schriftschnitt gilt fuer die sichtbare Schrift und ihre Tiefe gleich */
+.marke .schrift,
+.marke .schrift-tiefe {
+  font-family: var(--df-anzeige-marke);
+  font-size: 1em;
+  font-weight: 900;
+  font-synthesis: none;          /* kein kuenstliches Fetten von Impact */
+  line-height: .78;
+  letter-spacing: -.012em;       /* Buchstaben wachsen zur Masse zusammen */
+  text-transform: uppercase;
+  white-space: nowrap;
+  display: block;
+}
+
+/* Der Verlauf liegt auf der Schrift selbst. Ausnahme von der Regel
+   "keine Verlaeufe auf Text unter 20 Pixel": hier steht die Schrift
+   zwischen 44 und 160 Pixel. */
+.marke .schrift {
+  position: relative;
+  background: var(--df-metall);
+  background-size: 260% 100%;
+  background-position: 50% 50%;  /* Ruhelage: Glanzlicht mittig, Kanten dunkler */
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Ausgestellte Unterkante, nur in der Platten-Fassung. Sie steht vor der
+   sichtbaren Schrift im Quelltext, damit sie darunter liegt; ein negativer
+   z-index kaeme nie hinter den Hintergrund des eigenen Elements. */
+.marke .schrift-tiefe {
+  display: none;
+  position: absolute;
+  left: 0;
+  top: .055em;
+  color: var(--df-metall-tief);
+}
+
+/* Einmaliger Lauf des Glanzlichts, endet genau in der Ruhelage */
+@keyframes df-glanz {
+  from { background-position: 112% 50%; }
+  to   { background-position:  50% 50%; }
+}
+
+.marke .schrift.glanz { animation: df-glanz 1.2s cubic-bezier(.32, 0, .12, 1); }
+
+@media (prefers-reduced-motion: reduce) {
+  .marke .schrift.glanz { animation: none; }
+}
+
+.marke-zusatz {
+  font-family: var(--df-funktion);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: .34em;
+  text-transform: uppercase;
+  color: var(--df-silber-dunkel);
+  white-space: nowrap;
+  margin-left: auto;
+  padding-bottom: .2em;
+  flex: 0 0 auto;
+}
+
+/* Zweite Fassung: die Wortmarke sitzt auf einer gefraesten Platte und
+   traegt eine ausgestellte Unterkante. Umschalten ueber
+   <html data-marke="platte">. */
+:root[data-marke="platte"] .marke {
+  background: linear-gradient(180deg, var(--df-grau) 0%, var(--df-schwarz) 100%);
+  border-bottom: 1px solid var(--df-linie);
+  box-shadow: inset 0 1px 0 var(--df-licht);
+  padding-top: var(--df-r5);
+  padding-bottom: var(--df-r4);
+  margin-bottom: var(--df-r4);
+}
+
+:root[data-marke="platte"] .marke .schrift-tiefe { display: block; }
+
+/* ---------- Schaltflaechen ---------------------------------------------- */
+
+button {
+  font: inherit;
+  font-family: var(--df-funktion);
+  color: var(--df-silber-hell);
+  background: var(--df-grau);
+  border: 1px solid var(--df-linie);
+  border-radius: var(--df-eck);
+  min-height: var(--df-tipp);
+  padding: 0 var(--df-r4);
+  cursor: pointer;
+  touch-action: manipulation;
+  user-select: none;
+  box-shadow: inset 0 1px 0 var(--df-licht-fein);
+  transition: background-position .35s ease, background-color .18s ease,
+              border-color .18s ease, transform .08s ease;
+}
+
+button:hover { border-color: var(--df-silber-dunkel); }
+button:active { transform: translateY(1px); }
+
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid var(--df-silber);
+  outline-offset: 2px;
+}
+
+/* Primaer: polierte Metallflaeche, Glanzlicht wandert beim Beruehren */
+button.haupt {
+  background: var(--df-metall);
+  background-size: 240% 100%;
+  background-position: 18% 50%;
+  border-color: var(--df-metall-tief);
+  color: var(--df-schwarz);
+  font-weight: 650;
+  position: relative;
+  overflow: hidden;
+}
+
+button.haupt::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--df-buerste);
+  pointer-events: none;
+}
+
+button.haupt:hover, button.haupt:active { background-position: 78% 50%; }
+
+button.leise {
+  background: transparent;
+  border-color: transparent;
+  box-shadow: none;
+  color: var(--df-silber);
+  padding: 0 var(--df-r2);
+}
+
+button.leise:hover { border-color: var(--df-linie); }
+
+button.klein { padding: 0 var(--df-r3); font-size: 15px; }
+
+button[aria-pressed="true"] {
+  background: var(--df-linie);
+  border-color: var(--df-silber-dunkel);
+  color: var(--df-silber-hell);
+}
+
+button:disabled { opacity: .45; cursor: default; transform: none; }
+
+/* ---------- Flaechen ---------------------------------------------------- */
+
+.blaettern {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 0 var(--df-r4) calc(var(--df-r6) + env(safe-area-inset-bottom));
+}
+
+.karte {
+  background: var(--df-grau);
+  border: 1px solid var(--df-linie);
+  border-radius: var(--df-eck-gross);
+  box-shadow: inset 0 1px 0 var(--df-licht-fein);
+  padding: var(--df-r4);
+  margin-bottom: var(--df-r3);
+}
+
+.karte h2, .abschnitt-titel {
+  font-family: var(--df-anzeige);
+  font-stretch: 87%;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .14em;
+  color: var(--df-text-sekundaer);
+  margin: 0 0 var(--df-r3);
+}
+
+.trenner {
+  display: flex;
+  align-items: center;
+  gap: var(--df-r3);
+  margin: var(--df-r6) 0 var(--df-r4);
+}
+
+.trenner::after {
+  content: "";
+  flex: 1 1 auto;
+  height: 1px;
+  background: var(--df-linie);
+}
+
+.trenner .abschnitt-titel { margin: 0; }
+
+.zeile { display: flex; align-items: center; gap: var(--df-r2); flex-wrap: wrap; }
+.zeile + .zeile { margin-top: var(--df-r2); }
+
+label.feld {
+  display: block;
+  font-size: 13px;
+  letter-spacing: .02em;
+  color: var(--df-text-sekundaer);
+  margin-bottom: var(--df-r1);
+}
+
+input[type="text"], select {
+  font: inherit;
+  font-family: var(--df-funktion);
+  font-variant-numeric: tabular-nums;
+  color: var(--df-silber-hell);
+  background: var(--df-schwarz);
+  border: 1px solid var(--df-linie);
+  border-radius: var(--df-eck);
+  min-height: var(--df-tipp);
+  padding: 0 var(--df-r3);
+  width: 100%;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+select {
+  background-image:
+    linear-gradient(45deg, transparent 50%, var(--df-silber) 50%),
+    linear-gradient(135deg, var(--df-silber) 50%, transparent 50%);
+  background-position: calc(100% - 18px) 50%, calc(100% - 13px) 50%;
+  background-size: 5px 5px, 5px 5px;
+  background-repeat: no-repeat;
+  padding-right: var(--df-r6);
+}
+
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: var(--df-tipp);
+  background: transparent;
+  margin: 0;
+}
+
+input[type="range"]::-webkit-slider-runnable-track {
+  height: 4px;
+  background: var(--df-schwarz);
+  border: 1px solid var(--df-linie);
+  border-radius: 2px;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 28px; height: 28px;
+  margin-top: -13px;
+  border-radius: 50%;
+  background: var(--df-metall);
+  background-size: 200% 200%;
+  border: 1px solid var(--df-metall-tief);
+  box-shadow: 0 1px 2px var(--df-tiefe);
+}
+
+input[type="range"]::-moz-range-track {
+  height: 4px;
+  background: var(--df-schwarz);
+  border: 1px solid var(--df-linie);
+  border-radius: 2px;
+}
+
+input[type="range"]::-moz-range-thumb {
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  background: var(--df-silber);
+  border: 1px solid var(--df-metall-tief);
+}
+
+.wert { font-variant-numeric: tabular-nums; font-weight: 600; }
+
+.hinweis {
+  font-size: 13px;
+  color: var(--df-text-sekundaer);
+  margin-top: var(--df-r2);
+}
+
+.meldung {
+  font-size: 14px;
+  border-radius: var(--df-eck);
+  padding: var(--df-r2) var(--df-r3);
+  margin-top: var(--df-r2);
+  display: none;
+  border: 1px solid var(--df-linie);
+  background: var(--df-schwarz);
+}
+
+.meldung.zeigen { display: block; }
+.meldung.fehler { border-color: var(--df-silber-dunkel); color: var(--df-silber-hell); }
+.meldung.gut { border-color: var(--df-silber); color: var(--df-silber-hell); }
+
+.merksatz {
+  border-left: 2px solid var(--df-silber-dunkel);
+  background: var(--df-grau);
+  color: var(--df-text-sekundaer);
+  padding: var(--df-r3) var(--df-r4);
+  border-radius: 0 var(--df-eck) var(--df-eck) 0;
+  font-size: 14px;
+}
+
+.code-anzeige {
+  font-family: var(--df-technisch);
+  font-size: 24px;
+  letter-spacing: .14em;
+  background: var(--df-schwarz);
+  border: 1px solid var(--df-linie);
+  border-radius: var(--df-eck);
+  padding: var(--df-r3) var(--df-r4);
+  text-align: center;
+  color: var(--df-silber-hell);
+  user-select: all;
+  -webkit-user-select: all;
+}
+
+.tabelle { width: 100%; font-size: 14px; border-collapse: collapse; }
+.tabelle td { padding: var(--df-r1) 0; vertical-align: top; }
+.tabelle td:first-child { color: var(--df-text-sekundaer); padding-right: var(--df-r4); white-space: nowrap; width: 1%; }
+.tabelle td:last-child { font-variant-numeric: tabular-nums; }
+
+/* ---------- Kachelraster ------------------------------------------------ */
+
+.kacheln {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--df-r3);
+}
+
+@media (min-width: 560px) { .kacheln { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 900px) { .kacheln { grid-template-columns: repeat(3, 1fr); } }
+
+.kachel {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--df-r3);
+  width: 100%;
+  text-align: left;
+  background: var(--df-grau);
+  border: 1px solid var(--df-linie);
+  border-radius: var(--df-eck-gross);
+  box-shadow: inset 0 1px 0 var(--df-licht-fein);
+  padding: var(--df-r4);
+  min-height: 84px;
+}
+
+.kachel .zeichen { width: 28px; height: 28px; flex: 0 0 auto; margin-top: 2px; }
+.kachel .zeichen svg { width: 100%; height: 100%; display: block; }
+
+.kachel .titel {
+  font-family: var(--df-anzeige);
+  font-stretch: 87%;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: .04em;
+  color: var(--df-silber-hell);
+}
+
+.kachel .unter { font-size: 14px; color: var(--df-text-sekundaer); margin-top: 2px; }
+
+.kachel:not(.geplant) { box-shadow: inset 0 1px 0 var(--df-licht); }
+.kachel.geplant { cursor: default; }
+.kachel.geplant .titel { color: var(--df-silber-dunkel); }
+.kachel.geplant .unter { color: var(--df-silber-dunkel); }
+.kachel.geplant:hover { border-color: var(--df-linie); }
+.kachel.geplant svg [fill]:not([fill="none"]) { fill: var(--df-silber-dunkel); }
+.kachel.geplant svg [stroke]:not([stroke="none"]) { stroke: var(--df-silber-dunkel); }
+
+.marke-vor {
+  display: inline-block;
+  font-size: 11px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--df-silber-dunkel);
+  border: 1px solid var(--df-linie);
+  border-radius: 999px;
+  padding: 1px var(--df-r2);
+  margin-top: var(--df-r2);
+}
+
+/* ---------- Zeichenflaeche ---------------------------------------------- */
+
+.buehne {
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 140px;
+  background: var(--df-schwarz);
+  overflow: hidden;
+}
+
+.buehne canvas {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  animation: df-blende .22s ease-out;
+}
+
+.warnband {
+  position: absolute;
+  inset: 0;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--df-r3);
+  text-align: center;
+  padding: var(--df-r5);
+  background: var(--df-schwarz);   /* deckend, nichts scheint durch */
+  z-index: 5;
+}
+
+.warnband.zeigen { display: flex; }
+
+.warnband strong {
+  font-family: var(--df-anzeige);
+  font-stretch: 87%;
+  font-size: 19px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--df-warnung);
+}
+
+.warnband.sachlich strong { color: var(--df-silber); }
+.warnband span { color: var(--df-silber-hell); font-size: 15px; max-width: 34em; }
+
+.warnband .streifen {
+  width: 100%;
+  max-width: 320px;
+  height: 3px;
+  background: var(--df-warnung);
+}
+
+.warnband.sachlich .streifen { background: var(--df-silber-dunkel); }
+
+/* ---------- Bedienleiste ------------------------------------------------ */
+
+/* Eine Zeile, 56 Pixel hoch: 44 Pixel Antippflaeche und zweimal 6 Pixel Luft.
+   Auf schmalen Bildschirmen bricht sie auf hoechstens zwei Zeilen um. */
+.leiste {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--df-r2);
+  padding: 5px var(--df-r2);
+  background: var(--df-grau);
+  border-bottom: 1px solid var(--df-linie);
+  box-shadow: inset 0 1px 0 var(--df-licht-fein);
+}
+
+.leiste > * { flex: 0 0 auto; }
+
+.leiste select {
+  min-height: 44px;
+  width: auto;
+  font-size: 15px;
+  padding: 0 30px 0 var(--df-r3);
+}
+
+/* Aussen 44 Pixel hoch wie jede andere Schaltflaeche: ein Pixel Luft,
+   ein Pixel Rand, innen 40 Pixel. */
+.wertgruppe {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  background: var(--df-schwarz);
+  border: 1px solid var(--df-linie);
+  border-radius: var(--df-eck);
+  padding: 1px;
+}
+
+.wertgruppe .etikett {
+  font-size: 12px;
+  letter-spacing: .04em;
+  color: var(--df-text-sekundaer);
+  padding: 0 2px 0 var(--df-r2);
+  white-space: nowrap;
+}
+
+.wertgruppe .etikett .kurz { display: none; }
+
+.wertgruppe input {
+  min-height: 40px;
+  width: 5.6em;
+  border: none;
+  background: transparent;
+  text-align: right;
+  padding: 0 var(--df-r1);
+  font-variant-numeric: tabular-nums;
+}
+
+.wertgruppe .einheit-nach {
+  font-size: 12px;
+  color: var(--df-text-sekundaer);
+  padding-right: var(--df-r1);
+}
+
+.wertgruppe button {
+  min-height: 40px;
+  min-width: 36px;
+  padding: 0 var(--df-r1);
+  border-radius: 7px;
+  background: var(--df-grau);
+  box-shadow: none;
+  font-size: 17px;
+}
+
+.wertgruppe button.schritt {
+  min-width: 48px;
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+  color: var(--df-text-sekundaer);
+}
+
+.segmente {
+  display: flex;
+  gap: 2px;
+  background: var(--df-schwarz);
+  border: 1px solid var(--df-linie);
+  border-radius: var(--df-eck);
+  padding: 1px;
+}
+
+.segmente button {
+  flex: 1 1 0;
+  border: 1px solid transparent;
+  background: transparent;
+  box-shadow: none;
+  border-radius: 7px;
+  min-height: 40px;
+  padding: 0 var(--df-r2);
+  font-size: 14px;
+  color: var(--df-text-sekundaer);
+  white-space: nowrap;
+}
+
+.segmente button[aria-pressed="true"] {
+  background: var(--df-metall);
+  background-size: 240% 100%;
+  background-position: 18% 50%;
+  color: var(--df-schwarz);
+  font-weight: 650;
+  border-color: var(--df-metall-tief);
+}
+
+.segmente button[aria-pressed="true"]:hover { background-position: 78% 50%; }
+
+/* Geraet, Code und Kalibrieren stehen rechts und sind abgesetzt */
+.leiste-rechts {
+  display: flex;
+  align-items: center;
+  gap: var(--df-r2);
+  margin-left: auto;
+  padding-left: var(--df-r3);
+  border-left: 1px solid var(--df-linie);
+}
+
+.chip {
+  display: flex;
+  align-items: center;
+  gap: var(--df-r2);
+  min-height: 44px;
+  background: var(--df-schwarz);
+  border: 1px solid var(--df-linie);
+  border-radius: var(--df-eck);
+  padding: 0 var(--df-r3);
+  font-size: 13px;
+  color: var(--df-silber);
+  white-space: nowrap;
+  box-shadow: none;
+}
+
+.chip .name { max-width: 15ch; overflow: hidden; text-overflow: ellipsis; }
+.chip .code { font-family: var(--df-technisch); letter-spacing: .06em; }
+.chip .pfeil { color: var(--df-silber-dunkel); font-size: 10px; }
+
+/* ---------- Aufklappfenster der Geraeteanzeige -------------------------- */
+
+.geraet-feld { position: relative; }
+
+.aufklapp {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  z-index: 30;
+  width: 330px;
+  max-width: calc(100vw - 24px);
+  max-height: calc(100vh - 110px);
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  background: var(--df-grau);
+  border: 1px solid var(--df-linie);
+  border-radius: var(--df-eck-gross);
+  box-shadow: inset 0 1px 0 var(--df-licht), 0 12px 40px var(--df-tiefe);
+  padding: var(--df-r4);
+  display: none;
+  text-align: left;
+  white-space: normal;
+}
+
+.aufklapp.offen { display: block; }
+.aufklapp h3 {
+  font-family: var(--df-anzeige);
+  font-size: 13px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--df-text-sekundaer);
+  margin: 0 0 var(--df-r2);
+}
+.aufklapp .code-anzeige { font-size: 19px; padding: var(--df-r2); }
+
+/* Geraeteliste im Aufklappfenster */
+.wahlliste { display: flex; flex-direction: column; gap: 1px; }
+
+.wahl {
+  display: flex;
+  align-items: center;
+  gap: var(--df-r2);
+  width: 100%;
+  min-height: 40px;
+  text-align: left;
+  background: transparent;
+  border: 1px solid transparent;
+  box-shadow: none;
+  border-radius: 8px;
+  padding: 0 var(--df-r2);
+  font-size: 14px;
+  color: var(--df-silber-hell);
+}
+
+.wahl:hover { background: var(--df-schwarz); border-color: var(--df-linie); }
+.wahl[aria-current="true"] { background: var(--df-schwarz); border-color: var(--df-silber-dunkel); }
+.wahl .haken { width: 12px; flex: 0 0 auto; color: var(--df-silber); }
+.wahl .beschriftung { flex: 1 1 auto; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.wahl .zusatz { flex: 0 0 auto; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--df-text-sekundaer); }
+
+.wahl-trenner { height: 1px; background: var(--df-linie); margin: var(--df-r2) 0; }
+
+/* Der Punkt ist die einzige Stelle ausserhalb der Zoom-Warnung, an der die
+   Warnfarbe erscheint; sie ist hier ausdruecklich verlangt. */
+.warnpunkt {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--df-warnung);
+  flex: 0 0 auto;
+  display: none;
+}
+
+.warnpunkt.zeigen { display: block; }
+
+.warnzeile {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--df-r2);
+  font-size: 13px;
+  line-height: 1.35;
+  margin-top: var(--df-r2);
+}
+
+.warnzeile .warnpunkt { display: block; margin-top: 5px; }
+
+/* ---------- Ueberlagerungen auf der Zeichenflaeche ---------------------- */
+
+.ueberlagerung {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: var(--df-r2);
+  background: var(--df-grau);
+  border: 1px solid var(--df-linie);
+  border-radius: var(--df-eck);
+  box-shadow: 0 8px 24px var(--df-tiefe);
+  padding: var(--df-r2) var(--df-r3);
+  font-size: 14px;
+  max-width: calc(100% - 2 * var(--df-r6));
+}
+
+.hinweisleiste { bottom: calc(var(--df-r6) + 6px); display: none; }
+.hinweisleiste.zeigen { display: flex; }
+.hinweisleiste button { min-height: 36px; font-size: 13px; padding: 0 var(--df-r3); }
+
+.kalibrierleiste {
+  bottom: calc(var(--df-r6) + 6px);
+  width: min(560px, calc(100% - 2 * var(--df-r6)));
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.kalibrierleiste input[type="range"] { width: 100%; height: 40px; }
+.kalibrierleiste .zeile { justify-content: space-between; }
+.kalibrierleiste button { min-height: 40px; }
+
+.meldeband {
+  top: calc(var(--df-r6) + 6px);
+  display: none;
+  font-variant-numeric: tabular-nums;
+}
+.meldeband.zeigen { display: flex; }
+
+/* Auf schmalen Bildschirmen wandern Code und Kalibrieren in das
+   Aufklappfenster, damit Geometrie, Wert und Einheit sichtbar bleiben. */
+@media (max-width: 760px) {
+  .leiste-code, .leiste-kalibrieren { display: none; }
+  .chip { padding: 0 6px; font-size: 11px; gap: 4px; }
+  .chip .name { max-width: 6ch; }
+  .leiste-rechts { border-left: none; padding-left: 0; }
+
+  /* Zwei Wertfelder muessen neben Geometrie, Einheit und Geraet in zwei
+     Zeilen passen. Also Kurzform der Etiketten und engere Felder. */
+  .leiste { gap: 6px; padding: 6px; }
+  .leiste select { padding: 0 26px 0 var(--df-r2); font-size: 14px; }
+  .wertgruppe .etikett { padding: 0 0 0 6px; font-size: 12px; }
+  .wertgruppe .etikett .lang { display: none; }
+  .wertgruppe .etikett .kurz { display: inline; }
+  .wertgruppe input { width: 4.2em; font-size: 15px; }
+  .wertgruppe .einheit-nach { font-size: 11px; padding-right: 0; }
+  .wertgruppe button { min-width: 32px; font-size: 16px; }
+  .wertgruppe button.schritt { min-width: 40px; font-size: 12px; }
+  .segmente button { padding: 0 7px; font-size: 12px; }
+}
+
+@media (min-width: 761px) {
+  .aufklapp-kalibrieren { display: none; }
+}
+
+/* ---------- Dialog ------------------------------------------------------ */
+
+.dialog-hg {
+  position: fixed;
+  inset: 0;
+  background: var(--df-schleier);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--df-r4);
+  z-index: 40;
+}
+
+.dialog {
+  background: var(--df-grau);
+  border: 1px solid var(--df-linie);
+  border-radius: var(--df-eck-gross);
+  box-shadow: inset 0 1px 0 var(--df-licht), 0 12px 40px var(--df-tiefe);
+  padding: var(--df-r5);
+  max-width: 520px;
+  width: 100%;
+  max-height: 84vh;
+  overflow-y: auto;
+  animation: df-auf .18s ease-out;
+}
+
+.dialog h2 {
+  font-family: var(--df-anzeige);
+  font-stretch: 87%;
+  margin: 0 0 var(--df-r3);
+  font-size: 20px;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--df-silber-hell);
+}
+</style>
+</head>
+<body>
+
+<!-- Verlauf fuer alle Icons, eine einzige Quelle -->
+<svg class="df-defs" aria-hidden="true" focusable="false">
+  <defs>
+    <linearGradient id="dfMetall" x1="0" y1="0" x2="1" y2="1">
+      <stop class="s0" offset="0"></stop>
+      <stop class="s1" offset=".28"></stop>
+      <stop class="s2" offset=".52"></stop>
+      <stop class="s3" offset=".78"></stop>
+      <stop class="s4" offset="1"></stop>
+    </linearGradient>
+  </defs>
+</svg>
+
+<div id="anwendung"></div>
+
+<script>
+"use strict";
+
+/* ==========================================================================
+   Dietrich - Werkzeugkasten fuer ingenieurtechnische Alltagsaufgaben
+   Aufbau:
+     1. Hilfsfunktionen (Zahlen, Speicher, DOM, Farben)
+     2. Geraetetabelle und Uebertragungscode
+     3. Geraetemodul (Erkennung, Profil, Feinjustage, pxProMm)
+     4. Zoom-Ueberwachung
+     5. Icons und Werkzeug-Registry
+     6. Rahmenanwendung (Startseite, Werkzeug, Werkzeugeinstellung, Kalibrierung)
+     7. Zeichenhilfen
+     8. Werkzeug "Massstab 1:1"
+   ========================================================================== */
+
+/* ---------- 1. Hilfsfunktionen ------------------------------------------ */
+
+var HINWEISTEXT =
+  'Die Darstellung erreicht eine Genauigkeit von etwa 0,2 bis 0,5 Millimetern. ' +
+  'Sie dient der Größenabschätzung und ersetzt kein Messmittel. ' +
+  'Für maßhaltige Prüfungen ist ein geeignetes Messgerät zu verwenden.';
+
+/* Eingaben mit Komma und mit Punkt annehmen. */
+function zahlLesen(text) {
+  if (typeof text !== 'string') text = String(text == null ? '' : text);
+  var bereinigt = text.trim().replace(/\s/g, '').replace(',', '.');
+  if (bereinigt === '') return null;
+  if (!/^-?\d*\.?\d*$/.test(bereinigt)) return null;
+  var zahl = parseFloat(bereinigt);
+  return isFinite(zahl) ? zahl : null;
+}
+
+/* Ausgaben immer mit Komma. */
+function zahlSchreiben(zahl, stellen) {
+  if (stellen == null) stellen = 1;
+  if (zahl == null || !isFinite(zahl)) return '–';
+  return zahl.toFixed(stellen).replace('.', ',');
+}
+
+var Speicher = {
+  praefix: 'dietrich.',
+  verfuegbar: false,
+  pruefen: function () {
+    try {
+      window.localStorage.setItem(this.praefix + 'probe', '1');
+      window.localStorage.removeItem(this.praefix + 'probe');
+      this.verfuegbar = true;
+    } catch (fehler) {
+      this.verfuegbar = false;
+    }
+    return this.verfuegbar;
+  },
+  lesen: function (schluessel, standard) {
+    try {
+      var roh = window.localStorage.getItem(this.praefix + schluessel);
+      if (roh === null) return standard;
+      return JSON.parse(roh);
+    } catch (fehler) {
+      return standard;
+    }
+  },
+  schreiben: function (schluessel, wert) {
+    try {
+      window.localStorage.setItem(this.praefix + schluessel, JSON.stringify(wert));
+      return true;
+    } catch (fehler) {
+      return false;
+    }
+  },
+  loeschen: function (schluessel) {
+    try {
+      window.localStorage.removeItem(this.praefix + schluessel);
+      return true;
+    } catch (fehler) {
+      return false;
+    }
+  }
+};
+Speicher.pruefen();
+
+/* Farbwerte kommen ausschliesslich aus den CSS-Variablen. */
+var Farbe = {
+  ablage: {},
+  lies: function (name) {
+    if (!(name in this.ablage)) {
+      var wert = '';
+      try {
+        wert = getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+      } catch (fehler) { wert = ''; }
+      this.ablage[name] = wert;
+    }
+    return this.ablage[name];
+  },
+  leeren: function () { this.ablage = {}; }
+};
+
+/* Kleiner DOM-Helfer: el('div', {class:'x'}, [kind, 'Text']) */
+function el(name, eigenschaften, kinder) {
+  var knoten = document.createElement(name);
+  if (eigenschaften) {
+    Object.keys(eigenschaften).forEach(function (schluessel) {
+      var wert = eigenschaften[schluessel];
+      if (wert == null || wert === false) return;
+      if (schluessel === 'text') knoten.textContent = wert;
+      else if (schluessel === 'html') knoten.innerHTML = wert;
+      else if (schluessel.indexOf('on') === 0 && typeof wert === 'function') {
+        knoten.addEventListener(schluessel.slice(2), wert);
+      } else if (schluessel === 'class') knoten.className = wert;
+      else knoten.setAttribute(schluessel, wert === true ? '' : wert);
+    });
+  }
+  if (kinder) {
+    (Array.isArray(kinder) ? kinder : [kinder]).forEach(function (kind) {
+      if (kind == null || kind === false) return;
+      knoten.appendChild(typeof kind === 'string' ? document.createTextNode(kind) : kind);
+    });
+  }
+  return knoten;
+}
+
+function leeren(knoten) {
+  while (knoten.firstChild) knoten.removeChild(knoten.firstChild);
+}
+
+/* ---------- 2. Geraetetabelle und Uebertragungscode ---------------------- */
+
+var GERAETE = [
+  {
+    id: 'mba13',
+    name: 'MacBook Air 13" (M2 bis M5)',
+    kurzeKanteMm: 188.7,
+    langeKanteMm: 290.3,
+    signaturen: [
+      // macOS bietet mehrere Skalierungsstufen an, alle gehoeren zum selben Panel
+      { kurz: 956,  lang: 1470, dpr: 2 },   // Standardeinstellung, verifiziert
+      { kurz: 900,  lang: 1382, dpr: 2 },
+      { kurz: 1050, lang: 1614, dpr: 2 },
+      { kurz: 1117, lang: 1710, dpr: 2 },
+      { kurz: 832,  lang: 1280, dpr: 2 }
+    ]
+  },
+  {
+    id: 'mba15',
+    name: 'MacBook Air 15"',
+    kurzeKanteMm: 211.4,
+    langeKanteMm: 326.6,
+    signaturen: [{ kurz: 1080, lang: 1710, dpr: 2 }]
+  },
+  {
+    id: 'iphone16pro',
+    name: 'iPhone 16 Pro',
+    kurzeKanteMm: 66.6,
+    langeKanteMm: 144.8,
+    signaturen: [{ kurz: 402, lang: 874, dpr: 3 }]
+  },
+  {
+    id: 'iphone16',
+    name: 'iPhone 16 / iPhone 15 Pro',
+    kurzeKanteMm: 65.1,
+    langeKanteMm: 141.1,
+    signaturen: [{ kurz: 393, lang: 852, dpr: 3 }]
+  }
+];
+
+function pruefzeichen(zahl) {
+  const summe = String(zahl).split('').reduce((s, z) => s + Number(z), 0);
+  return (summe % 36).toString(36).toUpperCase();
+}
+
+function codeErzeugen(kurzeKanteMm) {
+  const zehntel = Math.round(kurzeKanteMm * 10);
+  return 'D' + zehntel + pruefzeichen(zehntel);
+}
+
+function codeLesen(code) {
+  const treffer = /^D(\d{2,5})([0-9A-Z])$/.exec(code.trim().toUpperCase());
+  if (!treffer) return null;
+  const zehntel = Number(treffer[1]);
+  if (pruefzeichen(zehntel) !== treffer[2]) return null;
+  return zehntel / 10;
+}
+
+/* ---------- 3. Geraetemodul --------------------------------------------- */
+
+var Geraet = {
+  id: null,                 // Kennung aus GERAETE oder 'benutzerdefiniert'
+  basisKanteMm: null,       // kurze Bildschirmkante laut Profil oder Kalibrierung
+  justierungProzent: 0,     // Feinjustage, plus minus fuenf Prozent
+  referenzDpr: null,        // Device-Pixel-Ratio zum Zeitpunkt der Profilwahl
+  quelle: 'keine',          // 'gespeichert' | 'erkannt' | 'kalibriert' | 'keine'
+  erkannt: null,            // automatisch erkanntes Profil, falls vorhanden
+
+  /* Die kurze CSS-Kante des Bildschirms. Math.min faengt die
+     Orientierungsabhaengigkeit unter iOS ab. */
+  cssKurzeKante: function () { return Math.min(screen.width, screen.height); },
+  cssLangeKante: function () { return Math.max(screen.width, screen.height); },
+
+  signatur: function () {
+    return {
+      kurz: this.cssKurzeKante(),
+      lang: this.cssLangeKante(),
+      dpr: window.devicePixelRatio || 1
+    };
+  },
+
+  /* Wirksame kurze Kante nach Feinjustage. Eine groessere Darstellung
+     entspricht einer kleineren angenommenen Kantenlaenge. */
+  effektiveKanteMm: function () {
+    if (this.basisKanteMm == null) return null;
+    return this.basisKanteMm / (1 + this.justierungProzent / 100);
+  },
+
+  istKalibriert: function () { return this.basisKanteMm != null; },
+
+  pxProMm: function () {
+    var kante = this.effektiveKanteMm();
+    if (!kante) return 96 / 25.4;   // Notwert, nur bis zur Kalibrierung
+    return this.cssKurzeKante() / kante;
+  },
+
+  profil: function () {
+    var eintrag = null;
+    for (var i = 0; i < GERAETE.length; i++) {
+      if (GERAETE[i].id === this.id) { eintrag = GERAETE[i]; break; }
+    }
+    var kurz = this.effektiveKanteMm();
+    var lang = null;
+    if (kurz) lang = this.cssLangeKante() / this.pxProMm();
+    return {
+      id: this.id || 'unbekannt',
+      name: eintrag ? eintrag.name : (this.id === 'benutzerdefiniert' ? 'Benutzerdefiniert' : 'Nicht kalibriert'),
+      kurzeKanteMm: kurz,
+      langeKanteMm: lang,
+      tabellenwert: eintrag ? eintrag : null,
+      quelle: this.quelle,
+      justierungProzent: this.justierungProzent
+    };
+  },
+
+  erkennen: function () {
+    var eigene = this.signatur();
+    for (var i = 0; i < GERAETE.length; i++) {
+      var geraet = GERAETE[i];
+      for (var j = 0; j < geraet.signaturen.length; j++) {
+        var s = geraet.signaturen[j];
+        if (s.kurz === eigene.kurz && s.lang === eigene.lang && Math.abs(s.dpr - eigene.dpr) < 0.01) {
+          return geraet;
+        }
+      }
+    }
+    return null;
+  },
+
+  aufTabelle: function (id, quelle) {
+    for (var i = 0; i < GERAETE.length; i++) {
+      if (GERAETE[i].id === id) {
+        this.id = id;
+        this.basisKanteMm = GERAETE[i].kurzeKanteMm;
+        this.justierungProzent = 0;
+        this.referenzDpr = window.devicePixelRatio || 1;
+        this.quelle = quelle || 'gespeichert';
+        this.sichern();
+        Aenderung.melden('profil');
+        return true;
+      }
+    }
+    return false;
+  },
+
+  aufMass: function (kurzeKanteMm, quelle) {
+    if (!(kurzeKanteMm > 0)) return false;
+    this.id = 'benutzerdefiniert';
+    this.basisKanteMm = kurzeKanteMm;
+    this.justierungProzent = 0;
+    this.referenzDpr = window.devicePixelRatio || 1;
+    this.quelle = quelle || 'kalibriert';
+    this.sichern();
+    Aenderung.melden('profil');
+    return true;
+  },
+
+  justierungSetzen: function (prozent) {
+    prozent = Math.max(-5, Math.min(5, prozent));
+    this.justierungProzent = Math.round(prozent * 100) / 100;
+    this.sichern();
+    Aenderung.melden('profil');
+  },
+
+  code: function () {
+    var kante = this.effektiveKanteMm();
+    return kante ? codeErzeugen(kante) : null;
+  },
+
+  sichern: function () {
+    Speicher.schreiben('geraet', {
+      id: this.id,
+      basisKanteMm: this.basisKanteMm,
+      justierungProzent: this.justierungProzent,
+      referenzDpr: this.referenzDpr,
+      quelle: this.quelle
+    });
+  },
+
+  /* Reihenfolge: gespeicherte Nutzerauswahl, dann Erkennung, dann Kalibrierung. */
+  starten: function () {
+    this.erkannt = this.erkennen();
+
+    var gespeichert = Speicher.lesen('geraet', null);
+    if (gespeichert && gespeichert.basisKanteMm > 0) {
+      this.id = gespeichert.id;
+      this.basisKanteMm = gespeichert.basisKanteMm;
+      this.justierungProzent = gespeichert.justierungProzent || 0;
+      this.referenzDpr = gespeichert.referenzDpr || (window.devicePixelRatio || 1);
+      this.quelle = 'gespeichert';
+      return;
+    }
+
+    if (this.erkannt) {
+      this.id = this.erkannt.id;
+      this.basisKanteMm = this.erkannt.kurzeKanteMm;
+      this.justierungProzent = 0;
+      this.referenzDpr = window.devicePixelRatio || 1;
+      this.quelle = 'erkannt';
+      this.sichern();
+      return;
+    }
+
+    this.quelle = 'keine';   // Kalibrierung erforderlich
+  }
+};
+
+/* ---------- 4. Zoom-Ueberwachung ---------------------------------------- */
+
+var Zoom = {
+  letzterZustand: null,
+
+  pruefen: function () {
+    var sicht = window.visualViewport;
+    if (sicht && typeof sicht.scale === 'number' && Math.abs(sicht.scale - 1) > 0.01) {
+      return {
+        ok: false,
+        art: 'pinch',
+        text: 'Die Ansicht ist um den Faktor ' + zahlSchreiben(sicht.scale, 2) +
+              ' gespreizt. Angezeigte Maße sind verfälscht. Ansicht mit zwei Fingern ' +
+              'auf die Ausgangsgröße zurückziehen.'
+      };
+    }
+
+    var dpr = window.devicePixelRatio || 1;
+    if (Geraet.referenzDpr && Math.abs(dpr - Geraet.referenzDpr) > 0.01) {
+      return {
+        ok: false,
+        art: 'browser',
+        text: 'Der Browser-Zoom weicht vom kalibrierten Zustand ab (' +
+              zahlSchreiben(dpr, 2) + ' statt ' + zahlSchreiben(Geraet.referenzDpr, 2) +
+              '). Zoom mit Befehl und Null, unter Windows mit Strg und Null, zurücksetzen.'
+      };
+    }
+
+    return { ok: true, art: null, text: '' };
+  },
+
+  starten: function () {
+    var selbst = this;
+    var pruefLauf = function () {
+      var zustand = selbst.pruefen();
+      var kennung = zustand.ok ? 'ok' : zustand.art + '|' + zustand.text;
+      if (kennung !== selbst.letzterZustand) {
+        selbst.letzterZustand = kennung;
+        Aenderung.melden('zoom');
+      } else {
+        Aenderung.melden('groesse');
+      }
+    };
+    window.addEventListener('resize', pruefLauf);
+    window.addEventListener('orientationchange', pruefLauf);
+    if (window.visualViewport) {
+      window.visualViewport.addEventListener('resize', pruefLauf);
+      window.visualViewport.addEventListener('scroll', pruefLauf);
+    }
+  }
+};
+
+/* ---------- 5. Icons und Werkzeug-Registry ------------------------------ */
+
+/* Alle Icons als Inline-SVG. Fuellung und Strich verweisen auf den einen
+   Metallverlauf; gedaempfte Kacheln ueberschreiben ihn per CSS. */
+function icon(inhalt, strich) {
+  return '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"' +
+    (strich ? ' fill="none" stroke="url(#dfMetall)" stroke-width="1.6" stroke-linecap="square" stroke-linejoin="miter"' : '') +
+    '>' + inhalt + '</svg>';
+}
+
+/* Wortmarke: Knauf, Schaft, drei Zaehne. Eigener, enger Rahmen und
+   schwerere Stege, damit das Zeichen neben der fetten Schrift nicht
+   spillerig wirkt. */
+var ICON_DIETRICH =
+  '<svg viewBox="0 0 12.6 23" aria-hidden="true" focusable="false">' +
+  '<path fill="url(#dfMetall)" fill-rule="evenodd" d="M5.6.5a4.9 4.9 0 100 9.8 4.9 4.9 0 000-9.8zm0 3a1.9 1.9 0 110 3.8 1.9 1.9 0 010-3.8z"/>' +
+  '<path fill="url(#dfMetall)" d="M3.9 9.5h3.4v13h-3.4z"/>' +
+  '<path fill="url(#dfMetall)" d="M7.3 12.4h4.4v2.5H7.3zM7.3 16.2h5.3v2.5H7.3zM7.3 20h3v2.5h-3z"/>' +
+  '</svg>';
+
+var WERKZEUGE = [
+  {
+    id: 'anriss',
+    name: 'Anriss',
+    kurzbeschreibung: 'Maße in Originalgröße auftragen',
+    status: 'aktiv',
+    brauchtKalibrierung: true,
+    icon: icon('<path d="M3 12h18M3 8.5v7M21 8.5v7"/><path d="M6.4 12l2.6-2v4zM17.6 12l-2.6-2v4z" fill="url(#dfMetall)" stroke="none"/>', true),
+    aufbauen: function (container, kontext) { return AnrissWerkzeug.aufbauen(container, kontext); },
+    abbauen: function () { return AnrissWerkzeug.abbauen(); },
+    einstellungen: null      /* Alles Noetige steht in der Bedienleiste */
+  },
+  {
+    id: 'platz1',
+    name: 'Platzhalter',
+    kurzbeschreibung: '',
+    status: 'geplant',
+    brauchtKalibrierung: true,
+    icon: icon('<rect x="2.8" y="8" width="18.4" height="8"/><path d="M6.5 8v3.4M10 8v2.2M13.5 8v3.4M17 8v2.2"/>', true),
+    aufbauen: function () {}, abbauen: function () {}, einstellungen: null
+  },
+  {
+    id: 'platz2',
+    name: 'Platzhalter',
+    kurzbeschreibung: '',
+    status: 'geplant',
+    brauchtKalibrierung: false,
+    icon: icon('<path d="M3.2 18a8.8 8.8 0 0117.6 0"/><path d="M3.2 18h17.6M12 18l6.2-6.2"/>', true),
+    aufbauen: function () {}, abbauen: function () {}, einstellungen: null
+  },
+  {
+    id: 'platz3',
+    name: 'Platzhalter',
+    kurzbeschreibung: '',
+    status: 'geplant',
+    brauchtKalibrierung: true,
+    icon: icon('<path d="M4 20a5 5 0 015-5M4 20a10 10 0 0110-10M4 20a15 15 0 0115-15"/>', true),
+    aufbauen: function () {}, abbauen: function () {}, einstellungen: null
+  },
+  {
+    id: 'platz4',
+    name: 'Platzhalter',
+    kurzbeschreibung: '',
+    status: 'geplant',
+    brauchtKalibrierung: false,
+    icon: icon('<path d="M3.5 9h15M3.5 15h15"/><path d="M18.5 9l-3-2.4v4.8zM5.5 15l3-2.4v4.8z" fill="url(#dfMetall)" stroke="none"/>', true),
+    aufbauen: function () {}, abbauen: function () {}, einstellungen: null
+  },
+  {
+    id: 'platz5',
+    name: 'Platzhalter',
+    kurzbeschreibung: '',
+    status: 'geplant',
+    brauchtKalibrierung: false,
+    icon: icon('<rect x="3" y="6" width="18" height="12"/><circle cx="12" cy="12" r="3.6"/>', true),
+    aufbauen: function () {}, abbauen: function () {}, einstellungen: null
+  },
+  {
+    id: 'platz6',
+    name: 'Platzhalter',
+    kurzbeschreibung: '',
+    status: 'geplant',
+    brauchtKalibrierung: false,
+    icon: icon('<path d="M12 3.2l7.6 4.4v8.8L12 20.8 4.4 16.4V7.6z"/><circle cx="12" cy="12" r="3.2"/>', true),
+    aufbauen: function () {}, abbauen: function () {}, einstellungen: null
+  }
+];
+
+function werkzeugFinden(id) {
+  for (var i = 0; i < WERKZEUGE.length; i++) {
+    if (WERKZEUGE[i].id === id) return WERKZEUGE[i];
+  }
+  return null;
+}
+
+/* ---------- Kontext ----------------------------------------------------- */
+
+var Aenderung = {
+  hoerer: [],
+  anmelden: function (rueckruf) {
+    this.hoerer.push(rueckruf);
+    var selbst = this;
+    return function abmelden() {
+      var stelle = selbst.hoerer.indexOf(rueckruf);
+      if (stelle >= 0) selbst.hoerer.splice(stelle, 1);
+    };
+  },
+  melden: function (grund) {
+    this.hoerer.slice().forEach(function (rueckruf) {
+      try { rueckruf(grund); } catch (fehler) { /* ein Werkzeug darf die Anwendung nicht anhalten */ }
+    });
+  }
+};
+
+var Kontext = {
+  get pxProMm() { return Geraet.pxProMm(); },
+  mmZuPx: function (mm) { return mm * Geraet.pxProMm(); },
+  pxZuMm: function (px) { return px / Geraet.pxProMm(); },
+  get geraet() { return Geraet.profil(); },
+  get istKalibriert() { return Geraet.istKalibriert(); },
+  get zoom() { return Zoom.pruefen(); },
+  beiAenderung: function (rueckruf) { return Aenderung.anmelden(rueckruf); },
+  farbe: function (name) { return Farbe.lies(name); },
+  navigieren: function (ziel) { location.hash = ziel; }
+};
+
+/* ---------- 6. Rahmenanwendung ------------------------------------------ */
+
+var Anwendung = {
+  wurzel: null,
+  aktivesWerkzeug: null,
+  abmelder: [],
+
+  starten: function () {
+    this.wurzel = document.getElementById('anwendung');
+    Geraet.starten();
+    Zoom.starten();
+
+    var selbst = this;
+    window.addEventListener('hashchange', function () { selbst.zeichnen(); });
+
+    this.zeichnen();
+
+    if (!Speicher.lesen('hinweisGesehen', false)) this.hinweisDialog();
+
+    /* Ohne Profil fuehrt der Weg in das erste Werkzeug, das Masshaltigkeit
+       braucht; dort startet der Kalibriermodus von selbst. */
+    if (!Geraet.istKalibriert()) {
+      var ziel = null;
+      WERKZEUGE.forEach(function (w) {
+        if (!ziel && w.status === 'aktiv' && w.brauchtKalibrierung) ziel = w.id;
+      });
+      if (ziel && location.hash.indexOf(ziel) < 0) location.hash = '#/werkzeug/' + ziel;
+    }
+  },
+
+  /* --- Navigation: Startseite und Werkzeugansicht ----------------------- */
+
+  route: function () {
+    var roh = location.hash.replace(/^#\/?/, '');
+    var teile = roh.split('/').filter(function (t) { return t !== ''; });
+    if (teile.length === 0) return { name: 'start' };
+    if (teile[0] === 'werkzeug' && teile[1]) {
+      var werkzeug = werkzeugFinden(teile[1]);
+      if (!werkzeug || werkzeug.status !== 'aktiv') return { name: 'start' };
+      return { name: 'werkzeug', werkzeug: werkzeug };
+    }
+    return { name: 'start' };
+  },
+
+  aufraeumen: function () {
+    if (this.aktivesWerkzeug && typeof this.aktivesWerkzeug.abbauen === 'function') {
+      try { this.aktivesWerkzeug.abbauen(); } catch (fehler) { /* ignorieren */ }
+    }
+    this.aktivesWerkzeug = null;
+    this.abmelder.forEach(function (abmelden) { abmelden(); });
+    this.abmelder = [];
+  },
+
+  zeichnen: function () {
+    this.aufraeumen();
+    leeren(this.wurzel);
+    var route = this.route();
+
+    if (route.name === 'werkzeug') this.werkzeugAnsicht(route.werkzeug);
+    else this.startAnsicht();
+
+    /* Kurzer Uebergang beim Ansichtswechsel, nur auf den obersten Ebenen */
+    Array.prototype.forEach.call(this.wurzel.children, function (kind) {
+      if (kind.classList) kind.classList.add('df-eintritt');
+    });
+  },
+
+  /* Kopfzeile mit Zurueck-Pfeil, Bartkante und Titel */
+  kopfzeile: function (titel, zurueckZiel, rechts) {
+    var kinder = [];
+    if (zurueckZiel != null) {
+      kinder.push(el('button', {
+        class: 'leise', 'aria-label': 'Zurück', text: '‹',
+        style: 'font-size:24px; line-height:1; padding:0 var(--df-r2); min-width:36px',
+        onclick: function () { location.hash = zurueckZiel; }
+      }));
+    }
+    kinder.push(el('span', { class: 'balken', 'aria-hidden': 'true' }));
+    kinder.push(el('h1', { text: titel }));
+    if (rechts) kinder.push(rechts);
+    return el('div', { class: 'kopf' }, kinder);
+  },
+
+  /* --- Startseite ------------------------------------------------------- */
+
+  startAnsicht: function () {
+    var schrift = el('span', { class: 'schrift', text: 'Dietrich' });
+    var block = el('div', { class: 'marke-block' }, [
+      el('span', { class: 'zeichen', html: ICON_DIETRICH, 'aria-hidden': 'true' }),
+      el('span', { class: 'schrift-huelle' }, [
+        el('span', { class: 'schrift-tiefe', 'aria-hidden': 'true', text: 'Dietrich' }),
+        schrift
+      ])
+    ]);
+
+    /* Das Glanzlicht laeuft einmal beim Aufbau und erneut bei Beruehrung.
+       Die Klasse wird abgenommen und nach einem erzwungenen Umbruch wieder
+       gesetzt, sonst startet die Animation nicht neu. */
+    function glanzAusloesen() {
+      schrift.classList.remove('glanz');
+      void schrift.offsetWidth;
+      schrift.classList.add('glanz');
+    }
+    block.addEventListener('mouseenter', glanzAusloesen);
+    block.addEventListener('pointerdown', glanzAusloesen);
+    glanzAusloesen();
+
+    var marke = el('div', { class: 'marke' }, [
+      block,
+      el('span', { class: 'marke-zusatz', text: 'Multitool' })
+    ]);
+    this.wurzel.appendChild(marke);
+
+    /* Die Wortmarke soll die Breite ausnutzen, ohne sie zu überschreiten.
+       Wie breit "DIETRICH" bei einem Schriftgrad ausfällt, hängt davon ab,
+       welche Schrift des Stapels greift; ein fester vw-Wert reicht dafür
+       nicht. Also messen und einpassen. Die Obergrenze bleibt 10 rem. */
+    function markeEinpassen() {
+      if (!marke.clientWidth || typeof getComputedStyle !== 'function') return;
+      var stil = getComputedStyle(marke);
+      var innen = marke.clientWidth - parseFloat(stil.paddingLeft) - parseFloat(stil.paddingRight);
+      if (!(innen > 0)) return;
+      block.style.fontSize = '100px';
+      var gemessen = block.scrollWidth;
+      if (!(gemessen > 0)) { block.style.fontSize = ''; return; }
+      block.style.fontSize = Math.min(160, Math.max(44, 100 * innen / gemessen)) + 'px';
+    }
+
+    markeEinpassen();
+    requestAnimationFrame(markeEinpassen);
+    var nachzug = setTimeout(markeEinpassen, 0);
+    window.addEventListener('resize', markeEinpassen);
+    this.abmelder.push(function () {
+      clearTimeout(nachzug);
+      window.removeEventListener('resize', markeEinpassen);
+    });
+
+    var kacheln = el('div', { class: 'kacheln' }, WERKZEUGE.map(function (werkzeug) {
+      var geplant = werkzeug.status !== 'aktiv';
+      var inhalt = [
+        el('span', { class: 'zeichen', html: werkzeug.icon, 'aria-hidden': 'true' }),
+        el('span', null, [
+          el('span', { class: 'titel', style: 'display:block', text: werkzeug.name }),
+          werkzeug.kurzbeschreibung
+            ? el('span', { class: 'unter', style: 'display:block', text: werkzeug.kurzbeschreibung })
+            : null,
+          geplant ? el('span', { class: 'marke-vor', text: 'in Vorbereitung' }) : null
+        ])
+      ];
+      if (geplant) {
+        return el('button', { class: 'kachel geplant', disabled: true, 'aria-disabled': 'true' }, inhalt);
+      }
+      return el('button', {
+        class: 'kachel',
+        onclick: function () { location.hash = '#/werkzeug/' + werkzeug.id; }
+      }, inhalt);
+    }));
+
+    var inhalt = el('div', { class: 'blaettern' }, [kacheln]);
+
+    if (!Geraet.istKalibriert()) {
+      inhalt.appendChild(el('div', { class: 'karte', style: 'margin-top:var(--df-r4)' }, [
+        el('h2', { text: 'Bildschirm unbekannt' }),
+        el('div', { text: 'Dieses Gerät steht nicht in der Tabelle. Ohne Kalibrierung sind angezeigte Maße nicht maßhaltig.' }),
+        el('div', { class: 'zeile', style: 'margin-top:var(--df-r3)' }, [
+          el('button', {
+            class: 'haupt', text: 'Kalibrieren',
+            onclick: function () { location.hash = '#/werkzeug/anriss'; }
+          })
+        ])
+      ]));
+    }
+
+    inhalt.appendChild(el('div', { class: 'merksatz', style: 'margin-top:var(--df-r4)', text: HINWEISTEXT }));
+    this.wurzel.appendChild(inhalt);
+  },
+
+  /* --- Werkzeugansicht: Kopf, Bedienleiste, Zeichenflaeche --------------- */
+
+  werkzeugAnsicht: function (werkzeug) {
+    this.wurzel.appendChild(this.kopfzeile(werkzeug.name, '#/'));
+
+    var container = el('div', {
+      style: 'flex:1 1 auto; display:flex; flex-direction:column; min-height:0;'
+    });
+    this.wurzel.appendChild(container);
+    this.aktivesWerkzeug = werkzeug;
+    werkzeug.aufbauen(container, Kontext);
+  },
+
+  hinweisDialog: function () {
+    var hg = el('div', { class: 'dialog-hg' });
+    var dialog = el('div', { class: 'dialog' }, [
+      el('h2', { text: 'Dietrich' }),
+      el('div', { class: 'merksatz', text: HINWEISTEXT }),
+      el('div', { class: 'zeile', style: 'margin-top:var(--df-r4); justify-content:flex-end' }, [
+        el('button', {
+          class: 'haupt', text: 'Verstanden',
+          onclick: function () {
+            Speicher.schreiben('hinweisGesehen', true);
+            document.body.removeChild(hg);
+          }
+        })
+      ])
+    ]);
+    hg.appendChild(dialog);
+    document.body.appendChild(hg);
+  }
+};
+
+/* ---------- 7. Zeichenhilfen -------------------------------------------- */
+
+/* Alle Angaben in CSS-Pixeln. Positionen werden so gerundet, dass Linien auf
+   ganzen Geraetepixeln liegen. Keine Verlaeufe, keine Weichzeichnung,
+   keine Deckkraft unter hundert Prozent. */
+function Zeichner(ctx, dpr) {
+  this.ctx = ctx;
+  this.dpr = dpr;
+  this.duenn = 1 / dpr;              // genau ein physisches Geraetepixel
+}
+
+Zeichner.prototype.scharf = function (wert) {
+  return (Math.round(wert * this.dpr) + 0.5) / this.dpr;
+};
+
+Zeichner.prototype.ganz = function (wert) {
+  return Math.round(wert * this.dpr) / this.dpr;
+};
+
+Zeichner.prototype.linie = function (x1, y1, x2, y2, farbe, breite) {
+  var ctx = this.ctx;
+  var stark = Math.max(this.duenn, breite || this.duenn);
+  var geradeAnzahl = Math.round(stark * this.dpr) % 2 === 0;
+  var xa = x1, xb = x2, ya = y1, yb = y2;
+  if (Math.abs(x1 - x2) < 0.001) {          // senkrecht
+    xa = xb = geradeAnzahl ? this.ganz(x1) : this.scharf(x1);
+    ya = this.ganz(y1); yb = this.ganz(y2);
+  } else if (Math.abs(y1 - y2) < 0.001) {   // waagerecht
+    ya = yb = geradeAnzahl ? this.ganz(y1) : this.scharf(y1);
+    xa = this.ganz(x1); xb = this.ganz(x2);
+  }
+  ctx.save();
+  ctx.globalAlpha = 1;
+  ctx.strokeStyle = farbe;
+  ctx.lineWidth = stark;
+  ctx.beginPath();
+  ctx.moveTo(xa, ya);
+  ctx.lineTo(xb, yb);
+  ctx.stroke();
+  ctx.restore();
+};
+
+Zeichner.prototype.pfeil = function (x, y, richtungX, richtungY, farbe, groesse) {
+  var ctx = this.ctx;
+  groesse = groesse || 9;
+  var breite = groesse * 0.34;
+  ctx.save();
+  ctx.globalAlpha = 1;
+  ctx.fillStyle = farbe;
+  ctx.beginPath();
+  ctx.moveTo(x, y);
+  ctx.lineTo(x - richtungX * groesse - richtungY * breite, y - richtungY * groesse - richtungX * breite);
+  ctx.lineTo(x - richtungX * groesse + richtungY * breite, y - richtungY * groesse + richtungX * breite);
+  ctx.closePath();
+  ctx.fill();
+  ctx.restore();
+};
+
+Zeichner.prototype.abgerundetesRechteck = function (x, y, breite, hoehe, radius) {
+  var ctx = this.ctx;
+  radius = Math.min(radius, breite / 2, hoehe / 2);
+  ctx.beginPath();
+  ctx.moveTo(x + radius, y);
+  ctx.lineTo(x + breite - radius, y);
+  ctx.arcTo(x + breite, y, x + breite, y + radius, radius);
+  ctx.lineTo(x + breite, y + hoehe - radius);
+  ctx.arcTo(x + breite, y + hoehe, x + breite - radius, y + hoehe, radius);
+  ctx.lineTo(x + radius, y + hoehe);
+  ctx.arcTo(x, y + hoehe, x, y + hoehe - radius, radius);
+  ctx.lineTo(x, y + radius);
+  ctx.arcTo(x, y, x + radius, y, radius);
+  ctx.closePath();
+};
+
+Zeichner.prototype.text = function (inhalt, x, y, farbe, ausrichtung, grundlinie, groesse, fett) {
+  var ctx = this.ctx;
+  ctx.save();
+  ctx.globalAlpha = 1;
+  ctx.fillStyle = farbe;
+  ctx.font = (fett ? '600 ' : '') + (groesse || 13) + 'px system-ui, sans-serif';
+  ctx.textAlign = ausrichtung || 'center';
+  ctx.textBaseline = grundlinie || 'alphabetic';
+  ctx.fillText(inhalt, x, y);
+  ctx.restore();
+};
+
+/* ---------- 8. Werkzeug "Anriss" ---------------------------------------- */
+
+/* Alle Masse werden in Millimetern gefuehrt, auch im Zollmodus. Umgerechnet
+   wird erst bei der Anzeige, damit ein Wechsel der Einheit die physische
+   Groesse nicht antastet. */
+var EINHEITEN = {
+  mm: {
+    id: 'mm', kuerzel: 'mm', proEinheitMm: 1, stellen: 1,
+    fein: 1, mittel: 5, grob: 10,
+    schritte: [0.1, 1, 10],
+    tastatur: { normal: 1, gross: 10, klein: 0.1 }
+  },
+  zoll: {
+    id: 'zoll', kuerzel: '″', proEinheitMm: 25.4, stellen: 3,
+    fein: 1 / 16, mittel: 1 / 4, grob: 1,
+    schritte: [0.001, 0.01, 0.1],
+    tastatur: { normal: 0.01, gross: 0.1, klein: 0.001 }
+  }
+};
+
+/* Naechster gebraeuchlicher Bruch, gerechnet in Vierundsechzigsteln und
+   anschliessend gekuerzt: 1,969 wird zu 1 31/32. */
+function zollBruch(zoll) {
+  var negativ = zoll < 0;
+  var n = Math.round(Math.abs(zoll) * 64);
+  var ganz = Math.floor(n / 64);
+  var rest = n % 64;
+  var nenner = 64;
+  while (rest > 0 && rest % 2 === 0) { rest /= 2; nenner /= 2; }
+  var text;
+  if (rest === 0) text = String(ganz);
+  else if (ganz === 0) text = rest + '/' + nenner;
+  else text = ganz + ' ' + rest + '/' + nenner;
+  return (negativ ? '−' : '') + text + '″';
+}
+
+/* Schrittweite lesbar schreiben, ohne haengende Nullen */
+function schrittText(wert) {
+  return String(wert).replace('.', ',');
+}
+
+var AnrissWerkzeug = {
+  container: null,
+  kontext: null,
+  abmelder: [],
+  beobachter: null,
+  leinwand: null,
+  ctx: null,
+  buehne: null,
+  leiste: null,
+  warnband: null,
+  hinweis: null,
+  meldeband: null,
+  meldeZeit: null,
+  kalibrierfeld: null,
+  aufklapp: null,
+  chipName: null,
+  chipPunkt: null,
+  codeFeld: null,
+  aufklappProMm: null,
+
+  zustand: {
+    geometrie: 'linie',
+    einheit: 'mm',
+    schrittIndex: 1,
+    linie: { laenge: 100, richtung: 'waagerecht' },
+    kreis: { mass: 40, modus: 'durchmesser' },
+    rechteck: { breite: 60, hoehe: 40 },
+    winkel: { grad: 45, schenkel: 60 },
+    /* fluechtig */
+    kalibrieren: false,
+    entwurfProMm: 0,
+    referenz: 'lineal',
+    abschnittModus: false,
+    abschnitt: 0
+  },
+
+  /* --- Zustand ---------------------------------------------------------- */
+
+  laden: function () {
+    var g = Speicher.lesen('anriss', null);
+    if (!g) return;
+    var z = this.zustand;
+    if (g.geometrie) z.geometrie = g.geometrie;
+    if (g.einheit && EINHEITEN[g.einheit]) z.einheit = g.einheit;
+    if (g.schrittIndex != null) z.schrittIndex = Math.max(0, Math.min(2, g.schrittIndex));
+    ['linie', 'kreis', 'rechteck', 'winkel'].forEach(function (name) {
+      if (!g[name]) return;
+      Object.keys(z[name]).forEach(function (feld) {
+        if (g[name][feld] != null) z[name][feld] = g[name][feld];
+      });
+    });
+  },
+
+  sichern: function () {
+    var z = this.zustand;
+    Speicher.schreiben('anriss', {
+      geometrie: z.geometrie,
+      einheit: z.einheit,
+      schrittIndex: z.schrittIndex,
+      linie: z.linie,
+      kreis: z.kreis,
+      rechteck: z.rechteck,
+      winkel: z.winkel
+    });
+  },
+
+  /* --- Einheiten -------------------------------------------------------- */
+
+  einheit: function () { return EINHEITEN[this.zustand.einheit] || EINHEITEN.mm; },
+  ausMm: function (mm) { return mm / this.einheit().proEinheitMm; },
+  nachMm: function (wert) { return wert * this.einheit().proEinheitMm; },
+
+  zahl: function (mm) { return zahlSchreiben(this.ausMm(mm), this.einheit().stellen); },
+  mitEinheit: function (mm) { return this.zahl(mm) + ' ' + this.einheit().kuerzel; },
+
+  /* Nebenangabe als Bruch, nur im Zollmodus */
+  bruchAngabe: function (mm) {
+    if (this.zustand.einheit !== 'zoll') return null;
+    return '≈ ' + zollBruch(this.ausMm(mm));
+  },
+
+  /* --- Massstab: im Kalibriermodus zaehlt der Entwurf -------------------- */
+
+  proMm: function () {
+    if (this.zustand.kalibrieren && this.zustand.entwurfProMm > 0) return this.zustand.entwurfProMm;
+    return this.kontext.pxProMm;
+  },
+  px: function (mm) { return mm * this.proMm(); },
+  mmAus: function (px) { return px / this.proMm(); },
+
+  /* --- Aufbau ----------------------------------------------------------- */
+
+  aufbauen: function (container, kontext) {
+    var selbst = this;
+    this.container = container;
+    this.kontext = kontext;
+    this.abmelder = [];
+    this.laden();
+    this.zustand.kalibrieren = false;
+    this.zustand.abschnittModus = false;
+    this.zustand.abschnitt = 0;
+
+    this.leiste = el('div', { class: 'leiste' });
+    container.appendChild(this.leiste);
+
+    this.buehne = el('div', { class: 'buehne' });
+    this.leinwand = el('canvas');
+    this.hinweis = el('div', { class: 'ueberlagerung hinweisleiste' });
+    this.meldeband = el('div', { class: 'ueberlagerung meldeband' });
+    this.warnband = el('div', { class: 'warnband' });
+    this.buehne.appendChild(this.leinwand);
+    this.buehne.appendChild(this.hinweis);
+    this.buehne.appendChild(this.meldeband);
+    this.buehne.appendChild(this.warnband);
+    container.appendChild(this.buehne);
+    this.ctx = this.leinwand.getContext('2d');
+
+    this.leisteAufbauen();
+
+    if (window.ResizeObserver) {
+      this.beobachter = new ResizeObserver(function () { selbst.zeichnen(); });
+      this.beobachter.observe(this.buehne);
+    }
+
+    /* Ein Profilwechsel darf die Leiste nicht neu bauen: das offene
+       Aufklappfenster wuerde mitten im Ziehen des Feinjustage-Reglers
+       verschwinden. Es werden nur die betroffenen Beschriftungen ersetzt. */
+    this.abmelder.push(kontext.beiAenderung(function (grund) {
+      if (grund === 'profil') selbst.profilNachziehen();
+      selbst.zeichnen();
+    }));
+
+    var beiGroesse = function () { selbst.zeichnen(); };
+    window.addEventListener('resize', beiGroesse);
+    this.abmelder.push(function () { window.removeEventListener('resize', beiGroesse); });
+
+    var beiTaste = function (fall) {
+      if (fall.key !== 'Escape') return;
+      if (selbst.zustand.kalibrieren) selbst.kalibrierModus(false, false);
+      else selbst.aufklappSchliessen();
+    };
+    var beiKlick = function (fall) {
+      if (selbst.aufklapp && selbst.aufklapp.elternfeld &&
+          !selbst.aufklapp.elternfeld.contains(fall.target)) selbst.aufklappSchliessen();
+    };
+    document.addEventListener('keydown', beiTaste);
+    document.addEventListener('click', beiKlick);
+    this.abmelder.push(function () {
+      document.removeEventListener('keydown', beiTaste);
+      document.removeEventListener('click', beiKlick);
+    });
+
+    /* Ohne Profil beginnt die Arbeit mit dem Kalibrieren */
+    if (!kontext.istKalibriert) this.kalibrierStarten();
+
+    this.zeichnen();
+    requestAnimationFrame(function () { selbst.zeichnen(); });
+    var nachzug = setTimeout(function () { selbst.zeichnen(); }, 0);
+    this.abmelder.push(function () { clearTimeout(nachzug); });
+  },
+
+  abbauen: function () {
+    /* Derselbe Ausstieg wie bei Bestaetigen, Abbrechen und Escape */
+    this.kalibrierModus(false, false);
+
+    /* Ein hakender Abmelder darf den Rest des Abbaus nicht verhindern,
+       sonst bleiben Groessenbeobachter und Leinwand haengen. */
+    this.abmelder.forEach(function (abmelden) {
+      try { abmelden(); } catch (fehler) { /* weiter aufraeumen */ }
+    });
+    this.abmelder = [];
+    if (this.beobachter) { this.beobachter.disconnect(); this.beobachter = null; }
+    if (this.meldeZeit) { clearTimeout(this.meldeZeit); this.meldeZeit = null; }
+    this.container = null;
+    this.leinwand = null;
+    this.ctx = null;
+    this.buehne = null;
+    this.leiste = null;
+    this.warnband = null;
+    this.hinweis = null;
+    this.meldeband = null;
+    this.kalibrierfeld = null;
+    this.aufklapp = null;
+    this.chipName = null;
+    this.chipPunkt = null;
+    this.codeFeld = null;
+    this.aufklappProMm = null;
+  },
+
+  /* --- Bedienleiste ----------------------------------------------------- */
+
+  leisteAufbauen: function () {
+    var selbst = this, z = this.zustand;
+    if (!this.leiste) return;
+    leeren(this.leiste);
+    this.aufklapp = null;
+
+    if (z.kalibrieren) { this.kalibrierLeiste(); return; }
+
+    /* a) Geometrie */
+    var auswahl = el('select', { 'aria-label': 'Geometrie' });
+    [['linie', 'Linie'], ['kreis', 'Kreis'], ['rechteck', 'Rechteck'], ['winkel', 'Winkel']]
+      .forEach(function (paar) {
+        auswahl.appendChild(el('option', { value: paar[0], text: paar[1] }));
+      });
+    auswahl.value = z.geometrie;
+    auswahl.addEventListener('change', function () {
+      z.geometrie = auswahl.value;
+      z.abschnittModus = false;
+      z.abschnitt = 0;
+      selbst.sichern();
+      selbst.leisteAufbauen();
+      selbst.zeichnen();
+    });
+    this.leiste.appendChild(auswahl);
+
+    /* b, c, d) Werte, Schrittsteuerung, Ausrichtung */
+    if (z.geometrie === 'linie') {
+      this.leiste.appendChild(this.wertgruppe({
+        etikett: 'Länge', kurz: 'L',
+        lesen: function () { return z.linie.laenge; },
+        setzen: function (mm) { z.linie.laenge = mm; }
+      }));
+      this.leiste.appendChild(this.segmentsteuerung(
+        [['waagerecht', 'Waagerecht'], ['senkrecht', 'Senkrecht']],
+        function () { return z.linie.richtung; },
+        function (wert) { z.linie.richtung = wert; z.abschnitt = 0; }));
+
+    } else if (z.geometrie === 'kreis') {
+      this.leiste.appendChild(this.segmentsteuerung(
+        [['durchmesser', '⌀'], ['radius', 'R']],
+        function () { return z.kreis.modus; },
+        function (wert) { z.kreis.modus = wert; }));
+      this.leiste.appendChild(this.wertgruppe({
+        etikett: z.kreis.modus === 'durchmesser' ? 'Durchmesser' : 'Radius',
+        kurz: z.kreis.modus === 'durchmesser' ? '⌀' : 'R',
+        lesen: function () { return z.kreis.mass; },
+        setzen: function (mm) { z.kreis.mass = mm; }
+      }));
+
+    } else if (z.geometrie === 'rechteck') {
+      this.leiste.appendChild(this.wertgruppe({
+        etikett: 'Breite', kurz: 'B',
+        lesen: function () { return z.rechteck.breite; },
+        setzen: function (mm) { z.rechteck.breite = mm; }
+      }));
+      this.leiste.appendChild(this.wertgruppe({
+        etikett: 'Höhe', kurz: 'H',
+        lesen: function () { return z.rechteck.hoehe; },
+        setzen: function (mm) { z.rechteck.hoehe = mm; }
+      }));
+
+    } else {
+      this.leiste.appendChild(this.wertgruppe({
+        etikett: 'Winkel', kurz: '∠',
+        grad: true, min: 0, max: 180,
+        lesen: function () { return z.winkel.grad; },
+        setzen: function (grad) { z.winkel.grad = grad; }
+      }));
+      this.leiste.appendChild(this.wertgruppe({
+        etikett: 'Schenkel', kurz: 'S',
+        lesen: function () { return z.winkel.schenkel; },
+        setzen: function (mm) { z.winkel.schenkel = mm; }
+      }));
+    }
+
+    /* e) Einheit */
+    this.leiste.appendChild(this.segmentsteuerung(
+      [['mm', 'mm'], ['zoll', 'inch']],
+      function () { return z.einheit; },
+      function (wert) { z.einheit = wert; }));
+
+    /* f, g, h) Geraet, Code, Kalibrieren */
+    var rechts = el('div', { class: 'leiste-rechts' }, [
+      this.geraetFeld(),
+      this.codeKnopf(),
+      el('button', {
+        class: 'haupt leiste-kalibrieren', text: 'Kalibrieren',
+        onclick: function () { selbst.kalibrierStarten(); }
+      })
+    ]);
+    this.leiste.appendChild(rechts);
+  },
+
+  /* Weicht der aktive Wert um mehr als fuenf Prozent von dem Tabelleneintrag
+     ab, dessen Signatur zum Bildschirm passt? */
+  abweichung: function () {
+    var erkannt = Geraet.erkennen();
+    var aktiv = Geraet.effektiveKanteMm();
+    if (!erkannt || !aktiv) return null;
+    var prozent = (aktiv - erkannt.kurzeKanteMm) / erkannt.kurzeKanteMm * 100;
+    if (Math.abs(prozent) <= 5) return null;
+    return { prozent: prozent, geraet: erkannt, aktiv: aktiv };
+  },
+
+  abweichungText: function (a) {
+    return 'Aktueller Wert ' + zahlSchreiben(a.aktiv, 1) + ' mm weicht ' +
+      zahlSchreiben(Math.abs(a.prozent), 1) + ' % von ' + a.geraet.name +
+      ' ab (' + zahlSchreiben(a.geraet.kurzeKanteMm, 1) + ' mm).';
+  },
+
+  warnpunktSetzen: function () {
+    if (!this.chipPunkt) return;
+    if (this.abweichung()) this.chipPunkt.classList.add('zeigen');
+    else this.chipPunkt.classList.remove('zeigen');
+  },
+
+  profilNachziehen: function () {
+    if (this.chipName) {
+      this.chipName.textContent = Geraet.istKalibriert() ? Geraet.profil().name : 'Unbekannt';
+    }
+    if (this.codeFeld) this.codeFeld.textContent = Geraet.code() || '–';
+    if (this.aufklappProMm) {
+      this.aufklappProMm.textContent = zahlSchreiben(Geraet.pxProMm(), 3) + ' px/mm';
+    }
+    this.warnpunktSetzen();
+  },
+
+  /* Nach einer Auswahl in der Liste wird das offene Fenster neu gefuellt.
+     Das laeuft nur ueber diesen Weg, nicht ueber jede Profilaenderung, sonst
+     bricht das Ziehen am Feinjustage-Regler ab. */
+  aufklappErneuern: function () {
+    if (!this.aufklapp) return;
+    leeren(this.aufklapp);
+    this.aufklappFuellen(this.aufklapp);
+  },
+
+  /* Wertfeld mit Minus, Schrittweite und Plus */
+  wertgruppe: function (opt) {
+    var selbst = this, z = this.zustand;
+    var grad = !!opt.grad;
+    var stellen = grad ? 1 : this.einheit().stellen;
+    var kuerzel = grad ? '°' : this.einheit().kuerzel;
+    var schritte = grad ? [0.1, 1, 10] : this.einheit().schritte;
+
+    function anzeigewert() { return grad ? opt.lesen() : selbst.ausMm(opt.lesen()); }
+
+    var eingabe = el('input', {
+      type: 'text', inputmode: 'decimal', autocomplete: 'off',
+      value: zahlSchreiben(anzeigewert(), stellen),
+      'aria-label': opt.etikett + ' in ' + (grad ? 'Grad' : selbst.einheit().kuerzel)
+    });
+
+    function setzen(wert, feldNachziehen) {
+      if (wert == null || !isFinite(wert)) return;
+      var min = opt.min != null ? opt.min : 0;
+      var max = opt.max != null ? opt.max : Infinity;
+      wert = Math.min(max, Math.max(min, wert));
+      var faktor = Math.pow(10, stellen + 1);
+      wert = Math.round(wert * faktor) / faktor;
+      opt.setzen(grad ? wert : selbst.nachMm(wert));
+      if (feldNachziehen) eingabe.value = zahlSchreiben(wert, stellen);
+      z.abschnitt = 0;
+      selbst.sichern();
+      selbst.zeichnen();
+    }
+
+    eingabe.addEventListener('input', function () {
+      var w = zahlLesen(eingabe.value);
+      if (w != null) setzen(w, false);
+    });
+    eingabe.addEventListener('blur', function () {
+      var w = zahlLesen(eingabe.value);
+      setzen(w != null ? w : anzeigewert(), true);
+    });
+
+    /* Pfeiltasten: um eins, mit Umschalt um zehn, mit Wahl um ein Zehntel.
+       Im Zollmodus je eine Zehnerpotenz feiner, sonst waere ein Schritt
+       gleich 25,4 mm. */
+    eingabe.addEventListener('keydown', function (fall) {
+      if (fall.key !== 'ArrowUp' && fall.key !== 'ArrowDown') return;
+      fall.preventDefault();
+      var t = grad ? { normal: 1, gross: 10, klein: 0.1 } : selbst.einheit().tastatur;
+      var weite = fall.shiftKey ? t.gross : (fall.altKey ? t.klein : t.normal);
+      setzen(anzeigewert() + (fall.key === 'ArrowUp' ? weite : -weite), true);
+    });
+
+    var schrittKnopf = el('button', {
+      class: 'schritt', title: 'Schrittweite',
+      'aria-label': 'Schrittweite umschalten',
+      text: schrittText(schritte[z.schrittIndex]),
+      onclick: function () {
+        z.schrittIndex = (z.schrittIndex + 1) % 3;
+        schrittKnopf.textContent = schrittText(schritte[z.schrittIndex]);
+        selbst.sichern();
+        /* Die zweite Wertgruppe traegt dieselbe Weite */
+        var alle = selbst.leiste ? selbst.leiste.querySelectorAll('.schritt') : [];
+        Array.prototype.forEach.call(alle, function (k) {
+          k.textContent = schrittText(schritte[z.schrittIndex]);
+        });
+      }
+    });
+
+    return el('div', { class: 'wertgruppe' }, [
+      el('span', { class: 'etikett' }, [
+        el('span', { class: 'lang', text: opt.etikett }),
+        el('span', { class: 'kurz', text: opt.kurz || opt.etikett.charAt(0) })
+      ]),
+      eingabe,
+      el('span', { class: 'einheit-nach', text: kuerzel }),
+      el('button', {
+        'aria-label': opt.etikett + ' verringern', text: '−',
+        onclick: function () { setzen(anzeigewert() - schritte[z.schrittIndex], true); }
+      }),
+      schrittKnopf,
+      el('button', {
+        'aria-label': opt.etikett + ' erhöhen', text: '+',
+        onclick: function () { setzen(anzeigewert() + schritte[z.schrittIndex], true); }
+      })
+    ]);
+  },
+
+  segmentsteuerung: function (paare, lesen, setzen) {
+    var selbst = this;
+    var kasten = el('div', { class: 'segmente' });
+    paare.forEach(function (paar) {
+      kasten.appendChild(el('button', {
+        text: paar[1],
+        'aria-pressed': lesen() === paar[0] ? 'true' : 'false',
+        onclick: function () {
+          setzen(paar[0]);
+          selbst.sichern();
+          selbst.leisteAufbauen();
+          selbst.zeichnen();
+        }
+      }));
+    });
+    return kasten;
+  },
+
+  /* --- Geraeteanzeige mit Aufklappfenster -------------------------------- */
+
+  codeKnopf: function () {
+    var code = Geraet.code() || '–';
+    var feld = el('span', { class: 'code', text: code });
+    this.codeFeld = feld;
+    var knopf = el('button', {
+      class: 'chip leiste-code', 'aria-label': 'Übertragungscode kopieren',
+      title: 'Übertragungscode kopieren'
+    }, [feld]);
+    knopf.addEventListener('click', function () {
+      if (!Geraet.code()) return;
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(Geraet.code()).then(function () {
+          feld.textContent = 'kopiert';
+          setTimeout(function () { feld.textContent = Geraet.code() || '–'; }, 1400);
+        }, function () { feld.textContent = 'nicht möglich'; setTimeout(function () {
+          feld.textContent = Geraet.code() || '–'; }, 1400); });
+      }
+    });
+    return knopf;
+  },
+
+  geraetFeld: function () {
+    var selbst = this;
+    var name = Geraet.istKalibriert() ? Geraet.profil().name : 'Unbekannt';
+    var chipName = el('span', { class: 'name', text: name });
+    var punkt = el('span', {
+      class: 'warnpunkt', 'aria-hidden': 'true',
+      title: 'Wert weicht deutlich vom erkannten Gerät ab'
+    });
+    this.chipName = chipName;
+    this.chipPunkt = punkt;
+    var chip = el('button', {
+      class: 'chip', 'aria-haspopup': 'dialog', 'aria-expanded': 'false',
+      'aria-label': 'Bildschirmprofil wählen'
+    }, [
+      punkt,
+      chipName,
+      el('span', { class: 'pfeil', 'aria-hidden': 'true', text: '▾' })
+    ]);
+    this.warnpunktSetzen();
+    var fenster = el('div', { class: 'aufklapp', role: 'dialog', 'aria-label': 'Bildschirm' });
+    var feld = el('div', { class: 'geraet-feld' }, [chip, fenster]);
+    fenster.elternfeld = feld;
+
+    function oeffnen() {
+      if (selbst.aufklapp === fenster && fenster.classList.contains('offen')) return;
+      selbst.aufklappSchliessen();
+      leeren(fenster);
+      selbst.aufklappFuellen(fenster);
+      fenster.classList.add('offen');
+      chip.setAttribute('aria-expanded', 'true');
+      selbst.aufklapp = fenster;
+    }
+
+    chip.addEventListener('click', function (fall) {
+      fall.stopPropagation();
+      if (fenster.classList.contains('offen')) selbst.aufklappSchliessen();
+      else oeffnen();
+    });
+    feld.addEventListener('mouseenter', oeffnen);
+    feld.addEventListener('mouseleave', function () { selbst.aufklappSchliessen(); });
+    chip.addEventListener('focus', oeffnen);
+    fenster.addEventListener('click', function (fall) { fall.stopPropagation(); });
+
+    return feld;
+  },
+
+  aufklappSchliessen: function () {
+    if (!this.aufklapp) return;
+    this.aufklapp.classList.remove('offen');
+    if (this.aufklapp.elternfeld) {
+      var chip = this.aufklapp.elternfeld.firstChild;
+      if (chip && chip.setAttribute) chip.setAttribute('aria-expanded', 'false');
+    }
+    this.aufklapp = null;
+  },
+
+  aufklappFuellen: function (fenster) {
+    var selbst = this;
+    var profil = Geraet.profil();
+    var signatur = Geraet.signatur();
+    var erkannt = Geraet.erkennen();
+    var eigen = Geraet.id === 'benutzerdefiniert';
+
+    fenster.appendChild(el('h3', { text: 'Bildschirm' }));
+
+    /* 1. Alle Eintraege der Tabelle. Sie ist die einzige Liste und wird von
+       Hand gepflegt; hier wird nur ausgewaehlt, nie ergaenzt. */
+    var liste = el('div', { class: 'wahlliste' });
+    GERAETE.forEach(function (geraet) {
+      var aktiv = Geraet.id === geraet.id;
+      liste.appendChild(el('button', {
+        class: 'wahl', 'aria-current': aktiv ? 'true' : 'false',
+        onclick: function () {
+          Geraet.aufTabelle(geraet.id, 'gespeichert');
+          selbst.aufklappErneuern();
+        }
+      }, [
+        el('span', { class: 'haken', 'aria-hidden': 'true', text: aktiv ? '✓' : '' }),
+        el('span', { class: 'beschriftung', text: geraet.name }),
+        erkannt && erkannt.id === geraet.id
+          ? el('span', { class: 'zusatz', text: 'erkannt' }) : null
+      ]));
+    });
+
+    /* 2. Benutzerdefiniert, nur solange ein frei kalibrierter Wert gilt */
+    if (eigen) {
+      liste.appendChild(el('button', {
+        class: 'wahl', 'aria-current': 'true'
+      }, [
+        el('span', { class: 'haken', 'aria-hidden': 'true', text: '✓' }),
+        el('span', {
+          class: 'beschriftung',
+          text: 'Benutzerdefiniert, ' + zahlSchreiben(Geraet.effektiveKanteMm(), 1) + ' mm'
+        })
+      ]));
+    }
+    fenster.appendChild(liste);
+
+    /* Hinweis auf eine starke Abweichung vom erkannten Geraet */
+    var abw = this.abweichung();
+    if (abw) {
+      fenster.appendChild(el('div', { class: 'warnzeile' }, [
+        el('span', { class: 'warnpunkt', 'aria-hidden': 'true' }),
+        el('span', { text: this.abweichungText(abw) })
+      ]));
+    }
+
+    if (!Geraet.istKalibriert()) {
+      fenster.appendChild(el('div', {
+        class: 'meldung zeigen fehler',
+        text: 'Kein Profil aktiv. Gerät wählen, Code eingeben oder kalibrieren.'
+      }));
+    }
+
+    /* 3. Zwei Aktionen am Fuss */
+    fenster.appendChild(el('div', { class: 'wahl-trenner' }));
+
+    var codeBereich = el('div', { style: 'display:none; margin-top:var(--df-r2)' });
+    var codeAktion = el('button', {
+      class: 'wahl',
+      onclick: function () {
+        var offen = codeBereich.style.display !== 'none';
+        codeBereich.style.display = offen ? 'none' : 'block';
+        codeAktion.setAttribute('aria-expanded', offen ? 'false' : 'true');
+      }
+    }, [
+      el('span', { class: 'haken', 'aria-hidden': 'true', text: '' }),
+      el('span', { class: 'beschriftung', text: 'Code eingeben' })
+    ]);
+    codeAktion.setAttribute('aria-expanded', 'false');
+
+    fenster.appendChild(codeAktion);
+    fenster.appendChild(el('button', {
+      class: 'wahl',
+      onclick: function () { selbst.aufklappSchliessen(); selbst.kalibrierModus(true); }
+    }, [
+      el('span', { class: 'haken', 'aria-hidden': 'true', text: '' }),
+      el('span', { class: 'beschriftung', text: 'Neu kalibrieren' })
+    ]));
+
+    /* Codebereich, hinter der Aktion "Code eingeben" */
+    var codeAnzeige = el('div', { class: 'code-anzeige', text: Geraet.code() || '–' });
+    var meldung = el('div', { class: 'meldung' });
+
+    function melden(text, gut) {
+      meldung.textContent = text;
+      meldung.className = 'meldung zeigen ' + (gut ? 'gut' : 'fehler');
+    }
+
+    var codeEingabe = el('input', {
+      type: 'text', inputmode: 'latin', autocapitalize: 'characters',
+      autocorrect: 'off', spellcheck: 'false', placeholder: 'D1887O',
+      'aria-label': 'Übertragungscode eines anderen Geräts',
+      style: 'margin-top:var(--df-r2)'
+    });
+
+    codeBereich.appendChild(codeAnzeige);
+    codeBereich.appendChild(el('div', { class: 'zeile', style: 'margin-top:var(--df-r2)' }, [
+      el('button', {
+        class: 'klein', text: 'Kopieren',
+        onclick: function () {
+          if (!Geraet.code()) return;
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(Geraet.code()).then(
+              function () { melden('Code liegt in der Zwischenablage.', true); },
+              function () { melden('Kopieren nicht möglich. Code markieren und abschreiben.', false); });
+          } else {
+            melden('Kopieren nicht möglich. Code markieren und abschreiben.', false);
+          }
+        }
+      })
+    ]));
+    codeBereich.appendChild(codeEingabe);
+    codeBereich.appendChild(el('div', { class: 'zeile', style: 'margin-top:var(--df-r2)' }, [
+      el('button', {
+        class: 'klein', text: 'Übernehmen',
+        onclick: function () {
+          var kante = codeLesen(codeEingabe.value || '');
+          if (kante == null) {
+            melden('Code ungültig. Aufbau: D, kurze Kante in Zehntelmillimetern, Prüfzeichen. Beispiel D1887O.', false);
+            return;
+          }
+          Geraet.aufMass(kante, 'kalibriert');
+          melden('Profil übernommen, kurze Kante ' + zahlSchreiben(kante, 1) + ' mm.', true);
+        }
+      })
+    ]));
+    codeBereich.appendChild(meldung);
+    fenster.appendChild(codeBereich);
+
+    /* Technische Angaben, unveraendert */
+    var proMmZelle = el('td', { text: zahlSchreiben(Geraet.pxProMm(), 3) + ' px/mm' });
+    this.aufklappProMm = proMmZelle;
+
+    fenster.appendChild(el('div', { class: 'wahl-trenner' }));
+    fenster.appendChild(el('table', { class: 'tabelle' }, [
+      el('tr', null, [el('td', { text: 'Gerät' }),
+        el('td', { text: Geraet.istKalibriert() ? profil.name : 'unbekannt' })]),
+      el('tr', null, [el('td', { text: 'screen' }),
+        el('td', { text: signatur.kurz + ' × ' + signatur.lang })]),
+      el('tr', null, [el('td', { text: 'devicePixelRatio' }),
+        el('td', { text: zahlSchreiben(signatur.dpr, 2) })]),
+      el('tr', null, [el('td', { text: 'Kurze Kante' }),
+        el('td', { text: profil.kurzeKanteMm ? zahlSchreiben(profil.kurzeKanteMm, 1) + ' mm' : '–' })]),
+      el('tr', null, [el('td', { text: 'Umrechnung' }), proMmZelle])
+    ]));
+
+    /* Feinjustage */
+    var justierAnzeige = el('span', { class: 'wert',
+      text: zahlSchreiben(Geraet.justierungProzent, 2) + ' %' });
+    var regler = el('input', {
+      type: 'range', min: '-5', max: '5', step: '0.05',
+      value: String(Geraet.justierungProzent), 'aria-label': 'Feinjustage in Prozent'
+    });
+    regler.addEventListener('input', function () {
+      Geraet.justierungSetzen(parseFloat(regler.value));
+      justierAnzeige.textContent = zahlSchreiben(Geraet.justierungProzent, 2) + ' %';
+      codeAnzeige.textContent = Geraet.code() || '–';
+    });
+
+    fenster.appendChild(el('div', { class: 'zeile', style: 'margin-top:var(--df-r3)' }, [
+      el('span', { class: 'hinweis', style: 'margin:0', text: 'Feinjustage' }),
+      justierAnzeige
+    ]));
+    fenster.appendChild(regler);
+
+    fenster.appendChild(el('div', {
+      class: 'merksatz', style: 'margin-top:var(--df-r3); font-size:13px', text: HINWEISTEXT
+    }));
+  },
+
+  /* --- Meldung ueber der Zeichenflaeche ---------------------------------- */
+
+  melden: function (text) {
+    var selbst = this;
+    if (!this.meldeband) return;
+    this.meldeband.textContent = text;
+    this.meldeband.classList.add('zeigen');
+    if (this.meldeZeit) clearTimeout(this.meldeZeit);
+    this.meldeZeit = setTimeout(function () {
+      if (selbst.meldeband) selbst.meldeband.classList.remove('zeigen');
+    }, 6000);
+  },
+
+  hinweisZeigen: function (text, aktionen) {
+    if (!this.hinweis) return;
+    leeren(this.hinweis);
+    if (!text) { this.hinweis.classList.remove('zeigen'); return; }
+    this.hinweis.appendChild(el('span', { text: text }));
+    (aktionen || []).forEach(function (knopf) { this.hinweis.appendChild(knopf); }, this);
+    this.hinweis.classList.add('zeigen');
+  },
+
+  /* --- Kalibrieren in derselben Umgebung -------------------------------- */
+
+  /* Der Kalibriermodus hat genau einen Zustand und genau einen Ein- und
+     Ausstieg. Bestaetigen, Abbrechen, die Escape-Taste und das Verlassen des
+     Werkzeugs laufen alle hier durch; es gibt keinen zweiten Aufraeumpfad.
+     Leiste und Reglerfenster haengen beide an diesem Zustand. */
+  kalibrierModus: function (an, uebernehmen) {
+    var z = this.zustand;
+    an = !!an;
+    if (an === z.kalibrieren) return;
+
+    if (an) {
+      z.kalibrieren = true;
+      z.entwurfProMm = this.kontext.istKalibriert ? this.kontext.pxProMm : 96 / 25.4;
+      z.referenz = 'lineal';
+      this.hinweisZeigen(null);
+      this.aufklappSchliessen();
+    } else {
+      if (uebernehmen && z.entwurfProMm > 0) {
+        var kante = Geraet.cssKurzeKante() / z.entwurfProMm;
+        Geraet.aufMass(kante, 'kalibriert');
+        this.melden('Übernommen. Kurze Kante ' + zahlSchreiben(kante, 1) +
+                    ' mm, Übertragungscode ' + Geraet.code());
+      }
+      z.kalibrieren = false;
+      z.entwurfProMm = 0;
+    }
+
+    this.reglerfensterSetzen(an);
+    this.leisteAufbauen();
+    this.zeichnen();
+  },
+
+  kalibrierStarten: function () { this.kalibrierModus(true); },
+  kalibrierBeenden: function (uebernehmen) { this.kalibrierModus(false, uebernehmen); },
+
+  kalibrierLeiste: function () {
+    var selbst = this, z = this.zustand;
+    this.leiste.appendChild(el('span', {
+      class: 'hinweis', style: 'margin:0 var(--df-r2) 0 var(--df-r2)', text: 'Referenz'
+    }));
+    this.leiste.appendChild(this.kalibrierSegmente());
+    this.leiste.appendChild(el('div', { class: 'leiste-rechts' }, [
+      el('span', { class: 'chip', text: zahlSchreiben(z.entwurfProMm, 3) + ' px/mm' }),
+      el('button', {
+        class: 'haupt', text: 'Bestätigen',
+        onclick: function () { selbst.kalibrierBeenden(true); }
+      }),
+      el('button', {
+        text: 'Abbrechen',
+        onclick: function () { selbst.kalibrierBeenden(false); }
+      })
+    ]));
+  },
+
+  kalibrierSegmente: function () {
+    var selbst = this, z = this.zustand;
+    var kasten = el('div', { class: 'segmente' });
+    [['lineal', 'Stahllineal'], ['karte', 'Scheckkarte'], ['muenze', '2-Euro-Münze']]
+      .forEach(function (paar) {
+        kasten.appendChild(el('button', {
+          text: paar[1],
+          'aria-pressed': z.referenz === paar[0] ? 'true' : 'false',
+          onclick: function () {
+            z.referenz = paar[0];
+            selbst.leisteAufbauen();
+            selbst.zeichnen();
+          }
+        }));
+      });
+    return kasten;
+  },
+
+  reglerfensterSetzen: function (an) {
+    var selbst = this, z = this.zustand;
+
+    /* Vorhandenes Fenster immer zuerst abraeumen, damit sich keine zwei
+       uebereinanderlegen koennen. */
+    if (this.kalibrierfeld && this.kalibrierfeld.parentNode) {
+      this.kalibrierfeld.parentNode.removeChild(this.kalibrierfeld);
+    }
+    this.kalibrierfeld = null;
+    if (!an || !this.buehne) return;
+
+    var anzeige = el('span', { class: 'wert', text: '' });
+    var regler = el('input', {
+      type: 'range', min: '2', max: '16', step: '0.001',
+      value: String(z.entwurfProMm), 'aria-label': 'Maßstab'
+    });
+
+    function nachziehen() {
+      z.entwurfProMm = Math.max(2, Math.min(16, z.entwurfProMm));
+      regler.value = String(z.entwurfProMm);
+      var kante = Geraet.cssKurzeKante() / z.entwurfProMm;
+      anzeige.textContent = zahlSchreiben(z.entwurfProMm, 3) + ' px/mm, kurze Kante ' +
+        zahlSchreiben(kante, 1) + ' mm';
+      var chip = selbst.leiste ? selbst.leiste.querySelector('.chip') : null;
+      if (chip) chip.textContent = zahlSchreiben(z.entwurfProMm, 3) + ' px/mm';
+      selbst.zeichnen();
+    }
+
+    regler.addEventListener('input', function () {
+      z.entwurfProMm = parseFloat(regler.value);
+      nachziehen();
+    });
+
+    function stufe(faktor) {
+      return el('button', {
+        class: 'klein',
+        text: (faktor > 0 ? '+' : '−') + zahlSchreiben(Math.abs(faktor) * 100, 1) + ' %',
+        onclick: function () { z.entwurfProMm *= (1 + faktor); nachziehen(); }
+      });
+    }
+
+    var feld = el('div', { class: 'ueberlagerung kalibrierleiste' }, [
+      el('div', { class: 'zeile' }, [
+        el('span', { class: 'hinweis', style: 'margin:0', text: 'Regler ziehen, bis das Referenzmaß deckt' }),
+        anzeige
+      ]),
+      regler,
+      el('div', { class: 'zeile', style: 'justify-content:center' }, [
+        stufe(-0.01), stufe(-0.002), stufe(0.002), stufe(0.01)
+      ])
+    ]);
+    this.kalibrierfeld = feld;
+    this.buehne.appendChild(feld);
+    nachziehen();
+  },
+
+  /* --- Zeichnen --------------------------------------------------------- */
+
+  linealBreite: function (breite) { return breite < 560 ? 22 : 28; },
+
+  farbe: function (rolle) {
+    if (rolle === 'geometrie') return Farbe.lies('--df-silber-hell');
+    if (rolle === 'bemassung') return Farbe.lies('--df-silber');
+    if (rolle === 'hilfslinie') return Farbe.lies('--df-silber-dunkel');
+    if (rolle === 'grund') return Farbe.lies('--df-schwarz');
+    return Farbe.lies('--df-text-sekundaer');
+  },
+
+  zeichnen: function () {
+    if (!this.ctx || !this.buehne) return;
+    var selbst = this;
+
+    var zoom = this.kontext.zoom;
+    var gesperrt = !zoom.ok || (!this.kontext.istKalibriert && !this.zustand.kalibrieren);
+
+    if (!zoom.ok) {
+      leeren(this.warnband);
+      this.warnband.className = 'warnband zeigen';
+      this.warnband.appendChild(el('span', { class: 'streifen', 'aria-hidden': 'true' }));
+      this.warnband.appendChild(el('strong', { text: 'Maße gesperrt' }));
+      this.warnband.appendChild(el('span', { text: zoom.text }));
+    } else if (gesperrt) {
+      leeren(this.warnband);
+      this.warnband.className = 'warnband sachlich zeigen';
+      this.warnband.appendChild(el('span', { class: 'streifen', 'aria-hidden': 'true' }));
+      this.warnband.appendChild(el('strong', { text: 'Nicht kalibriert' }));
+      this.warnband.appendChild(el('span', { text: 'Ohne Geräteprofil ist die Darstellung nicht maßhaltig.' }));
+      this.warnband.appendChild(el('button', {
+        class: 'haupt', text: 'Kalibrieren',
+        onclick: function () { selbst.kalibrierStarten(); }
+      }));
+    } else {
+      this.warnband.className = 'warnband';
+    }
+
+    var dpr = window.devicePixelRatio || 1;
+    var breite = this.buehne.clientWidth;
+    var hoehe = this.buehne.clientHeight;
+    if (breite <= 0 || hoehe <= 0) return;
+
+    this.leinwand.width = Math.round(breite * dpr);
+    this.leinwand.height = Math.round(hoehe * dpr);
+    var ctx = this.ctx;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.clearRect(0, 0, breite, hoehe);
+    ctx.fillStyle = this.farbe('grund');
+    ctx.fillRect(0, 0, breite, hoehe);
+
+    if (gesperrt) { this.hinweisZeigen(null); return; }
+
+    var z = new Zeichner(ctx, dpr);
+    var rand = this.linealBreite(breite);
+    var feld = {
+      x0: rand, y0: rand, x1: breite - rand, y1: hoehe - rand,
+      breite: breite - 2 * rand, hoehe: hoehe - 2 * rand
+    };
+    if (feld.breite < 60 || feld.hoehe < 60) return;
+
+    this.zeichneRaster(z, feld);
+    this.zeichneLineale(z, feld, breite, hoehe, rand);
+
+    if (this.zustand.kalibrieren) {
+      this.zeichneReferenz(z, feld);
+      return;
+    }
+
+    ctx.save();
+    ctx.beginPath();
+    ctx.rect(feld.x0, feld.y0, feld.breite, feld.hoehe);
+    ctx.clip();
+    var marken;
+    if (this.zustand.geometrie === 'linie') marken = this.zeichneLinie(z, feld);
+    else if (this.zustand.geometrie === 'kreis') marken = this.zeichneKreis(z, feld);
+    else if (this.zustand.geometrie === 'rechteck') marken = this.zeichneRechteck(z, feld);
+    else marken = this.zeichneWinkel(z, feld);
+    ctx.restore();
+
+    this.zeichneMassMarken(z, feld, breite, hoehe, rand, marken || {});
+  },
+
+  /* Raster und Lineale rechnen mit derselben Formel, damit sie fluchten:
+     Position n = Nullpunkt + n * Schrittweite, gerundet ueber scharf(). */
+  schrittPx: function (einheiten) {
+    return this.px(einheiten * this.einheit().proEinheitMm);
+  },
+
+  zeichneRaster: function (z, feld) {
+    var e = this.einheit();
+    var ctx = z.ctx;
+    var stufen = [
+      { einheiten: e.fein, farbe: Farbe.lies('--df-grau'), mindest: 4.5 },
+      { einheiten: e.mittel, farbe: Farbe.lies('--df-linie'), mindest: 3 },
+      { einheiten: e.grob, farbe: Farbe.lies('--df-silber-dunkel'), mindest: 3 }
+    ];
+
+    for (var i = 0; i < stufen.length; i++) {
+      var schritt = this.schrittPx(stufen[i].einheiten);
+      /* Zu dichte Teilung ergibt nur Moiré und wird weggelassen */
+      if (!(schritt >= stufen[i].mindest)) continue;
+      ctx.save();
+      ctx.globalAlpha = 1;
+      ctx.strokeStyle = stufen[i].farbe;
+      ctx.lineWidth = z.duenn;
+      ctx.beginPath();
+      var n, wert;
+      for (n = 0; (wert = feld.x0 + n * schritt) <= feld.x1 + 0.01; n++) {
+        var xs = z.scharf(wert);
+        ctx.moveTo(xs, feld.y0);
+        ctx.lineTo(xs, feld.y1);
+      }
+      for (n = 0; (wert = feld.y0 + n * schritt) <= feld.y1 + 0.01; n++) {
+        var ys = z.scharf(wert);
+        ctx.moveTo(feld.x0, ys);
+        ctx.lineTo(feld.x1, ys);
+      }
+      ctx.stroke();
+      ctx.restore();
+    }
+  },
+
+  zeichneLineale: function (z, feld, breite, hoehe, rand) {
+    var ctx = z.ctx;
+    var e = this.einheit();
+    var strich = Farbe.lies('--df-silber-dunkel');
+    var zahlFarbe = Farbe.lies('--df-text-sekundaer');
+    var kante = Farbe.lies('--df-linie');
+    var grad = rand < 26 ? 8 : 9;
+
+    ctx.save();
+    ctx.fillStyle = Farbe.lies('--df-grau');
+    ctx.fillRect(0, 0, breite, rand);
+    ctx.fillRect(0, hoehe - rand, breite, rand);
+    ctx.fillRect(0, rand, rand, hoehe - 2 * rand);
+    ctx.fillRect(breite - rand, rand, rand, hoehe - 2 * rand);
+    ctx.restore();
+
+    z.linie(feld.x0, feld.y0, feld.x1, feld.y0, kante, z.duenn);
+    z.linie(feld.x0, feld.y1, feld.x1, feld.y1, kante, z.duenn);
+    z.linie(feld.x0, feld.y0, feld.x0, feld.y1, kante, z.duenn);
+    z.linie(feld.x1, feld.y0, feld.x1, feld.y1, kante, z.duenn);
+
+    var stufen = [
+      { einheiten: e.fein, anteil: 0.3, zahl: false, mindest: 3.5 },
+      { einheiten: e.mittel, anteil: 0.52, zahl: false, mindest: 3 },
+      { einheiten: e.grob, anteil: 0.84, zahl: true, mindest: 3 }
+    ];
+
+    for (var i = 0; i < stufen.length; i++) {
+      var schritt = this.schrittPx(stufen[i].einheiten);
+      if (!(schritt >= stufen[i].mindest)) continue;
+      var laenge = Math.round(rand * stufen[i].anteil);
+      var zahlen = stufen[i].zahl && schritt >= 26;
+      var n, wert;
+
+      for (n = 0; (wert = feld.x0 + n * schritt) <= feld.x1 + 0.01; n++) {
+        z.linie(wert, feld.y0, wert, feld.y0 - laenge, strich, z.duenn);
+        z.linie(wert, feld.y1, wert, feld.y1 + laenge, strich, z.duenn);
+        if (zahlen && n > 0 && wert < feld.x1 - 8) {
+          var text = zahlSchreiben(n * stufen[i].einheiten, 0);
+          z.text(text, wert + 2, 2, zahlFarbe, 'left', 'top', grad);
+          z.text(text, wert + 2, hoehe - 2, zahlFarbe, 'left', 'bottom', grad);
+        }
+      }
+
+      for (n = 0; (wert = feld.y0 + n * schritt) <= feld.y1 + 0.01; n++) {
+        z.linie(feld.x0, wert, feld.x0 - laenge, wert, strich, z.duenn);
+        z.linie(feld.x1, wert, feld.x1 + laenge, wert, strich, z.duenn);
+        if (zahlen && n > 0 && wert < feld.y1 - 8) {
+          var text2 = zahlSchreiben(n * stufen[i].einheiten, 0);
+          z.text(text2, rand / 2, wert + 2, zahlFarbe, 'center', 'top', grad);
+          z.text(text2, breite - rand / 2, wert + 2, zahlFarbe, 'center', 'top', grad);
+        }
+      }
+    }
+
+    /* Einheit im Eckfeld */
+    z.text(e.kuerzel, rand / 2, rand / 2, zahlFarbe, 'center', 'middle', grad);
+  },
+
+  /* Das eingegebene Mass wird vom Nullpunkt aus auf den Linealen abgetragen */
+  zeichneMassMarken: function (z, feld, breite, hoehe, rand, marken) {
+    var ctx = z.ctx;
+    var hell = Farbe.lies('--df-silber-hell');
+    var grund = this.farbe('grund');
+    var dick = Math.max(z.duenn, 2 / z.dpr);
+    var selbst = this;
+
+    function kasten(text, x, y, ausrichtung) {
+      ctx.save();
+      ctx.font = '600 11px system-ui, sans-serif';
+      var w = ctx.measureText(text).width;
+      var links = ausrichtung === 'links' ? x - w - 6 : x + 2;
+      ctx.fillStyle = grund;
+      ctx.fillRect(links, y - 7, w + 4, 14);
+      ctx.restore();
+      z.text(text, links + 2, y, hell, 'left', 'middle', 11, true);
+    }
+
+    if (marken.waagerecht > 0) {
+      var laengePx = selbst.px(marken.waagerecht);
+      var passt = laengePx <= feld.breite + 0.01;
+      var ende = Math.min(feld.x0 + laengePx, feld.x1);
+      ctx.save();
+      ctx.fillStyle = hell;
+      ctx.fillRect(feld.x0, feld.y0 - 3, ende - feld.x0, 3);
+      ctx.fillRect(feld.x0, feld.y1, ende - feld.x0, 3);
+      ctx.restore();
+      if (passt) {
+        z.linie(ende, feld.y0, ende, feld.y0 - rand, hell, dick);
+        z.linie(ende, feld.y1, ende, feld.y1 + rand, hell, dick);
+        var text = selbst.zahl(marken.waagerecht);
+        var links = ende > feld.x1 - 46;
+        kasten(text, ende, rand / 2, links ? 'links' : 'rechts');
+        kasten(text, ende, hoehe - rand / 2, links ? 'links' : 'rechts');
+      } else {
+        z.text('›', feld.x1 - 3, rand / 2, hell, 'right', 'middle', 14, true);
+        z.text('›', feld.x1 - 3, hoehe - rand / 2, hell, 'right', 'middle', 14, true);
+      }
+    }
+
+    if (marken.senkrecht > 0) {
+      var hoehePx = selbst.px(marken.senkrecht);
+      var passt2 = hoehePx <= feld.hoehe + 0.01;
+      var ende2 = Math.min(feld.y0 + hoehePx, feld.y1);
+      ctx.save();
+      ctx.fillStyle = hell;
+      ctx.fillRect(feld.x0 - 3, feld.y0, 3, ende2 - feld.y0);
+      ctx.fillRect(feld.x1, feld.y0, 3, ende2 - feld.y0);
+      ctx.restore();
+      if (passt2) {
+        z.linie(feld.x0, ende2, feld.x0 - rand, ende2, hell, dick);
+        z.linie(feld.x1, ende2, feld.x1 + rand, ende2, hell, dick);
+        var text2 = selbst.zahl(marken.senkrecht);
+        var oben = ende2 > feld.y1 - 20 ? -10 : 10;
+        kasten(text2, 2, ende2 + oben, 'rechts');
+        kasten(text2, breite - rand + 2, ende2 + oben, 'rechts');
+      } else {
+        z.text('›', 4, feld.y1 - 8, hell, 'left', 'middle', 14, true);
+        z.text('›', breite - rand + 4, feld.y1 - 8, hell, 'left', 'middle', 14, true);
+      }
+    }
+  },
+
+  /* --- Geometrien ------------------------------------------------------- */
+
+  zeichneLinie: function (z, feld) {
+    var selbst = this, s = this.zustand.linie, zst = this.zustand;
+    var waagerecht = s.richtung === 'waagerecht';
+    var verfuegbarPx = (waagerecht ? feld.breite : feld.hoehe) - 24;
+    var laengePx = this.px(s.laenge);
+    var passt = laengePx <= verfuegbarPx + 0.01;
+    var geo = this.farbe('geometrie');
+    var neben = this.farbe('neben');
+
+    var zeichenLaenge = laengePx;
+    var beschriftung = this.mitEinheit(s.laenge);
+    var bruch = this.bruchAngabe(s.laenge);
+    var abschnittText = null;
+
+    if (zst.abschnittModus) {
+      var anzahl = Math.max(1, Math.ceil(laengePx / verfuegbarPx));
+      if (zst.abschnitt > anzahl - 1) zst.abschnitt = anzahl - 1;
+      var vorher = zst.abschnitt * verfuegbarPx;
+      zeichenLaenge = Math.min(verfuegbarPx, laengePx - vorher);
+      beschriftung = this.mitEinheit(this.mmAus(zeichenLaenge));
+      abschnittText = 'Abschnitt ' + (zst.abschnitt + 1) + ' von ' + anzahl + ': ' +
+        this.zahl(this.mmAus(vorher)) + ' bis ' + this.zahl(this.mmAus(vorher + zeichenLaenge)) +
+        ' ' + this.einheit().kuerzel;
+      this.hinweisZeigen(abschnittText, [
+        el('button', { text: 'Zurück', onclick: function () {
+          zst.abschnitt = Math.max(0, zst.abschnitt - 1); selbst.zeichnen(); } }),
+        el('button', { text: 'Weiter', onclick: function () {
+          zst.abschnitt = Math.min(anzahl - 1, zst.abschnitt + 1); selbst.zeichnen(); } }),
+        el('button', { text: 'Beenden', onclick: function () {
+          zst.abschnittModus = false; zst.abschnitt = 0; selbst.zeichnen(); } })
+      ]);
+    } else if (!passt) {
+      zeichenLaenge = verfuegbarPx;
+      var andere = (waagerecht ? feld.hoehe : feld.breite) - 24;
+      var aktionen = [];
+      if (andere > verfuegbarPx * 1.05) {
+        aktionen.push(el('button', {
+          text: waagerecht ? 'Senkrecht' : 'Waagerecht',
+          onclick: function () {
+            s.richtung = waagerecht ? 'senkrecht' : 'waagerecht';
+            selbst.sichern(); selbst.leisteAufbauen(); selbst.zeichnen();
+          }
+        }));
+      }
+      aktionen.push(el('button', {
+        text: 'In Abschnitten', onclick: function () {
+          zst.abschnittModus = true; zst.abschnitt = 0; selbst.zeichnen();
+        }
+      }));
+      this.hinweisZeigen(this.mitEinheit(s.laenge) + ' überschreiten die Fläche, darstellbar sind ' +
+        this.mitEinheit(this.mmAus(verfuegbarPx)) + '.', aktionen);
+      beschriftung = this.mitEinheit(this.mmAus(verfuegbarPx)) + ', gekürzt';
+      bruch = null;
+    } else {
+      this.hinweisZeigen(null);
+    }
+
+    if (waagerecht) {
+      var x1 = feld.x0 + (feld.breite - zeichenLaenge) / 2;
+      var x2 = x1 + zeichenLaenge;
+      var y = feld.y0 + feld.hoehe / 2;
+      z.linie(x1, y, x2, y, geo, 2 / z.dpr);
+      z.linie(x1, y - 10, x1, y + 10, geo, z.duenn);
+      z.linie(x2, y - 10, x2, y + 10, geo, z.duenn);
+      this.bemassungWaagerecht(z, x1, x2, y, y - 38, beschriftung);
+      if (bruch) z.text(bruch, (x1 + x2) / 2, y + 22, neben, 'center', 'top', 12);
+    } else {
+      var yA = feld.y0 + (feld.hoehe - zeichenLaenge) / 2;
+      var yB = yA + zeichenLaenge;
+      var x = feld.x0 + feld.breite / 2;
+      z.linie(x, yA, x, yB, geo, 2 / z.dpr);
+      z.linie(x - 10, yA, x + 10, yA, geo, z.duenn);
+      z.linie(x - 10, yB, x + 10, yB, geo, z.duenn);
+      this.bemassungSenkrecht(z, yA, yB, x, x - 38, beschriftung);
+      if (bruch) z.text(bruch, x + 16, (yA + yB) / 2, neben, 'left', 'middle', 12);
+    }
+
+    return { waagerecht: s.laenge, senkrecht: s.laenge };
+  },
+
+  zeichneKreis: function (z, feld) {
+    var s = this.zustand.kreis;
+    var durchmesser = s.modus === 'durchmesser' ? s.mass : s.mass * 2;
+    var radius = durchmesser / 2;
+    var dPx = this.px(durchmesser);
+    var geo = this.farbe('geometrie');
+    var mass = this.farbe('bemassung');
+    var neben = this.farbe('neben');
+    var ctx = z.ctx;
+
+    var verfuegbar = Math.min(feld.breite, feld.hoehe) - 24;
+    if (dPx > verfuegbar) {
+      this.hinweisZeigen('Der Kreis überschreitet die Fläche, darstellbar ist ein Durchmesser von ' +
+        this.mitEinheit(this.mmAus(verfuegbar)) + '.', []);
+    } else {
+      this.hinweisZeigen(null);
+    }
+
+    var mx = feld.x0 + feld.breite / 2;
+    var my = feld.y0 + feld.hoehe / 2;
+    var r = dPx / 2;
+
+    ctx.save();
+    ctx.globalAlpha = 1;
+    ctx.strokeStyle = geo;
+    ctx.lineWidth = Math.max(z.duenn, 1.5);
+    ctx.beginPath();
+    ctx.arc(mx, my, r, 0, Math.PI * 2);
+    ctx.stroke();
+    ctx.restore();
+
+    var kreuz = Math.min(r + 12, 40);
+    z.linie(mx - kreuz, my, mx + kreuz, my, this.farbe('hilfslinie'), z.duenn);
+    z.linie(mx, my - kreuz, mx, my + kreuz, this.farbe('hilfslinie'), z.duenn);
+
+    var haupt = s.modus === 'durchmesser'
+      ? '⌀ ' + this.mitEinheit(durchmesser)
+      : 'R ' + this.mitEinheit(radius);
+    var zweit = s.modus === 'durchmesser'
+      ? 'Radius ' + this.mitEinheit(radius)
+      : 'Durchmesser ' + this.mitEinheit(durchmesser);
+    var bruch = this.bruchAngabe(s.modus === 'durchmesser' ? durchmesser : radius);
+
+    if (s.modus === 'durchmesser') {
+      z.linie(mx - r, my, mx + r, my, mass, z.duenn);
+      z.pfeil(mx - r, my, -1, 0, mass, 10);
+      z.pfeil(mx + r, my, 1, 0, mass, 10);
+      z.text(haupt, mx, my - 10, geo, 'center', 'bottom', 15, true);
+    } else {
+      z.linie(mx, my, mx + r, my, mass, z.duenn);
+      z.pfeil(mx + r, my, 1, 0, mass, 10);
+      z.text(haupt, mx + r / 2, my - 10, geo, 'center', 'bottom', 15, true);
+    }
+    z.text(zweit, mx, my + r + 14, neben, 'center', 'top', 13);
+    if (bruch) z.text(bruch, mx, my + r + 30, neben, 'center', 'top', 12);
+
+    return { waagerecht: s.mass, senkrecht: s.mass };
+  },
+
+  zeichneRechteck: function (z, feld) {
+    var selbst = this, s = this.zustand.rechteck;
+    var bPx = this.px(s.breite);
+    var hPx = this.px(s.hoehe);
+    var geo = this.farbe('geometrie');
+    var neben = this.farbe('neben');
+
+    var verfuegbarB = feld.breite - 56;
+    var verfuegbarH = feld.hoehe - 56;
+
+    if (bPx > verfuegbarB || hPx > verfuegbarH) {
+      var aktionen = [];
+      if (hPx <= verfuegbarB && bPx <= verfuegbarH) {
+        aktionen.push(el('button', {
+          text: 'Kanten tauschen', onclick: function () {
+            var h = s.breite; s.breite = s.hoehe; s.hoehe = h;
+            selbst.sichern(); selbst.leisteAufbauen(); selbst.zeichnen();
+          }
+        }));
+      }
+      this.hinweisZeigen('Das Rechteck überschreitet die Fläche, darstellbar sind ' +
+        this.zahl(this.mmAus(verfuegbarB)) + ' × ' + this.mitEinheit(this.mmAus(verfuegbarH)) + '.',
+        aktionen);
+    } else {
+      this.hinweisZeigen(null);
+    }
+
+    var x = feld.x0 + (feld.breite - bPx) / 2;
+    var y = feld.y0 + (feld.hoehe - hPx) / 2;
+
+    z.linie(x, y, x + bPx, y, geo, 1.5);
+    z.linie(x, y + hPx, x + bPx, y + hPx, geo, 1.5);
+    z.linie(x, y, x, y + hPx, geo, 1.5);
+    z.linie(x + bPx, y, x + bPx, y + hPx, geo, 1.5);
+
+    this.bemassungWaagerecht(z, x, x + bPx, y + hPx, y + hPx + 34, this.mitEinheit(s.breite));
+    this.bemassungSenkrecht(z, y, y + hPx, x, x - 34, this.mitEinheit(s.hoehe));
+
+    var bruch = this.bruchAngabe(s.breite);
+    if (bruch) z.text(bruch + ' × ' + zollBruch(this.ausMm(s.hoehe)),
+      x + bPx / 2, y + hPx + 44, neben, 'center', 'top', 12);
+
+    return { waagerecht: s.breite, senkrecht: s.hoehe };
+  },
+
+  /* Winkel mit maßhaltigem Winkelmesser um den Scheitelpunkt */
+  zeichneWinkel: function (z, feld) {
+    var s = this.zustand.winkel;
+    var geo = this.farbe('geometrie');
+    var mass = this.farbe('bemassung');
+    var neben = this.farbe('neben');
+    var strich = this.farbe('hilfslinie');
+    var ctx = z.ctx;
+
+    var mx = feld.x0 + feld.breite / 2;
+    var my = feld.y0 + feld.hoehe / 2;
+    var maxPx = Math.min(feld.breite, feld.hoehe) / 2 - 16;
+    var schenkelPx = this.px(s.schenkel);
+    var gekuerzt = schenkelPx > maxPx;
+    var lPx = Math.min(schenkelPx, maxPx);
+    var bogen = s.grad * Math.PI / 180;
+
+    if (gekuerzt) {
+      this.hinweisZeigen('Schenkel gekürzt, darstellbar sind ' +
+        this.mitEinheit(this.mmAus(maxPx)) + '. Der Winkel bleibt richtig.', []);
+    } else {
+      this.hinweisZeigen(null);
+    }
+
+    /* Winkelmesser: runder physischer Halbmesser, damit er anlegbar ist */
+    var e = this.einheit();
+    var teilerMm = e.proEinheitMm * (e.id === 'zoll' ? 1 : 10);
+    var rMm = Math.floor(this.mmAus(maxPx) / teilerMm) * teilerMm;
+    var rPx = this.px(rMm);
+    if (rPx > 40) {
+      ctx.save();
+      ctx.globalAlpha = 1;
+      ctx.strokeStyle = strich;
+      ctx.lineWidth = z.duenn;
+      ctx.beginPath();
+      ctx.arc(mx, my, rPx, Math.PI, 2 * Math.PI);
+      ctx.stroke();
+      ctx.restore();
+
+      for (var g = 0; g <= 180; g++) {
+        var laenge = g % 10 === 0 ? 11 : (g % 5 === 0 ? 7 : 4);
+        var rad = g * Math.PI / 180;
+        var cx = Math.cos(rad), cy = -Math.sin(rad);
+        z.linie(mx + cx * rPx, my + cy * rPx,
+                mx + cx * (rPx - laenge), my + cy * (rPx - laenge), strich, z.duenn);
+        if (g % 10 === 0 && rPx > 90) {
+          z.text(String(g), mx + cx * (rPx - 20), my + cy * (rPx - 20),
+            neben, 'center', 'middle', 9);
+        }
+      }
+      z.text('Winkelmesser R ' + this.mitEinheit(rMm), mx - rPx + 6, my + 14, neben, 'left', 'top', 12);
+    }
+
+    /* Schenkel */
+    z.linie(mx, my, mx + lPx, my, geo, 2 / z.dpr);
+    var ex = mx + Math.cos(bogen) * lPx;
+    var ey = my - Math.sin(bogen) * lPx;
+    ctx.save();
+    ctx.globalAlpha = 1;
+    ctx.strokeStyle = geo;
+    ctx.lineWidth = Math.max(z.duenn, 2 / z.dpr);
+    ctx.beginPath();
+    ctx.moveTo(z.ganz(mx), z.ganz(my));
+    ctx.lineTo(ex, ey);
+    ctx.stroke();
+    ctx.restore();
+
+    /* Bogen mit Gradzahl */
+    var bPx2 = Math.min(46, lPx * 0.55);
+    ctx.save();
+    ctx.globalAlpha = 1;
+    ctx.strokeStyle = mass;
+    ctx.lineWidth = Math.max(z.duenn, 1.2);
+    ctx.beginPath();
+    ctx.arc(mx, my, bPx2, -bogen, 0);
+    ctx.stroke();
+    ctx.restore();
+
+    var halb = bogen / 2;
+    z.text(zahlSchreiben(s.grad, 1) + '°',
+      mx + Math.cos(halb) * (bPx2 + 20), my - Math.sin(halb) * (bPx2 + 20),
+      geo, 'center', 'middle', 15, true);
+
+    /* Scheitelpunkt */
+    ctx.save();
+    ctx.fillStyle = geo;
+    ctx.beginPath();
+    ctx.arc(mx, my, Math.max(2, 2.5 / z.dpr * 2), 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
+
+    /* Unter den waagerechten Schenkel, damit Gradzahl und Bogen frei bleiben */
+    z.text('Schenkel ' + this.mitEinheit(gekuerzt ? this.mmAus(lPx) : s.schenkel) +
+      (gekuerzt ? ', gekürzt' : ''), mx + lPx / 2, my + 14, neben, 'center', 'top', 12);
+
+    return { waagerecht: s.schenkel, senkrecht: s.schenkel };
+  },
+
+  /* --- Kalibrierbild ---------------------------------------------------- */
+
+  zeichneReferenz: function (z, feld) {
+    var zst = this.zustand;
+    var geo = this.farbe('geometrie');
+    var neben = this.farbe('neben');
+    var ctx = z.ctx;
+
+    var referenzen = {
+      lineal: { mm: 100, text: 'Stahllineal anlegen, Balken auf 100,0 mm bringen' },
+      karte: { mm: 85.6, text: 'Scheckkarte nach ISO 7810 ID-1, 85,60 mm' },
+      muenze: { mm: 25.75, text: 'Zwei-Euro-Münze, 25,75 mm Durchmesser' }
+    };
+    var ref = referenzen[zst.referenz] || referenzen.lineal;
+
+    var laenge = this.px(ref.mm);
+    var mx = feld.x0 + feld.breite / 2;
+    var y = feld.y0 + Math.min(feld.hoehe * 0.34, 150);
+    var x1 = mx - laenge / 2;
+    var x2 = mx + laenge / 2;
+
+    ctx.save();
+    ctx.beginPath();
+    ctx.rect(feld.x0, feld.y0, feld.breite, feld.hoehe);
+    ctx.clip();
+
+    /* Referenzbalken mit Masszahl */
+    ctx.fillStyle = geo;
+    ctx.fillRect(z.ganz(x1), z.ganz(y - 5), z.ganz(x2) - z.ganz(x1), z.ganz(10) - z.ganz(0));
+    z.linie(x1, y - 18, x1, y + 18, geo, Math.max(z.duenn, 2 / z.dpr));
+    z.linie(x2, y - 18, x2, y + 18, geo, Math.max(z.duenn, 2 / z.dpr));
+    z.text(zahlSchreiben(ref.mm, 2) + ' mm', mx, y - 24, geo, 'center', 'bottom', 16, true);
+    z.text(ref.text, mx, y + 26, neben, 'center', 'top', 13);
+
+    /* Umriss des Referenzobjekts */
+    if (zst.referenz === 'karte') {
+      var kh = this.px(53.98);
+      ctx.strokeStyle = geo;
+      ctx.lineWidth = Math.max(z.duenn, 1.5);
+      z.abgerundetesRechteck(x1, y + 52, laenge, kh, this.px(3.18));
+      ctx.stroke();
+    } else if (zst.referenz === 'muenze') {
+      ctx.strokeStyle = geo;
+      ctx.lineWidth = Math.max(z.duenn, 1.5);
+      ctx.beginPath();
+      ctx.arc(mx, y + 52 + laenge / 2, laenge / 2, 0, Math.PI * 2);
+      ctx.stroke();
+    }
+    ctx.restore();
+  },
+
+  /* --- Bemassung nach Zeichnungskonvention ------------------------------ */
+
+  bemassungWaagerecht: function (z, x1, x2, yGeometrie, yMass, text) {
+    var mass = this.farbe('bemassung');
+    var richtung = yMass > yGeometrie ? 1 : -1;
+    z.linie(x1, yGeometrie + richtung * 6, x1, yMass + richtung * 6, mass, z.duenn);
+    z.linie(x2, yGeometrie + richtung * 6, x2, yMass + richtung * 6, mass, z.duenn);
+    z.linie(x1, yMass, x2, yMass, mass, z.duenn);
+    if (x2 - x1 > 26) {
+      z.pfeil(x1, yMass, -1, 0, mass, 10);
+      z.pfeil(x2, yMass, 1, 0, mass, 10);
+    }
+    z.text(text, (x1 + x2) / 2, yMass - 7, this.farbe('geometrie'), 'center', 'bottom', 15, true);
+  },
+
+  bemassungSenkrecht: function (z, y1, y2, xGeometrie, xMass, text) {
+    var mass = this.farbe('bemassung');
+    var richtung = xMass > xGeometrie ? 1 : -1;
+    z.linie(xGeometrie + richtung * 6, y1, xMass + richtung * 6, y1, mass, z.duenn);
+    z.linie(xGeometrie + richtung * 6, y2, xMass + richtung * 6, y2, mass, z.duenn);
+    z.linie(xMass, y1, xMass, y2, mass, z.duenn);
+    if (y2 - y1 > 26) {
+      z.pfeil(xMass, y1, 0, -1, mass, 10);
+      z.pfeil(xMass, y2, 0, 1, mass, 10);
+    }
+    var ctx = z.ctx;
+    ctx.save();
+    ctx.translate(xMass - 7, (y1 + y2) / 2);
+    ctx.rotate(-Math.PI / 2);
+    z.text(text, 0, 0, this.farbe('geometrie'), 'center', 'bottom', 15, true);
+    ctx.restore();
+  }
+};
+
+/* ---------- Start ------------------------------------------------------- */
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', function () { Anwendung.starten(); });
+} else {
+  Anwendung.starten();
+}
+</script>
+</body>
+</html>
