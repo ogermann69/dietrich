@@ -8,6 +8,13 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Dietrich">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#0C0E11">
+<!-- Symbol fuer den Startbildschirm. Eingebettet, damit die Anwendung eine
+     einzige Datei bleibt: ohne eigenes Symbol legt iOS einen Bildschirmabzug
+     der Seite auf den Startbildschirm. -->
+<link rel="apple-touch-icon" sizes="180x180" href="data:image/png;base64,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">
+<link rel="icon" type="image/png" sizes="180x180" href="data:image/png;base64,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">
+<link rel="manifest" href="data:application/manifest+json;charset=utf-8,%7B%22name%22%3A%22Dietrich%22%2C%22short_name%22%3A%22Dietrich%22%2C%22start_url%22%3A%22.%22%2C%22scope%22%3A%22.%22%2C%22display%22%3A%22standalone%22%2C%22orientation%22%3A%22any%22%2C%22background_color%22%3A%22%230C0E11%22%2C%22theme_color%22%3A%22%230C0E11%22%2C%22lang%22%3A%22de%22%2C%22description%22%3A%22Werkzeugkasten%20f%C3%BCr%20Ma%C3%9Fe%20und%20Konstruktion%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22data%3Aimage%2Fpng%3Bbase64%2CiVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAIAAACyr5FlAAAIpUlEQVR42u3c%2BVOU9wHH8fwBnc6YIKwc5fCIB0cADyAMGMPhVTs1NTGIwMKyC7JZAbkEQTAgEbrJKoiIMCIqIoooimAwFC2tSWoTE6%2FEsTampsaaNE3TJra20z4zzPgDY1N4ns%2FyXB%2Fm9fN%2BP%2BO%2B59l1Z%2Fd54gc%2FnET0WE%2Fwn4AYBzEOYhzEOIhxEOMgxkGMgxgHMQ4ixkGMgxgHMQ5iHMQ4iHEQ4yDGQYyDiHEQ4yDGQYyDGAcxDmIcxDiIcYAkrE11trglKwRhEdGz%2FIM8vHz4ZKsmjrUp6RNs9ZqUmLhlQSHzXQ2efOIVHUdKWoaMlq1Y6R8YwqdfoXGkmbNkl2Q0h0VETXJxYwfKisOcaVMI4UISHrnwSSainDgyrTmKIrwpmTUniEEoIg7r%2BjwF%2BtlLiQZ3L2YhcxzrcwuVSbiKzAkIZhlyxpGbX6xkcYuXMw7Z4sgvKlO4VFPmU5MNjEMGRSUVymeyWH38ZjCOiVZSVqkKeYWbfKfOYBwTqqyiWi0Kizf7TnuacUycisoaFSku3eI3bSbjmCCV1XZ1yS8qdXGdwjgmQnWNQ3WyNxTpqg%2FZ4qix16lRmnkd43A6u6NBpWLjlzEO53LU71avgKBQxuFE9bua1evVqloXN3fG4Sy7mvaqWkKikXE4S1NLm9oFhcxjHE7R0npQ7WrtdZM1%2FeIiWxyt%2Bzs04MXVaxkH3v72Ixqwu7nN23ca4wBrP3xMG6zrNzAOsMNHTwCNenBXg0fovHCTJWtnYwv2oMfy8ZvOOJCOdp8C%2Bp6DohbGNO5pxR43SnZuIeNA6u7pBxrDry9N2BNH0eQXxmSLo6d3AGgsJ84JCD7UeRx77iN5BSWMA6a3fxBojIf6BwZ3dp3EHv2I2xRPxoHRP3AOaOzn%2BgeGdB0%2FjT19RKopk3FgDAwOA43r6LCIKOzpIw52dDEOjMFzF4DGe3q6xYodMCImbinjADg3%2FC6QmO8MNDRjNwhKy6sYB8Dwhd8CiRgwdfpM7AbBuN79MI7%2F6cK7l4DEbVhnzcbOEMQt%2BTHjkOqdix8CidtgcPcaHPo1dsmWqhrGIdXF964Aib9NiC0Xu2To%2FNuMQ6r3PrgGJHqGcPHALhFERi9iHJJcuvwRkKSfV22zY8fYsvMYhySXr94AkrIkOHQBdsy%2B%2FR2MQ5Kr128CSRxzdvC8ovboPY7rH98Ckno%2FiPJK7J7o52IYh3g3bn4CJHFM6Lww7B5zRhbjEO%2FmrU%2BBpO95%2F4OrwD2vO%2BoYh3i3PrkDJH3PG9t3Avf0nTnLOMS7%2FekfgaTvSUwyKm2SfuP4w53PgaTvmTs%2FHDtJeEDGIdJnd%2B8BKXDSoph4xiHS5%2FfuA0EmnejpBU6y2nIYh0h%2Fuv8lEOauEI17gJNKSjczDpG%2B%2BPIrIMikTWXlwEntHZ2MQ6Sv%2FvI1EGSSMS0dOOl03xnGIdLXf%2F0GCDIpNn4pcFL%2FmQHGIdI3f%2Fs7EGRSXPxS4KRr1z9mHCJ9%2B%2B13QJBJHl7eClylxzgePPgHkLZX6S6Ofz58CKTtVbqL49%2FQP22v0l0c%2F4H%2BaXuV7uJ4%2BPBfQNpepbs4vnvwAEjbq%2Fg5h%2Fyfc7h7eitwFT8%2BV8TH57HxS4CTLl%2B5yjhEuv%2FFn4Egk2LiFgMnneztYxwi3b13HwgyKSklDTjpeM8pxiH2a4Kf3QWCTCrauAk4qbXtAOMQ6fe37wBBJjl27AROKigqZhyif7dyGwgyqaOzCzjJkmllHCJ9dON3QAqcpIFfRMoWx5VrN4Ck7wmeuwA7SXhAxiH2%2FhwfXgOSvmfV6jVKm6TfOC6%2BfxlI%2Bp7KrTXAPR2d3YxDvLd%2FcwlI%2Bp6zvxgG7qmofI1xiDd84SKQxDGBwXOxexKT0xiHeEO%2FfAdI4picvCLsnvBnoxmHhMv40K%2BAJI5p7%2BxW1B69x9F%2F9jyQlCX%2BQSHYMXZHA%2BOQ5PSbQ0BSlhRsLMOOMZoyGIckp%2FreAhI9w3WKJ3aJYH5YJOOQdr%2BD3gEg0TOSU83YJYeOnNBGGXLG0X3yDJDIy4bB4%2BDhY9glufnFjEOqrhN9QOI2JCabsDMEUc%2FFMg6pjhw7BSRigI%2FfdOwGwb4DnZopQ844Oo72AIkYUFFVg90gsOUUMA6A9s7jQOM9%2FeXEFOyAEZHRzzMOgAMdXUDjOjpkbhj29BHb65u0VIaccbQdPAI09nNnzg5sbG7Dnj7ipYQkxoGxd%2F9hoDGXEdDQtBd79COT3dwZB0bLvkNAYznx6dkB9Y0t2HMfsayzaawMOePYs%2FcA0P897oUX12BPHOVHPlMZB8zu5jag7zkoLCKqutaBPW4Uk8WqvTLkjKOhqRVo1IMLL%2F9BwfMS1hqrtr2OPeixvLR42ZAzDuHlXxuMpkxNliFnHDsa9mhAjb3Oy9uPcYA56nZrwIqfrtJqGXLGYd%2B%2BS%2B1KK7a6uE5hHHi1b9SrnX9giIbLkDOObT%2FfoWorVyVouww546iucahXYUm5tl9QZI6j6jW7es32f0bzZcgZx5attSq1cFGcHsqQM47yV7epkTZ%2BBKv0OMoqqlUnw5rz1GQD43C6TZsr1cWWU6CrMuSMY2PpFhXZUFDiM3WGrsqQM47C4nK1yM7b6OOnuzLkjCO%2FqFQVbLmFPn7TdViGnHEIF2rlS061ePvqtAw54xCu1QqXZEx%2F0sVNt2XIGYctp1DJno9bqucsZI7Duj5PmcyZNp18Oq7cONa9kqtAK1clGNy9mIXMcViyshUlMdk0a04Qg1BEHOkZryhESlpG%2BLPROn%2Fvqaw40sxZsksymhdERE1iFkqLw2jKlNHyFS9o%2Fkt%2BKo4jKdUywV5ONMbGL38mdL6rwZNPvKLjEN4AOtviZT8RhEcuFP5r6uHlyydbNXEQ4yDGQYyDGAcR4yDGQYyDGAcxDmIcxDiIcRDjIMZBjIOIcRDjIMZBjIMYBzEOYhzEOIhxEOMgYhzEOIhxEOOgCfdftgscbI6N4FEAAAAASUVORK5CYII%3D%22%2C%22sizes%22%3A%22180x180%22%2C%22type%22%3A%22image%2Fpng%22%2C%22purpose%22%3A%22any%22%7D%5D%7D">
 <style>
 /* ==========================================================================
    Dietrich - Design-System
@@ -17,8 +24,7 @@
    ========================================================================== */
 
 :root {
-  /* Grundflaechen, Variante "bruenierter Stahl" (Begruendung siehe Doku).
-     Neutrale Alternative ueber <html data-grund="neutral">. */
+  /* Grundflaechen, "bruenierter Stahl" (Begruendung siehe Doku) */
   --df-schwarz:        #0C0E11;  /* Grundflaeche */
   --df-grau:           #1A1D21;  /* Karten, erhabene Flaechen */
   --df-linie:          #272A2F;  /* Trennlinien, Raender */
@@ -27,7 +33,23 @@
   --df-silber:         #B8BCC2;  /* Primaerakzent */
   --df-silber-hell:    #E8EAED;  /* Text primaer, Glanzlichter */
   --df-text-sekundaer: #8A8D91;  /* Beschriftungen, Hilfstexte */
-  --df-warnung:        #C25B4A;  /* ausschliesslich fuer die Zoom-Warnung */
+  --df-warnung:        #C25B4A;  /* Zoom-Warnung und Abweichungspunkt */
+
+  /* Mattenfarben der Zeichenflaeche, Guide Abschnitt 12. Gedeckt und
+     entsaettigt wie echte Schneidematten. Schwarz ist der Grundzustand und
+     wertgleich mit --df-schwarz. */
+  --df-matte-schwarz:  #0C0E11;
+  --df-matte-gruen:    #2E4A3C;
+  --df-matte-blau:     #2B4257;
+  --df-matte-rot:      #5C3230;
+  --df-matte-lila:     #413859;
+  --df-matte-gelb:     #C9B478;
+  --df-matte-weiss:    #E4E2DC;
+
+  /* Zwei Tinten. Welche gilt, entscheidet die relative Leuchtdichte der
+     Matte, nicht der Farbton. */
+  --df-riss-hell:      #E8EAED;
+  --df-riss-dunkel:    #14171A;
 
   /* Verlaufsstufen des Metalls */
   --df-metall-tief:    #5A5D62;
@@ -67,18 +89,61 @@
   --df-funktion: system-ui, -apple-system, "Segoe UI", sans-serif;
   --df-technisch: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 
+  /* Groessenstufen der Schrift, Guide Abschnitt 2 */
+  --df-t1: 11px;  /* Auszeichner */
+  --df-t2: 13px;  /* Beschriftungen, kompakte Bedienelemente */
+  --df-t3: 15px;  /* Bedienelemente, Listenzeilen */
+  --df-t4: 17px;  /* Grundgroesse */
+  --df-t5: 20px;  /* Titel */
+  --df-t6: 28px;  /* Uebertragungscode */
+
+  /* Laufweiten, Guide Abschnitt 2. Aus acht Werten sind vier geworden. */
+  --df-lauf-marke:  -.012em;   /* nur die Wortmarke */
+  --df-lauf-null:   0;         /* Fliesstext, Bedienelemente */
+  --df-lauf-titel:  .06em;     /* Anzeige-Rolle ab Stufe 4 */
+  --df-lauf-versal: .14em;     /* Versalien unter Stufe 3 */
+
   /* Raster: Vielfache von 4 */
   --df-r1: 4px;  --df-r2: 8px;  --df-r3: 12px; --df-r4: 16px;
   --df-r5: 24px; --df-r6: 32px; --df-r7: 48px;
+  --df-eck-klein: 6px;
   --df-eck: 10px;
   --df-eck-gross: 14px;
-  --df-tipp: 44px;   /* kleinste Antippflaeche */
-}
+  --df-eck-rund: 999px;        /* nur Pillen */
 
-:root[data-grund="neutral"] {
-  --df-schwarz: #0D0D0F;
-  --df-grau:    #1C1C1E;
-  --df-linie:   #2A2A2D;
+  /* Hoehen, Guide Abschnitt 4 */
+  --df-h-bedien: 44px;         /* kleinste Antippflaeche */
+  --df-h-bedien-innen: 40px;   /* nur innerhalb einer 44er Gruppe */
+  --df-h-leiste: 56px;         /* eine Zeile: Bedienhoehe plus Luft */
+  --df-b-aufklapp: 320px;
+  --df-b-dialog: 520px;
+  --df-h-kachel: 84px;         /* zwei Zeilen Titel und Untertitel */
+  --df-h-buehne-min: 140px;    /* Lineale und ein Mass nebeneinander */
+  --df-b-zeichen: 24px;        /* Werkzeugsymbol in Leisten, Guide Abschnitt 8 */
+  --df-b-zeichen-gross: 28px;  /* Werkzeugsymbol in Kacheln */
+  --df-b-punkt: 20px;          /* Farbpunkt der Mattenwahl */
+  --df-b-marke: 8px;           /* Warnpunkt am Geraeteschalter */
+  --df-b-streifen: 320px;      /* Balken im Warnband */
+  --df-h-streifen: 3px;
+  --df-b-stepper: 28px;        /* senkrechter Stepper am Zeigergeraet */
+  --df-b-schritt: 32px;        /* Anzeige der Schrittweite */
+
+  /* Bewegungsdauern, Guide Abschnitt 7 */
+  --df-zeit-kurz: 80ms;
+  --df-zeit: 180ms;
+  --df-zeit-lang: 350ms;
+  --df-zeit-glanz: 1200ms;     /* einmaliger Lauf ueber die Wortmarke */
+
+  /* Regler. Der Griff wird aus diesen beiden Hoehen gerechnet, nicht aus
+     einer festen Zahl: sonst wird er still falsch, sobald eine davon
+     wechselt. */
+  --df-h-schiene: 4px;
+  --df-b-griff: 28px;
+
+  /* Die Luft der Leiste faellt aus Hoehe minus Bedienhoehe, damit hier
+     keine freie Zahl steht. Sie ergibt 6 Pixel und liegt damit bewusst
+     neben dem Viererraster; begruendet in entwurfsentscheidungen.md. */
+  --df-leiste-luft: calc((var(--df-h-leiste) - var(--df-h-bedien)) / 2);
 }
 
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -89,7 +154,7 @@ body {
   font-family: var(--df-funktion);
   background: var(--df-schwarz);
   color: var(--df-silber-hell);
-  font-size: 16px;
+  font-size: var(--df-t4);
   line-height: 1.45;
   -webkit-text-size-adjust: 100%;
 }
@@ -112,14 +177,20 @@ body {
   padding-top: env(safe-area-inset-top);
 }
 
+/* Die Leiste steht am oberen Rand und behaelt ihre volle Breite; nur ihr
+   Inhalt rueckt aus den runden Ecken heraus. */
+.leiste {
+  padding-left: calc(var(--df-r2) + env(safe-area-inset-left));
+  padding-right: calc(var(--df-r2) + env(safe-area-inset-right));
+}
+
 /* ---------- Bewegung ---------------------------------------------------- */
 
 @keyframes df-auf { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
-@keyframes df-blende { from { opacity: 0; } to { opacity: 1; } }
 
 /* Kein Fuellmodus "both": ein angehaltenes Aufblenden darf keine Flaeche
    dauerhaft unsichtbar lassen, am wenigsten die Messflaeche. */
-.df-eintritt { animation: df-auf .16s ease-out; }
+.df-eintritt { animation: df-auf var(--df-zeit) ease-out; }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
@@ -129,96 +200,48 @@ body {
   }
 }
 
-/* ---------- Kopfzeile --------------------------------------------------- */
-
-.kopf {
-  display: flex;
-  align-items: center;
-  gap: var(--df-r3);
-  padding: var(--df-r2) var(--df-r3);
-  background: var(--df-grau);
-  border-bottom: 1px solid var(--df-linie);
-  box-shadow: inset 0 1px 0 var(--df-licht-fein);
-  flex: 0 0 auto;
-  min-height: 56px;
-}
-
-.kopf h1 {
-  font-family: var(--df-anzeige);
-  font-stretch: 87%;
-  font-size: 20px;
-  font-weight: 700;
-  letter-spacing: .06em;
-  margin: 0;
-  flex: 1 1 auto;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  color: var(--df-silber-hell);
-}
-
-/* Bartkante des Dietrichs als Signaturelement */
-.balken {
-  flex: 0 0 auto;
-  width: 7px;
-  height: 30px;
-  background: var(--df-metall);
-  background-size: 220% 220%;
-  background-position: 20% 50%;
-  clip-path: polygon(
-    0 0, 100% 0, 100% 44%, 34% 44%, 34% 56%, 100% 56%,
-    100% 72%, 34% 72%, 34% 84%, 100% 84%, 100% 100%, 0 100%);
-}
-
 /* ---------- Wortmarke --------------------------------------------------- */
 
+/* Wortmarke und Zusatz stehen auf einer gemeinsamen Grundlinie. Kein
+   overflow: hidden mehr: die runden Versalien C und O ueberschreiten die
+   Versalhoehe nach oben und die Grundlinie nach unten, ein knapper Rahmen
+   schneidet sie ab. Die Breite haelt stattdessen die Einpassung im Skript. */
 .marke {
   display: flex;
-  align-items: flex-end;
+  align-items: baseline;
   flex-wrap: wrap;
-  gap: var(--df-r2) var(--df-r4);
+  gap: var(--df-r2) var(--df-r3);
   padding: var(--df-r5) var(--df-r4) var(--df-r4);
   flex: 0 0 auto;
-  overflow: hidden;   /* keine Schrift darf die Seite breiter machen */
+  max-width: 100%;
 }
 
-/* Zeichen und Wort bilden einen Block. Seine Schriftgroesse bestimmt
-   beides, damit das Verhaeltnis in jeder Breite stehen bleibt.
-   Untergrenze: auf 320 Pixel Breite bleibt die erste Kachel im Bild. */
+/* Die Schriftgroesse des Blocks bestimmt die Wortmarke. Untergrenze: auf
+   320 Pixel Breite bleibt die erste Kachel im Bild. */
 .marke-block {
   display: flex;
-  align-items: center;
-  gap: .09em;
-  font-size: clamp(3rem, 23vw, 10rem);
-  line-height: .78;
+  align-items: baseline;
+  font-size: clamp(2rem, 15vw, 6.5rem);
+  line-height: 1;
   flex: 0 0 auto;
-}
-
-/* Kein Quadrat: der Rahmen sitzt eng an der Zeichnung, damit die linke
-   Kante des Zeichens auf der linken Kante der Kacheln steht. */
-.marke .zeichen { height: .8em; width: .438em; flex: 0 0 auto; }
-.marke .zeichen svg { width: 100%; height: 100%; display: block; }
-
-.schrift-huelle { position: relative; display: inline-block; }
-
-/* Schriftschnitt gilt fuer die sichtbare Schrift und ihre Tiefe gleich */
-.marke .schrift,
-.marke .schrift-tiefe {
-  font-family: var(--df-anzeige-marke);
-  font-size: 1em;
-  font-weight: 900;
-  font-synthesis: none;          /* kein kuenstliches Fetten von Impact */
-  line-height: .78;
-  letter-spacing: -.012em;       /* Buchstaben wachsen zur Masse zusammen */
-  text-transform: uppercase;
-  white-space: nowrap;
-  display: block;
 }
 
 /* Der Verlauf liegt auf der Schrift selbst. Ausnahme von der Regel
    "keine Verlaeufe auf Text unter 20 Pixel": hier steht die Schrift
-   zwischen 44 und 160 Pixel. */
+   zwischen 30 und 108 Pixel.
+   Zeilenhoehe 1 statt 0,78: bei einer engeren Zeile ragen die runden
+   Versalien aus dem Zeilenkasten und werden von jedem Rahmen darueber
+   beschnitten. */
 .marke .schrift {
+  font-family: var(--df-anzeige-marke);
+  font-size: 1em;
+  font-weight: 900;
+  font-synthesis: none;          /* kein kuenstliches Fetten von Impact */
+  line-height: 1;
+  letter-spacing: var(--df-lauf-marke);   /* Buchstaben wachsen zur Masse zusammen */
+  text-transform: uppercase;
+  white-space: nowrap;
+  display: block;
   position: relative;
   background: var(--df-metall);
   background-size: 260% 100%;
@@ -229,55 +252,30 @@ body {
   -webkit-text-fill-color: transparent;
 }
 
-/* Ausgestellte Unterkante, nur in der Platten-Fassung. Sie steht vor der
-   sichtbaren Schrift im Quelltext, damit sie darunter liegt; ein negativer
-   z-index kaeme nie hinter den Hintergrund des eigenen Elements. */
-.marke .schrift-tiefe {
-  display: none;
-  position: absolute;
-  left: 0;
-  top: .055em;
-  color: var(--df-metall-tief);
-}
-
 /* Einmaliger Lauf des Glanzlichts, endet genau in der Ruhelage */
 @keyframes df-glanz {
   from { background-position: 112% 50%; }
   to   { background-position:  50% 50%; }
 }
 
-.marke .schrift.glanz { animation: df-glanz 1.2s cubic-bezier(.32, 0, .12, 1); }
+.marke .schrift.glanz { animation: df-glanz var(--df-zeit-glanz) cubic-bezier(.32, 0, .12, 1); }
 
 @media (prefers-reduced-motion: reduce) {
   .marke .schrift.glanz { animation: none; }
 }
 
+/* Steht unmittelbar rechts neben der Wortmarke auf deren Grundlinie, nicht
+   am rechten Rand. Auf schmalen Bildschirmen rutscht er darunter. */
 .marke-zusatz {
   font-family: var(--df-funktion);
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: .34em;
+  font-size: var(--df-t2);
+  font-weight: 400;
+  letter-spacing: var(--df-lauf-versal);
   text-transform: uppercase;
   color: var(--df-silber-dunkel);
   white-space: nowrap;
-  margin-left: auto;
-  padding-bottom: .2em;
   flex: 0 0 auto;
 }
-
-/* Zweite Fassung: die Wortmarke sitzt auf einer gefraesten Platte und
-   traegt eine ausgestellte Unterkante. Umschalten ueber
-   <html data-marke="platte">. */
-:root[data-marke="platte"] .marke {
-  background: linear-gradient(180deg, var(--df-grau) 0%, var(--df-schwarz) 100%);
-  border-bottom: 1px solid var(--df-linie);
-  box-shadow: inset 0 1px 0 var(--df-licht);
-  padding-top: var(--df-r5);
-  padding-bottom: var(--df-r4);
-  margin-bottom: var(--df-r4);
-}
-
-:root[data-marke="platte"] .marke .schrift-tiefe { display: block; }
 
 /* ---------- Schaltflaechen ---------------------------------------------- */
 
@@ -288,17 +286,25 @@ button {
   background: var(--df-grau);
   border: 1px solid var(--df-linie);
   border-radius: var(--df-eck);
-  min-height: var(--df-tipp);
+  min-height: var(--df-h-bedien);
   padding: 0 var(--df-r4);
   cursor: pointer;
   touch-action: manipulation;
   user-select: none;
   box-shadow: inset 0 1px 0 var(--df-licht-fein);
-  transition: background-position .35s ease, background-color .18s ease,
-              border-color .18s ease, transform .08s ease;
+  transition: background-position var(--df-zeit-lang) ease,
+              background-color var(--df-zeit) ease,
+              border-color var(--df-zeit) ease,
+              transform var(--df-zeit-kurz) ease;
 }
 
-button:hover { border-color: var(--df-silber-dunkel); }
+/* Ueberfahren nur bei echtem Zeiger. Auf dem iPhone bleibt der Zustand nach
+   dem Antippen sonst stehen, bis woanders getippt wird, und markiert damit
+   ein Element, das gar nicht mehr gemeint ist. */
+@media (hover: hover) {
+  button:hover { border-color: var(--df-silber-dunkel); }
+}
+
 button:active { transform: translateY(1px); }
 
 button:focus-visible,
@@ -316,7 +322,7 @@ button.haupt {
   background-position: 18% 50%;
   border-color: var(--df-metall-tief);
   color: var(--df-schwarz);
-  font-weight: 650;
+  font-weight: 600;
   position: relative;
   overflow: hidden;
 }
@@ -329,7 +335,13 @@ button.haupt::after {
   pointer-events: none;
 }
 
-button.haupt:hover, button.haupt:active { background-position: 78% 50%; }
+/* Der wandernde Glanz haengt an zwei Ausloesern. Das Druecken bleibt auf
+   allen Geraeten, nur das Ueberfahren wird auf Zeigergeraete beschraenkt. */
+button.haupt:active { background-position: 78% 50%; }
+
+@media (hover: hover) {
+  button.haupt:hover { background-position: 78% 50%; }
+}
 
 button.leise {
   background: transparent;
@@ -339,9 +351,11 @@ button.leise {
   padding: 0 var(--df-r2);
 }
 
-button.leise:hover { border-color: var(--df-linie); }
+@media (hover: hover) {
+  button.leise:hover { border-color: var(--df-linie); }
+}
 
-button.klein { padding: 0 var(--df-r3); font-size: 15px; }
+button.klein { padding: 0 var(--df-r3); font-size: var(--df-t3); }
 
 button[aria-pressed="true"] {
   background: var(--df-linie);
@@ -372,10 +386,10 @@ button:disabled { opacity: .45; cursor: default; transform: none; }
 .karte h2, .abschnitt-titel {
   font-family: var(--df-anzeige);
   font-stretch: 87%;
-  font-size: 13px;
+  font-size: var(--df-t2);
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: .14em;
+  letter-spacing: var(--df-lauf-versal);
   color: var(--df-text-sekundaer);
   margin: 0 0 var(--df-r3);
 }
@@ -401,8 +415,8 @@ button:disabled { opacity: .45; cursor: default; transform: none; }
 
 label.feld {
   display: block;
-  font-size: 13px;
-  letter-spacing: .02em;
+  font-size: var(--df-t2);
+  letter-spacing: var(--df-lauf-null);
   color: var(--df-text-sekundaer);
   margin-bottom: var(--df-r1);
 }
@@ -415,43 +429,38 @@ input[type="text"], select {
   background: var(--df-schwarz);
   border: 1px solid var(--df-linie);
   border-radius: var(--df-eck);
-  min-height: var(--df-tipp);
+  min-height: var(--df-h-bedien);
   padding: 0 var(--df-r3);
   width: 100%;
   -webkit-appearance: none;
   appearance: none;
 }
 
-select {
-  background-image:
-    linear-gradient(45deg, transparent 50%, var(--df-silber) 50%),
-    linear-gradient(135deg, var(--df-silber) 50%, transparent 50%);
-  background-position: calc(100% - 18px) 50%, calc(100% - 13px) 50%;
-  background-size: 5px 5px, 5px 5px;
-  background-repeat: no-repeat;
-  padding-right: var(--df-r6);
-}
+select { padding-right: var(--df-r6); }
 
 input[type="range"] {
   -webkit-appearance: none;
   appearance: none;
   width: 100%;
-  height: var(--df-tipp);
+  height: var(--df-h-bedien);
   background: transparent;
   margin: 0;
 }
 
 input[type="range"]::-webkit-slider-runnable-track {
-  height: 4px;
+  height: var(--df-h-schiene);
   background: var(--df-schwarz);
   border: 1px solid var(--df-linie);
-  border-radius: 2px;
+  border-radius: calc(var(--df-h-schiene) / 2);
 }
 
+/* Der Griff sitzt in der Mitte der Schiene. Gerechnet aus beiden Hoehen
+   und dem einen Pixel Rand, nicht als feste Zahl: sonst waere er still
+   verschoben, sobald eine der beiden Hoehen wechselt. */
 input[type="range"]::-webkit-slider-thumb {
   -webkit-appearance: none;
-  width: 28px; height: 28px;
-  margin-top: -13px;
+  width: var(--df-b-griff); height: var(--df-b-griff);
+  margin-top: calc((var(--df-h-schiene) - var(--df-b-griff)) / 2 - 1px);
   border-radius: 50%;
   background: var(--df-metall);
   background-size: 200% 200%;
@@ -460,14 +469,14 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 input[type="range"]::-moz-range-track {
-  height: 4px;
+  height: var(--df-h-schiene);
   background: var(--df-schwarz);
   border: 1px solid var(--df-linie);
-  border-radius: 2px;
+  border-radius: calc(var(--df-h-schiene) / 2);
 }
 
 input[type="range"]::-moz-range-thumb {
-  width: 26px; height: 26px;
+  width: calc(var(--df-b-griff) - 2px); height: calc(var(--df-b-griff) - 2px);
   border-radius: 50%;
   background: var(--df-silber);
   border: 1px solid var(--df-metall-tief);
@@ -476,13 +485,16 @@ input[type="range"]::-moz-range-thumb {
 .wert { font-variant-numeric: tabular-nums; font-weight: 600; }
 
 .hinweis {
-  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+  font-size: var(--df-t2);
   color: var(--df-text-sekundaer);
   margin-top: var(--df-r2);
 }
 
+/* Rueckmeldung wird gelesen, nicht ueberflogen: eine Stufe hoeher. */
 .meldung {
-  font-size: 14px;
+  font-variant-numeric: tabular-nums;
+  font-size: var(--df-t3);
   border-radius: var(--df-eck);
   padding: var(--df-r2) var(--df-r3);
   margin-top: var(--df-r2);
@@ -501,13 +513,14 @@ input[type="range"]::-moz-range-thumb {
   color: var(--df-text-sekundaer);
   padding: var(--df-r3) var(--df-r4);
   border-radius: 0 var(--df-eck) var(--df-eck) 0;
-  font-size: 14px;
+  font-size: var(--df-t3);
 }
 
 .code-anzeige {
+  font-variant-numeric: tabular-nums;
   font-family: var(--df-technisch);
-  font-size: 24px;
-  letter-spacing: .14em;
+  font-size: var(--df-t6);
+  letter-spacing: var(--df-lauf-versal);
   background: var(--df-schwarz);
   border: 1px solid var(--df-linie);
   border-radius: var(--df-eck);
@@ -518,7 +531,8 @@ input[type="range"]::-moz-range-thumb {
   -webkit-user-select: all;
 }
 
-.tabelle { width: 100%; font-size: 14px; border-collapse: collapse; }
+.tabelle { width: 100%; font-size: var(--df-t2); border-collapse: collapse;
+  font-variant-numeric: tabular-nums; }
 .tabelle td { padding: var(--df-r1) 0; vertical-align: top; }
 .tabelle td:first-child { color: var(--df-text-sekundaer); padding-right: var(--df-r4); white-space: nowrap; width: 1%; }
 .tabelle td:last-child { font-variant-numeric: tabular-nums; }
@@ -545,61 +559,86 @@ input[type="range"]::-moz-range-thumb {
   border-radius: var(--df-eck-gross);
   box-shadow: inset 0 1px 0 var(--df-licht-fein);
   padding: var(--df-r4);
-  min-height: 84px;
+  min-height: var(--df-h-kachel);
 }
 
-.kachel .zeichen { width: 28px; height: 28px; flex: 0 0 auto; margin-top: 2px; }
+.kachel .zeichen { width: var(--df-b-zeichen-gross); height: var(--df-b-zeichen-gross);
+  flex: 0 0 auto; margin-top: 2px; }
 .kachel .zeichen svg { width: 100%; height: 100%; display: block; }
 
 .kachel .titel {
   font-family: var(--df-anzeige);
   font-stretch: 87%;
-  font-size: 18px;
+  font-size: var(--df-t4);
   font-weight: 700;
-  letter-spacing: .04em;
+  letter-spacing: var(--df-lauf-titel);
   color: var(--df-silber-hell);
 }
 
-.kachel .unter { font-size: 14px; color: var(--df-text-sekundaer); margin-top: 2px; }
+.kachel .unter { font-size: var(--df-t2); color: var(--df-text-sekundaer); margin-top: 2px; }
 
 .kachel:not(.geplant) { box-shadow: inset 0 1px 0 var(--df-licht); }
 .kachel.geplant { cursor: default; }
 .kachel.geplant .titel { color: var(--df-silber-dunkel); }
 .kachel.geplant .unter { color: var(--df-silber-dunkel); }
-.kachel.geplant:hover { border-color: var(--df-linie); }
 .kachel.geplant svg [fill]:not([fill="none"]) { fill: var(--df-silber-dunkel); }
 .kachel.geplant svg [stroke]:not([stroke="none"]) { stroke: var(--df-silber-dunkel); }
 
+/* Eine geplante Kachel nimmt das Ueberfahren nicht an. Die Regel steht im
+   selben Block wie button:hover, sonst hebt sie eine Regel auf, die auf
+   Tastgeraeten gar nicht erst gilt. */
+@media (hover: hover) {
+  .kachel.geplant:hover { border-color: var(--df-linie); }
+}
+
 .marke-vor {
   display: inline-block;
-  font-size: 11px;
-  letter-spacing: .12em;
+  font-size: var(--df-t1);
+  letter-spacing: var(--df-lauf-versal);
   text-transform: uppercase;
   color: var(--df-silber-dunkel);
   border: 1px solid var(--df-linie);
-  border-radius: 999px;
+  border-radius: var(--df-eck-rund);
   padding: 1px var(--df-r2);
   margin-top: var(--df-r2);
 }
 
 /* ---------- Zeichenflaeche ---------------------------------------------- */
 
+/* Die Lineale sitzen an den Kanten der Zeichenflaeche. Damit sie nicht
+   unter Dynamic Island, abgerundeten Ecken oder dem Home-Indikator
+   verschwinden, rueckt die Flaeche um die sicheren Bereiche ein.
+   Der Nullpunkt bleibt davon unberuehrt: Lineal und Raster rechnen beide
+   ab der linken oberen Ecke dieser Flaeche und ruecken gemeinsam mit. */
 .buehne {
   position: relative;
   flex: 1 1 auto;
-  min-height: 140px;
-  background: var(--df-schwarz);
+  min-height: var(--df-h-buehne-min);
+  background: var(--df-matte-schwarz);
   overflow: hidden;
+  margin-left: env(safe-area-inset-left);
+  margin-right: env(safe-area-inset-right);
+  margin-bottom: env(safe-area-inset-bottom);
+  /* Kein Aufziehen mit zwei Fingern und kein Doppeltipp-Zoom: beides
+     verfaelscht jede Anzeige. Die Zoomueberwachung bleibt als
+     Absicherung daneben bestehen. */
+  touch-action: none;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
+/* Ohne Einblenden. Auf der Messflaeche darf kein Einzelbild teildeckend
+   sein: eine halb sichtbare Linie ist eine falsch abgelesene Linie. */
 .buehne canvas {
   position: absolute;
   inset: 0;
   display: block;
   width: 100%;
   height: 100%;
-  animation: df-blende .22s ease-out;
 }
+
+/* Bedienelemente ueber der Flaeche bleiben bedienbar. */
+.buehne .ueberlagerung, .buehne .warnband { touch-action: auto; }
 
 .warnband {
   position: absolute;
@@ -611,7 +650,7 @@ input[type="range"]::-moz-range-thumb {
   gap: var(--df-r3);
   text-align: center;
   padding: var(--df-r5);
-  background: var(--df-schwarz);   /* deckend, nichts scheint durch */
+  background: var(--df-matte-schwarz);   /* deckend, im Skript auf die Matte gesetzt */
   z-index: 5;
 }
 
@@ -620,19 +659,19 @@ input[type="range"]::-moz-range-thumb {
 .warnband strong {
   font-family: var(--df-anzeige);
   font-stretch: 87%;
-  font-size: 19px;
-  letter-spacing: .1em;
+  font-size: var(--df-t5);
+  letter-spacing: var(--df-lauf-titel);
   text-transform: uppercase;
   color: var(--df-warnung);
 }
 
 .warnband.sachlich strong { color: var(--df-silber); }
-.warnband span { color: var(--df-silber-hell); font-size: 15px; max-width: 34em; }
+.warnband span { color: var(--df-silber-hell); font-size: var(--df-t3); max-width: 34em; }
 
 .warnband .streifen {
   width: 100%;
-  max-width: 320px;
-  height: 3px;
+  max-width: var(--df-b-streifen);
+  height: var(--df-h-streifen);
   background: var(--df-warnung);
 }
 
@@ -640,15 +679,17 @@ input[type="range"]::-moz-range-thumb {
 
 /* ---------- Bedienleiste ------------------------------------------------ */
 
-/* Eine Zeile, 56 Pixel hoch: 44 Pixel Antippflaeche und zweimal 6 Pixel Luft.
-   Auf schmalen Bildschirmen bricht sie auf hoechstens zwei Zeilen um. */
+/* Eine einzige Zeile fuer Navigation und Bedienung. Ihre Hoehe steht in
+   --df-h-leiste; die Luft faellt daraus ab, damit hier keine freie Zahl
+   steht. Auf schmalen Bildschirmen bricht sie auf hoechstens zwei Zeilen um. */
 .leiste {
   flex: 0 0 auto;
   display: flex;
   align-items: center;
   flex-wrap: wrap;
   gap: var(--df-r2);
-  padding: 5px var(--df-r2);
+  min-height: var(--df-h-leiste);
+  padding: var(--df-leiste-luft) var(--df-r2);
   background: var(--df-grau);
   border-bottom: 1px solid var(--df-linie);
   box-shadow: inset 0 1px 0 var(--df-licht-fein);
@@ -656,11 +697,57 @@ input[type="range"]::-moz-range-thumb {
 
 .leiste > * { flex: 0 0 auto; }
 
-.leiste select {
-  min-height: 44px;
+.leiste .haupt { font-size: var(--df-t3); }
+
+/* Zurueck, Werkzeugzeichen und Werkzeugname stehen am Anfang derselben
+   Zeile; eine zweite Leiste darueber gibt es nicht mehr. */
+.leiste-zurueck {
+  min-width: var(--df-h-bedien);
+  padding: 0;
+  background: transparent;
+  border-color: transparent;
+  box-shadow: none;
+  color: var(--df-silber);
+}
+
+.leiste-zeichen {
+  width: var(--df-b-zeichen);
+  height: var(--df-b-zeichen);
+  flex: 0 0 auto;
+  margin-left: var(--df-r1);
+}
+
+.leiste-zeichen svg { width: 100%; height: 100%; display: block; }
+
+.werkzeugname {
+  font-family: var(--df-anzeige);
+  font-stretch: 87%;
+  font-size: var(--df-t5);
+  font-weight: 700;
+  font-synthesis: none;
+  letter-spacing: var(--df-lauf-titel);
+  color: var(--df-silber-hell);
+  white-space: nowrap;
+  margin-right: var(--df-r2);
+}
+
+/* Auswahlfeld mit eigenem Zeichen statt des Systempfeils. Der Pfeil ist
+   dasselbe SVG wie ueberall sonst, nicht aus Verlaeufen gebaut. */
+.auswahlfeld { position: relative; display: flex; align-items: center; }
+
+.auswahlfeld select {
+  min-height: var(--df-h-bedien);
   width: auto;
-  font-size: 15px;
-  padding: 0 30px 0 var(--df-r3);
+  font-size: var(--df-t3);
+  padding: 0 var(--df-r6) 0 var(--df-r3);
+}
+
+.auswahlfeld .pfeil {
+  position: absolute;
+  right: var(--df-r3);
+  pointer-events: none;
+  display: flex;
+  color: var(--df-silber);
 }
 
 /* Aussen 44 Pixel hoch wie jede andere Schaltflaeche: ein Pixel Luft,
@@ -675,18 +762,21 @@ input[type="range"]::-moz-range-thumb {
   padding: 1px;
 }
 
-.wertgruppe .etikett {
-  font-size: 12px;
-  letter-spacing: .04em;
+.wertgruppe .etikett-kurz { display: none; }
+
+.wertgruppe .etikett, .wertgruppe .etikett-kurz {
+  font-size: var(--df-t2);
+  letter-spacing: var(--df-lauf-null);
   color: var(--df-text-sekundaer);
-  padding: 0 2px 0 var(--df-r2);
+  padding: 0 var(--df-r1) 0 var(--df-r2);
   white-space: nowrap;
 }
 
-.wertgruppe .etikett .kurz { display: none; }
-
+/* Die Leiste bleibt auf den Stufen 13 und 15 und folgt der Grundgroesse
+   nicht nach oben, damit sie nicht hoeher wird. */
 .wertgruppe input {
-  min-height: 40px;
+  font-size: var(--df-t3);
+  min-height: var(--df-h-bedien-innen);
   width: 5.6em;
   border: none;
   background: transparent;
@@ -696,27 +786,106 @@ input[type="range"]::-moz-range-thumb {
 }
 
 .wertgruppe .einheit-nach {
-  font-size: 12px;
+  font-size: var(--df-t2);
   color: var(--df-text-sekundaer);
   padding-right: var(--df-r1);
 }
 
+/* Innerhalb einer 44er Gruppe: Hoehe 40 nach der begruendeten Ausnahme,
+   Breite aber volle 44, denn seitlich grenzt keine Gruppenkante an.
+   Der Radius folgt dem Innenabstand von einem Pixel. */
 .wertgruppe button {
-  min-height: 40px;
-  min-width: 36px;
+  min-height: var(--df-h-bedien-innen);
+  min-width: var(--df-h-bedien);
   padding: 0 var(--df-r1);
-  border-radius: 7px;
+  border-radius: calc(var(--df-eck) - 1px);
   background: var(--df-grau);
   box-shadow: none;
-  font-size: 17px;
+  color: var(--df-silber);
 }
 
+/* Gemessen: das Minuszeichen sass 14 Pixel zu weit links, der Zurueck-Pfeil
+   5,8 Pixel zu tief. Ursachen waren zwei verschiedene:
+   text-align: center wirkt nur auf Zeileninhalt, nicht auf ein Kind mit
+   display: block, und ein Zeichen mit display: inline sitzt auf der
+   Grundlinie und laesst darunter Platz fuer Unterlaengen.
+   Jede Flaeche, die nur ein Zeichen traegt, ist deshalb ein Flexkasten:
+   das zentriert in beiden Richtungen und haengt an keiner Schrift. */
+.leiste-zurueck,
+.wertgruppe button,
+.chip .pfeil,
+.chip .mehr,
+.auswahlfeld .pfeil,
+.wahl .haken,
+.farbfeld .punkt {
+  align-items: center;
+  justify-content: center;
+}
+
+.leiste-zurueck, .wertgruppe button { display: flex; }
+
+.wertgruppe button svg, .leiste-zurueck svg { display: block; }
+
 .wertgruppe button.schritt {
-  min-width: 48px;
-  font-size: 13px;
+  min-width: var(--df-b-schritt);
+  font-size: var(--df-t2);
   font-variant-numeric: tabular-nums;
   color: var(--df-text-sekundaer);
 }
+
+/* Stepper. Am Zeigergeraet gestapelt wie der Stepper von macOS, am
+   Tastgeraet waagerecht mit voller Antippflaeche. Beide Faelle stehen in
+   Abschnitt 4 des Guides. */
+.stepper { display: flex; gap: 1px; }
+.stepper .pfeilzeichen, .stepper .rechenzeichen { display: none; }
+
+@media (pointer: fine) {
+  .stepper {
+    flex-direction: column;
+    width: var(--df-b-stepper);
+    height: var(--df-h-bedien-innen);
+  }
+  .stepper button {
+    min-width: 0;
+    min-height: 0;
+    width: 100%;
+    flex: 1 1 0;
+    padding: 0;
+    border-radius: calc(var(--df-eck) - 1px);
+  }
+  .stepper .auf { border-bottom-left-radius: 2px; border-bottom-right-radius: 2px; }
+  .stepper .ab  { border-top-left-radius: 2px;    border-top-right-radius: 2px; }
+  .stepper .pfeilzeichen { display: flex; }
+  .wertgruppe button.schritt { min-width: 0; width: var(--df-b-schritt); }
+}
+
+@media (pointer: coarse) {
+  .stepper { flex-direction: row; gap: 2px; }
+  .stepper .ab { order: -1; }
+  .stepper .rechenzeichen { display: flex; }
+}
+
+/* Umschalter. Der markierte Bereich ist ein eigenes Element und folgt dem
+   Zeiger, statt erst beim Loslassen zu springen. */
+.segmente { position: relative; }
+
+.segmente .marke-segment {
+  position: absolute;
+  top: 1px;
+  left: 1px;
+  height: calc(100% - 2px);
+  background: var(--df-metall);
+  background-size: 240% 100%;
+  background-position: 18% 50%;
+  border: 1px solid var(--df-metall-tief);
+  border-radius: calc(var(--df-eck) - 1px);
+  transition: transform var(--df-zeit) ease;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.segmente.zieht .marke-segment { transition: none; }
+.segmente button { position: relative; z-index: 1; touch-action: none; }
 
 .segmente {
   display: flex;
@@ -728,28 +897,27 @@ input[type="range"]::-moz-range-thumb {
 }
 
 .segmente button {
+  font-variant-numeric: tabular-nums;   /* Schrittweiten 0,1 / 1 / 10 */
   flex: 1 1 0;
   border: 1px solid transparent;
   background: transparent;
   box-shadow: none;
-  border-radius: 7px;
-  min-height: 40px;
+  border-radius: calc(var(--df-eck) - 1px);
+  min-height: var(--df-h-bedien-innen);
   padding: 0 var(--df-r2);
-  font-size: 14px;
+  font-size: var(--df-t2);
   color: var(--df-text-sekundaer);
   white-space: nowrap;
 }
 
 .segmente button[aria-pressed="true"] {
-  background: var(--df-metall);
-  background-size: 240% 100%;
-  background-position: 18% 50%;
   color: var(--df-schwarz);
-  font-weight: 650;
-  border-color: var(--df-metall-tief);
+  font-weight: 600;
 }
 
-.segmente button[aria-pressed="true"]:hover { background-position: 78% 50%; }
+@media (hover: hover) {
+  .segmente:not(.zieht):hover .marke-segment { background-position: 78% 50%; }
+}
 
 /* Geraet, Code und Kalibrieren stehen rechts und sind abgesetzt */
 .leiste-rechts {
@@ -762,23 +930,64 @@ input[type="range"]::-moz-range-thumb {
 }
 
 .chip {
+  font-variant-numeric: tabular-nums;
   display: flex;
   align-items: center;
   gap: var(--df-r2);
-  min-height: 44px;
+  min-height: var(--df-h-bedien);
   background: var(--df-schwarz);
   border: 1px solid var(--df-linie);
   border-radius: var(--df-eck);
   padding: 0 var(--df-r3);
-  font-size: 13px;
+  font-size: var(--df-t2);
   color: var(--df-silber);
   white-space: nowrap;
   box-shadow: none;
 }
 
 .chip .name { max-width: 15ch; overflow: hidden; text-overflow: ellipsis; }
-.chip .code { font-family: var(--df-technisch); letter-spacing: .06em; }
-.chip .pfeil { color: var(--df-silber-dunkel); font-size: 10px; }
+.chip .code { font-family: var(--df-technisch); letter-spacing: var(--df-lauf-titel); }
+.chip .pfeil { color: var(--df-silber-dunkel); display: flex; }
+.chip .mehr { display: none; color: var(--df-silber); }
+
+/* Mattenfarbe. Abgesetzt wie der Bereich rechts, mit eigener Trennlinie. */
+.leiste-matte {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+  padding-right: var(--df-r3);
+  border-right: 1px solid var(--df-linie);
+}
+
+.leiste-matte + .leiste-rechts { margin-left: 0; }
+
+.farbfeld { position: relative; }
+
+.farbfeld .knopf {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: var(--df-h-bedien);
+  padding: 0;
+  background: var(--df-schwarz);
+}
+
+.farbfeld .punkt {
+  display: flex;
+  width: var(--df-b-punkt);
+  height: var(--df-b-punkt);
+  border-radius: 50%;
+  border: 1px solid var(--df-linie);
+}
+
+.farbliste { display: flex; flex-direction: column; gap: 1px; }
+.farbliste .punkt {
+  width: calc(var(--df-b-punkt) - 2px);
+  height: calc(var(--df-b-punkt) - 2px);
+  border-radius: 50%;
+  border: 1px solid var(--df-linie);
+  flex: 0 0 auto;
+}
 
 /* ---------- Aufklappfenster der Geraeteanzeige -------------------------- */
 
@@ -786,12 +995,12 @@ input[type="range"]::-moz-range-thumb {
 
 .aufklapp {
   position: absolute;
-  top: calc(100% + 6px);
+  top: calc(100% + var(--df-r2));
   right: 0;
   z-index: 30;
-  width: 330px;
-  max-width: calc(100vw - 24px);
-  max-height: calc(100vh - 110px);
+  width: var(--df-b-aufklapp);
+  max-width: calc(100vw - 2 * var(--df-r3));
+  max-height: calc(100vh - var(--df-h-leiste) - var(--df-r6));
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
   background: var(--df-grau);
@@ -807,46 +1016,56 @@ input[type="range"]::-moz-range-thumb {
 .aufklapp.offen { display: block; }
 .aufklapp h3 {
   font-family: var(--df-anzeige);
-  font-size: 13px;
-  letter-spacing: .14em;
+  font-stretch: 87%;
+  font-size: var(--df-t2);
+  letter-spacing: var(--df-lauf-versal);
   text-transform: uppercase;
   color: var(--df-text-sekundaer);
   margin: 0 0 var(--df-r2);
 }
-.aufklapp .code-anzeige { font-size: 19px; padding: var(--df-r2); }
+.aufklapp .code-anzeige { font-size: var(--df-t5); padding: var(--df-r2); }
 
 /* Geraeteliste im Aufklappfenster */
 .wahlliste { display: flex; flex-direction: column; gap: 1px; }
 
+/* Jede Zeile, die einen Wert tragen kann, bekommt gleiche Ziffernbreiten:
+   "Benutzerdefiniert, 216,1 mm" springt sonst beim Nachjustieren. */
 .wahl {
+  font-variant-numeric: tabular-nums;
   display: flex;
   align-items: center;
   gap: var(--df-r2);
   width: 100%;
-  min-height: 40px;
+  min-height: var(--df-h-bedien);
   text-align: left;
   background: transparent;
   border: 1px solid transparent;
   box-shadow: none;
-  border-radius: 8px;
+  border-radius: var(--df-eck-klein);
   padding: 0 var(--df-r2);
-  font-size: 14px;
+  font-size: var(--df-t3);
   color: var(--df-silber-hell);
 }
 
-.wahl:hover { background: var(--df-schwarz); border-color: var(--df-linie); }
+@media (hover: hover) {
+  .wahl:hover { background: var(--df-schwarz); border-color: var(--df-linie); }
+}
+
 .wahl[aria-current="true"] { background: var(--df-schwarz); border-color: var(--df-silber-dunkel); }
-.wahl .haken { width: 12px; flex: 0 0 auto; color: var(--df-silber); }
+.wahl .haken { width: 14px; flex: 0 0 auto; color: var(--df-silber); display: flex; }
+.wahl .haken svg { display: block; }
 .wahl .beschriftung { flex: 1 1 auto; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.wahl .zusatz { flex: 0 0 auto; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--df-text-sekundaer); }
+.wahl .zusatz { flex: 0 0 auto; font-size: var(--df-t1); letter-spacing: var(--df-lauf-versal); text-transform: uppercase; color: var(--df-text-sekundaer); }
 
 .wahl-trenner { height: 1px; background: var(--df-linie); margin: var(--df-r2) 0; }
 
+/* Der Punkt sitzt in der Mitte der ersten Zeile. Gerechnet aus Zeilenhoehe
+   und Punktgroesse, damit er beim Wechsel einer Stufe nicht verrutscht. */
 /* Der Punkt ist die einzige Stelle ausserhalb der Zoom-Warnung, an der die
    Warnfarbe erscheint; sie ist hier ausdruecklich verlangt. */
 .warnpunkt {
-  width: 8px;
-  height: 8px;
+  width: var(--df-b-marke);
+  height: var(--df-b-marke);
   border-radius: 50%;
   background: var(--df-warnung);
   flex: 0 0 auto;
@@ -859,12 +1078,14 @@ input[type="range"]::-moz-range-thumb {
   display: flex;
   align-items: flex-start;
   gap: var(--df-r2);
-  font-size: 13px;
-  line-height: 1.35;
+  font-size: var(--df-t2);
+  line-height: 1.45;
   margin-top: var(--df-r2);
+  font-variant-numeric: tabular-nums;
 }
 
-.warnzeile .warnpunkt { display: block; margin-top: 5px; }
+.warnzeile .warnpunkt { display: block;
+  margin-top: calc((1.45em - var(--df-b-marke)) / 2); }
 
 /* ---------- Ueberlagerungen auf der Zeichenflaeche ---------------------- */
 
@@ -880,59 +1101,76 @@ input[type="range"]::-moz-range-thumb {
   gap: var(--df-r2);
   background: var(--df-grau);
   border: 1px solid var(--df-linie);
-  border-radius: var(--df-eck);
+  /* Schwebende Flaeche, also die groessere Stufe. Die enthaltenen
+     Schaltflaechen bleiben auf --df-eck und liegen damit eine Stufe
+     darunter; zwei verschachtelte Elemente tragen nie denselben Radius. */
+  border-radius: var(--df-eck-gross);
   box-shadow: 0 8px 24px var(--df-tiefe);
   padding: var(--df-r2) var(--df-r3);
-  font-size: 14px;
+  font-size: var(--df-t3);
   max-width: calc(100% - 2 * var(--df-r6));
 }
 
-.hinweisleiste { bottom: calc(var(--df-r6) + 6px); display: none; }
+.hinweisleiste { bottom: var(--df-r6); display: none; }
 .hinweisleiste.zeigen { display: flex; }
-.hinweisleiste button { min-height: 36px; font-size: 13px; padding: 0 var(--df-r3); }
+.hinweisleiste button { min-height: var(--df-h-bedien); font-size: var(--df-t2); padding: 0 var(--df-r3); }
 
 .kalibrierleiste {
-  bottom: calc(var(--df-r6) + 6px);
+  bottom: var(--df-r6);
   width: min(560px, calc(100% - 2 * var(--df-r6)));
   flex-direction: column;
   align-items: stretch;
 }
 
-.kalibrierleiste input[type="range"] { width: 100%; height: 40px; }
+/* Frei stehende Schaltflaechen, also volle 44 Pixel; die Ausnahme fuer
+   Gruppen gilt hier nicht. */
+.kalibrierleiste input[type="range"] { width: 100%; height: var(--df-h-bedien-innen); }
 .kalibrierleiste .zeile { justify-content: space-between; }
-.kalibrierleiste button { min-height: 40px; }
+.kalibrierleiste button { min-height: var(--df-h-bedien); }
 
 .meldeband {
-  top: calc(var(--df-r6) + 6px);
+  top: var(--df-r6);
   display: none;
   font-variant-numeric: tabular-nums;
 }
 .meldeband.zeigen { display: flex; }
 
-/* Auf schmalen Bildschirmen wandern Code und Kalibrieren in das
-   Aufklappfenster, damit Geometrie, Wert und Einheit sichtbar bleiben. */
+/* Schmale Bildschirme: Geraet, Uebertragungscode und Kalibrieren stehen
+   hinter einem Ueberlaufknopf, der Werkzeugname entfaellt, die
+   Beschriftungen der Wertfelder wandern in den Platzhaltertext.
+   Sichtbar bleiben Zurueck, Zeichen, Geometrie, Wert und Einheit. */
 @media (max-width: 760px) {
-  .leiste-code, .leiste-kalibrieren { display: none; }
-  .chip { padding: 0 6px; font-size: 11px; gap: 4px; }
-  .chip .name { max-width: 6ch; }
+  /* Auch die Mattenfarbe wandert in das Ueberlaufmenue, sonst reisst die
+     Leiste wieder auf drei Zeilen. */
+  .leiste-code, .leiste-kalibrieren, .werkzeugname, .leiste-matte { display: none; }
+  .chip .name, .chip .pfeil { display: none; }
+  .chip .mehr { display: flex; }
+  /* Der Ueberlaufknopf traegt nur ein Zeichen; ohne Mindestbreite bliebe er
+     bei 40 Pixeln und damit unter der Antippflaeche. */
+  .chip { padding: 0 var(--df-r2); gap: var(--df-r1); min-width: var(--df-h-bedien); }
   .leiste-rechts { border-left: none; padding-left: 0; }
 
-  /* Zwei Wertfelder muessen neben Geometrie, Einheit und Geraet in zwei
-     Zeilen passen. Also Kurzform der Etiketten und engere Felder. */
-  .leiste { gap: 6px; padding: 6px; }
-  .leiste select { padding: 0 26px 0 var(--df-r2); font-size: 14px; }
-  .wertgruppe .etikett { padding: 0 0 0 6px; font-size: 12px; }
-  .wertgruppe .etikett .lang { display: none; }
-  .wertgruppe .etikett .kurz { display: inline; }
-  .wertgruppe input { width: 4.2em; font-size: 15px; }
-  .wertgruppe .einheit-nach { font-size: 11px; padding-right: 0; }
-  .wertgruppe button { min-width: 32px; font-size: 16px; }
-  .wertgruppe button.schritt { min-width: 40px; font-size: 12px; }
-  .segmente button { padding: 0 7px; font-size: 12px; }
+  /* Zwei Zeilen zu je 44 Pixeln, ein Zwischenraum und zweimal Luft
+     ergeben genau 100 Pixel. Mehr darf die Leiste nicht werden. */
+  .leiste { gap: var(--df-r1); padding: var(--df-r1) var(--df-r2); }
+  .auswahlfeld select { padding: 0 var(--df-r5) 0 var(--df-r2); font-size: var(--df-t2); }
+  .auswahlfeld .pfeil { right: var(--df-r2); }
+  /* Die lange Beschriftung weicht dem Platzhalter. Wo zwei Wertfelder
+     nebeneinander stehen, bleibt ein Buchstabe: ein Platzhalter ist nur im
+     leeren Feld sichtbar, und zwei gefuellte Felder ohne Marke waeren nicht
+     auseinanderzuhalten. */
+  .wertgruppe .etikett { display: none; }
+  .wertgruppe.mehrfach .etikett-kurz { display: inline; padding: 0 0 0 var(--df-r2); }
+  .wertgruppe input { width: 4.6em; font-size: var(--df-t3); }
+  /* Das Einheitenkuerzel steht als Umschalter in derselben Zeile, der
+     Schrittweitenknopf im Ueberlaufmenue. Beides zusammen spart die dritte
+     Zeile, ohne eine Antippflaeche unter 44 Pixel zu druecken. */
+  .wertgruppe .einheit-nach, .wertgruppe button.schritt { display: none; }
+  .segmente button { padding: 0 var(--df-r2); font-size: var(--df-t1); }
 }
 
 @media (min-width: 761px) {
-  .aufklapp-kalibrieren { display: none; }
+  .aufklapp-kalibrieren, .aufklapp-schritt, .aufklapp-matte { display: none; }
 }
 
 /* ---------- Dialog ------------------------------------------------------ */
@@ -954,19 +1192,19 @@ input[type="range"]::-moz-range-thumb {
   border-radius: var(--df-eck-gross);
   box-shadow: inset 0 1px 0 var(--df-licht), 0 12px 40px var(--df-tiefe);
   padding: var(--df-r5);
-  max-width: 520px;
+  max-width: var(--df-b-dialog);
   width: 100%;
   max-height: 84vh;
   overflow-y: auto;
-  animation: df-auf .18s ease-out;
+  animation: df-auf var(--df-zeit) ease-out;
 }
 
 .dialog h2 {
   font-family: var(--df-anzeige);
   font-stretch: 87%;
   margin: 0 0 var(--df-r3);
-  font-size: 20px;
-  letter-spacing: .06em;
+  font-size: var(--df-t5);
+  letter-spacing: var(--df-lauf-titel);
   text-transform: uppercase;
   color: var(--df-silber-hell);
 }
@@ -1071,6 +1309,129 @@ var Speicher = {
 Speicher.pruefen();
 
 /* Farbwerte kommen ausschliesslich aus den CSS-Variablen. */
+/* ---------- Mattenfarben ------------------------------------------------ */
+
+/* Die Zeichenflaeche liegt auf einer Matte. Aus ihrer Farbe faellt die
+   Tinte und daraus die Leiter der sechs Zeichenstufen; siehe Abschnitt 12
+   des Design Guides. Gerechnet wird hier im Skript und nicht mit CSS
+   color-mix(): die Anwendung liegt in einer Datei und laeuft ueber file://,
+   sie darf nicht davon abhaengen, welche Farbfunktionen ein Browser kennt.
+   Das Ergebnis ist eine volldeckende Farbe, keine Teildeckkraft. */
+var MATTEN = [
+  { id: 'schwarz', name: 'Schwarz', token: '--df-matte-schwarz' },
+  { id: 'gruen',   name: 'Grün',    token: '--df-matte-gruen' },
+  { id: 'blau',    name: 'Blau',    token: '--df-matte-blau' },
+  { id: 'rot',     name: 'Rot',     token: '--df-matte-rot' },
+  { id: 'lila',    name: 'Lila',    token: '--df-matte-lila' },
+  { id: 'gelb',    name: 'Gelb',    token: '--df-matte-gelb' },
+  { id: 'weiss',   name: 'Weiß',    token: '--df-matte-weiss' }
+];
+
+/* Anteil der Tinte je Zeichenstufe, Guide Abschnitt 12 */
+var RISS_ANTEILE = [1, 0.86, 0.60, 0.36, 0.21, 0.12];
+
+function kanaeleLesen(wert) {
+  var t = String(wert).trim();
+  var m = t.match(/^#([0-9a-fA-F]{6})$/);
+  if (m) {
+    return [parseInt(m[1].slice(0, 2), 16),
+            parseInt(m[1].slice(2, 4), 16),
+            parseInt(m[1].slice(4, 6), 16)];
+  }
+  m = t.match(/^#([0-9a-fA-F]{3})$/);
+  if (m) {
+    return [parseInt(m[1][0] + m[1][0], 16),
+            parseInt(m[1][1] + m[1][1], 16),
+            parseInt(m[1][2] + m[1][2], 16)];
+  }
+  m = t.match(/rgba?\(([^)]+)\)/);
+  if (m) {
+    var teile = m[1].split(',');
+    return [parseInt(teile[0], 10) || 0, parseInt(teile[1], 10) || 0, parseInt(teile[2], 10) || 0];
+  }
+  return [0, 0, 0];
+}
+
+function kanaeleSchreiben(k) {
+  function zwei(v) {
+    var t = Math.max(0, Math.min(255, Math.round(v))).toString(16);
+    return t.length < 2 ? '0' + t : t;
+  }
+  return '#' + zwei(k[0]) + zwei(k[1]) + zwei(k[2]);
+}
+
+/* Relative Leuchtdichte nach WCAG */
+function leuchtdichte(kanaele) {
+  var g = kanaele.map(function (v) {
+    var c = v / 255;
+    return c <= 0.04045 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
+  });
+  return 0.2126 * g[0] + 0.7152 * g[1] + 0.0722 * g[2];
+}
+
+function kontrast(a, b) {
+  var la = leuchtdichte(kanaeleLesen(a)), lb = leuchtdichte(kanaeleLesen(b));
+  var hoch = Math.max(la, lb), tief = Math.min(la, lb);
+  return (hoch + 0.05) / (tief + 0.05);
+}
+
+var Matte = {
+  id: 'schwarz',
+  leiter: null,
+
+  eintrag: function (id) {
+    for (var i = 0; i < MATTEN.length; i++) if (MATTEN[i].id === (id || this.id)) return MATTEN[i];
+    return MATTEN[0];
+  },
+
+  starten: function () {
+    var gemerkt = Speicher.lesen('mattenfarbe', null);
+    if (gemerkt && this.eintrag(gemerkt).id === gemerkt) this.id = gemerkt;
+    this.leiter = null;
+  },
+
+  waehlen: function (id) {
+    if (this.eintrag(id).id !== id) return;
+    this.id = id;
+    this.leiter = null;
+    Speicher.schreiben('mattenfarbe', id);
+    Aenderung.melden('matte');
+  },
+
+  grund: function () { return Farbe.lies(this.eintrag().token); },
+
+  /* Helle Matten tragen dunkle Tinte. Entschieden wird ueber die
+     Leuchtdichte, nicht ueber den Farbton. */
+  tinte: function () {
+    var hell = leuchtdichte(kanaeleLesen(this.grund())) >= 0.30;
+    return Farbe.lies(hell ? '--df-riss-dunkel' : '--df-riss-hell');
+  },
+
+  bauen: function () {
+    var grund = kanaeleLesen(this.grund()), tinte = kanaeleLesen(this.tinte());
+    this.leiter = RISS_ANTEILE.map(function (anteil) {
+      return kanaeleSchreiben([
+        tinte[0] * anteil + grund[0] * (1 - anteil),
+        tinte[1] * anteil + grund[1] * (1 - anteil),
+        tinte[2] * anteil + grund[2] * (1 - anteil)
+      ]);
+    });
+  },
+
+  /* Stufe 1 bis 6 */
+  riss: function (stufe) {
+    if (!this.leiter) this.bauen();
+    return this.leiter[Math.max(1, Math.min(RISS_ANTEILE.length, stufe)) - 1];
+  }
+};
+
+/* Schriftgrade der Zeichenflaeche kommen aus derselben Leiter wie die
+   Oberflaeche. Gelesen wird der Token, gerechnet wird mit der Zahl. */
+function stufePx(name) {
+  var wert = parseFloat(Farbe.lies(name));
+  return isFinite(wert) && wert > 0 ? wert : 13;
+}
+
 var Farbe = {
   ablage: {},
   lies: function (name) {
@@ -1083,7 +1444,7 @@ var Farbe = {
     }
     return this.ablage[name];
   },
-  leeren: function () { this.ablage = {}; }
+  leeren: function () { this.ablage = {}; Matte.leiter = null; }
 };
 
 /* Kleiner DOM-Helfer: el('div', {class:'x'}, [kind, 'Text']) */
@@ -1383,15 +1744,31 @@ function icon(inhalt, strich) {
     '>' + inhalt + '</svg>';
 }
 
-/* Wortmarke: Knauf, Schaft, drei Zaehne. Eigener, enger Rahmen und
-   schwerere Stege, damit das Zeichen neben der fetten Schrift nicht
-   spillerig wirkt. */
-var ICON_DIETRICH =
-  '<svg viewBox="0 0 12.6 23" aria-hidden="true" focusable="false">' +
-  '<path fill="url(#dfMetall)" fill-rule="evenodd" d="M5.6.5a4.9 4.9 0 100 9.8 4.9 4.9 0 000-9.8zm0 3a1.9 1.9 0 110 3.8 1.9 1.9 0 010-3.8z"/>' +
-  '<path fill="url(#dfMetall)" d="M3.9 9.5h3.4v13h-3.4z"/>' +
-  '<path fill="url(#dfMetall)" d="M7.3 12.4h4.4v2.5H7.3zM7.3 16.2h5.3v2.5H7.3zM7.3 20h3v2.5h-3z"/>' +
-  '</svg>';
+/* Bedienzeichen: dasselbe Raster und dieselbe Strichstaerke wie die
+   Werkzeugsymbole, aber in der Farbe des umgebenden Textes statt im
+   Metallverlauf. Sie ersetzen die frueheren Textzeichen; als Text wechseln
+   Groesse, Gewicht und Grundlinie mit der Systemschrift. */
+function zeichen(inhalt, kante) {
+  kante = kante || 18;
+  return '<svg viewBox="0 0 24 24" width="' + kante + '" height="' + kante + '" ' +
+    'aria-hidden="true" focusable="false" fill="none" stroke="currentColor" ' +
+    'stroke-width="1.6" stroke-linecap="square" stroke-linejoin="miter">' + inhalt + '</svg>';
+}
+
+var ZEICHEN = {
+  zurueck:  zeichen('<path d="M15 4L7 12l8 8"/>', 22),
+  auf:      zeichen('<path d="M6 15l6-6 6 6"/>', 16),
+  ab:       zeichen('<path d="M6 9l6 6 6-6"/>', 16),
+  chevron:  zeichen('<path d="M5 9l7 7 7-7"/>', 14),
+  haken:    zeichen('<path d="M4 13l5 5L20 6"/>', 14),
+  minus:    zeichen('<path d="M4 12h16"/>', 20),
+  plus:     zeichen('<path d="M4 12h16M12 4v16"/>', 20),
+  /* Drei Punkte als gefuellte Kreise, nicht als dicke Striche: eine
+     abweichende Strichstaerke waere die einzige im ganzen Satz. */
+  mehr:     zeichen('<circle cx="5" cy="12" r="1.5" fill="currentColor" stroke="none"/>' +
+                    '<circle cx="12" cy="12" r="1.5" fill="currentColor" stroke="none"/>' +
+                    '<circle cx="19" cy="12" r="1.5" fill="currentColor" stroke="none"/>', 22)
+};
 
 var WERKZEUGE = [
   {
@@ -1400,7 +1777,7 @@ var WERKZEUGE = [
     kurzbeschreibung: 'Maße in Originalgröße auftragen',
     status: 'aktiv',
     brauchtKalibrierung: true,
-    icon: icon('<path d="M3 12h18M3 8.5v7M21 8.5v7"/><path d="M6.4 12l2.6-2v4zM17.6 12l-2.6-2v4z" fill="url(#dfMetall)" stroke="none"/>', true),
+    icon: icon('<path d="M3 12h18M3 8v8M21 8v8"/><path d="M6 12l3-2v4zM18 12l-3-2v4z" fill="url(#dfMetall)" stroke="none"/>', true),
     aufbauen: function (container, kontext) { return AnrissWerkzeug.aufbauen(container, kontext); },
     abbauen: function () { return AnrissWerkzeug.abbauen(); },
     einstellungen: null      /* Alles Noetige steht in der Bedienleiste */
@@ -1411,7 +1788,7 @@ var WERKZEUGE = [
     kurzbeschreibung: '',
     status: 'geplant',
     brauchtKalibrierung: true,
-    icon: icon('<rect x="2.8" y="8" width="18.4" height="8"/><path d="M6.5 8v3.4M10 8v2.2M13.5 8v3.4M17 8v2.2"/>', true),
+    icon: icon('<rect x="4" y="4" width="16" height="16" stroke-dasharray="3 3"/>', true),
     aufbauen: function () {}, abbauen: function () {}, einstellungen: null
   },
   {
@@ -1420,7 +1797,7 @@ var WERKZEUGE = [
     kurzbeschreibung: '',
     status: 'geplant',
     brauchtKalibrierung: false,
-    icon: icon('<path d="M3.2 18a8.8 8.8 0 0117.6 0"/><path d="M3.2 18h17.6M12 18l6.2-6.2"/>', true),
+    icon: icon('<rect x="4" y="4" width="16" height="16" stroke-dasharray="3 3"/>', true),
     aufbauen: function () {}, abbauen: function () {}, einstellungen: null
   },
   {
@@ -1429,7 +1806,7 @@ var WERKZEUGE = [
     kurzbeschreibung: '',
     status: 'geplant',
     brauchtKalibrierung: true,
-    icon: icon('<path d="M4 20a5 5 0 015-5M4 20a10 10 0 0110-10M4 20a15 15 0 0115-15"/>', true),
+    icon: icon('<rect x="4" y="4" width="16" height="16" stroke-dasharray="3 3"/>', true),
     aufbauen: function () {}, abbauen: function () {}, einstellungen: null
   },
   {
@@ -1438,7 +1815,7 @@ var WERKZEUGE = [
     kurzbeschreibung: '',
     status: 'geplant',
     brauchtKalibrierung: false,
-    icon: icon('<path d="M3.5 9h15M3.5 15h15"/><path d="M18.5 9l-3-2.4v4.8zM5.5 15l3-2.4v4.8z" fill="url(#dfMetall)" stroke="none"/>', true),
+    icon: icon('<rect x="4" y="4" width="16" height="16" stroke-dasharray="3 3"/>', true),
     aufbauen: function () {}, abbauen: function () {}, einstellungen: null
   },
   {
@@ -1447,7 +1824,7 @@ var WERKZEUGE = [
     kurzbeschreibung: '',
     status: 'geplant',
     brauchtKalibrierung: false,
-    icon: icon('<rect x="3" y="6" width="18" height="12"/><circle cx="12" cy="12" r="3.6"/>', true),
+    icon: icon('<rect x="4" y="4" width="16" height="16" stroke-dasharray="3 3"/>', true),
     aufbauen: function () {}, abbauen: function () {}, einstellungen: null
   },
   {
@@ -1456,7 +1833,7 @@ var WERKZEUGE = [
     kurzbeschreibung: '',
     status: 'geplant',
     brauchtKalibrierung: false,
-    icon: icon('<path d="M12 3.2l7.6 4.4v8.8L12 20.8 4.4 16.4V7.6z"/><circle cx="12" cy="12" r="3.2"/>', true),
+    icon: icon('<rect x="4" y="4" width="16" height="16" stroke-dasharray="3 3"/>', true),
     aufbauen: function () {}, abbauen: function () {}, einstellungen: null
   }
 ];
@@ -1509,24 +1886,19 @@ var Anwendung = {
   starten: function () {
     this.wurzel = document.getElementById('anwendung');
     Geraet.starten();
+    Matte.starten();
     Zoom.starten();
 
     var selbst = this;
     window.addEventListener('hashchange', function () { selbst.zeichnen(); });
 
+    /* Die Adresse entscheidet, was beim Laden erscheint: #/ und alles
+       Unbekannte fuehren auf die Startseite, #/werkzeug/anriss in das
+       Werkzeug. Es wird nichts umgeleitet, auch nicht ohne Geraeteprofil;
+       wer ohne Profil in das Werkzeug geht, landet dort im Kalibriermodus,
+       und wer auf der Startseite bleibt, findet die Karte "Bildschirm
+       unbekannt". */
     this.zeichnen();
-
-    if (!Speicher.lesen('hinweisGesehen', false)) this.hinweisDialog();
-
-    /* Ohne Profil fuehrt der Weg in das erste Werkzeug, das Masshaltigkeit
-       braucht; dort startet der Kalibriermodus von selbst. */
-    if (!Geraet.istKalibriert()) {
-      var ziel = null;
-      WERKZEUGE.forEach(function (w) {
-        if (!ziel && w.status === 'aktiv' && w.brauchtKalibrierung) ziel = w.id;
-      });
-      if (ziel && location.hash.indexOf(ziel) < 0) location.hash = '#/werkzeug/' + ziel;
-    }
   },
 
   /* --- Navigation: Startseite und Werkzeugansicht ----------------------- */
@@ -1560,39 +1932,38 @@ var Anwendung = {
     if (route.name === 'werkzeug') this.werkzeugAnsicht(route.werkzeug);
     else this.startAnsicht();
 
-    /* Kurzer Uebergang beim Ansichtswechsel, nur auf den obersten Ebenen */
+    /* Kurzer Uebergang beim Ansichtswechsel, nur auf den obersten Ebenen.
+       Eine Ebene, die die Zeichenflaeche enthaelt, bleibt davon ausgenommen:
+       das Aufblenden liefe sonst ueber die Messflaeche und machte sie fuer
+       die Dauer des Uebergangs teildeckend. */
     Array.prototype.forEach.call(this.wurzel.children, function (kind) {
-      if (kind.classList) kind.classList.add('df-eintritt');
+      if (!kind.classList) return;
+      if (kind.querySelector && kind.querySelector('.buehne')) return;
+      kind.classList.add('df-eintritt');
     });
   },
 
-  /* Kopfzeile mit Zurueck-Pfeil, Bartkante und Titel */
-  kopfzeile: function (titel, zurueckZiel, rechts) {
-    var kinder = [];
-    if (zurueckZiel != null) {
-      kinder.push(el('button', {
-        class: 'leise', 'aria-label': 'Zurück', text: '‹',
-        style: 'font-size:24px; line-height:1; padding:0 var(--df-r2); min-width:36px',
+  /* Anfang der Bedienleiste: Zurueck, Werkzeugzeichen, Werkzeugname. Es gibt
+     keine zweite Leiste darueber mehr; das spart in der Werkzeugansicht eine
+     ganze Zeilenhoehe Darstellungsflaeche.
+     Das Zeichen ist dasselbe wie auf der Kachel der Startseite. */
+  leistenkopf: function (werkzeug, zurueckZiel) {
+    return [
+      el('button', {
+        class: 'leiste-zurueck', 'aria-label': 'Zurück',
+        html: ZEICHEN.zurueck,
         onclick: function () { location.hash = zurueckZiel; }
-      }));
-    }
-    kinder.push(el('span', { class: 'balken', 'aria-hidden': 'true' }));
-    kinder.push(el('h1', { text: titel }));
-    if (rechts) kinder.push(rechts);
-    return el('div', { class: 'kopf' }, kinder);
+      }),
+      el('span', { class: 'leiste-zeichen', html: werkzeug.icon, 'aria-hidden': 'true' }),
+      el('span', { class: 'werkzeugname', text: werkzeug.name })
+    ];
   },
 
   /* --- Startseite ------------------------------------------------------- */
 
   startAnsicht: function () {
     var schrift = el('span', { class: 'schrift', text: 'Dietrich' });
-    var block = el('div', { class: 'marke-block' }, [
-      el('span', { class: 'zeichen', html: ICON_DIETRICH, 'aria-hidden': 'true' }),
-      el('span', { class: 'schrift-huelle' }, [
-        el('span', { class: 'schrift-tiefe', 'aria-hidden': 'true', text: 'Dietrich' }),
-        schrift
-      ])
-    ]);
+    var block = el('div', { class: 'marke-block' }, [schrift]);
 
     /* Das Glanzlicht laeuft einmal beim Aufbau und erneut bei Beruehrung.
        Die Klasse wird abgenommen und nach einem erzwungenen Umbruch wieder
@@ -1608,14 +1979,16 @@ var Anwendung = {
 
     var marke = el('div', { class: 'marke' }, [
       block,
-      el('span', { class: 'marke-zusatz', text: 'Multitool' })
+      el('span', { class: 'marke-zusatz', text: 'Multitool by ogermann69' })
     ]);
     this.wurzel.appendChild(marke);
 
-    /* Die Wortmarke soll die Breite ausnutzen, ohne sie zu überschreiten.
-       Wie breit "DIETRICH" bei einem Schriftgrad ausfällt, hängt davon ab,
-       welche Schrift des Stapels greift; ein fester vw-Wert reicht dafür
-       nicht. Also messen und einpassen. Die Obergrenze bleibt 10 rem. */
+    /* Die Wortmarke wird gemessen und eingepasst: wie breit "DIETRICH" bei
+       einem Schriftgrad ausfällt, hängt davon ab, welche Schrift des Stapels
+       greift, ein fester vw-Wert reicht dafür nicht. Sie füllt jetzt zwei
+       Drittel der Breite statt der ganzen; Ober- und Untergrenze folgen
+       demselben Verhältnis. */
+    var ANTEIL = 2 / 3;
     function markeEinpassen() {
       if (!marke.clientWidth || typeof getComputedStyle !== 'function') return;
       var stil = getComputedStyle(marke);
@@ -1624,7 +1997,8 @@ var Anwendung = {
       block.style.fontSize = '100px';
       var gemessen = block.scrollWidth;
       if (!(gemessen > 0)) { block.style.fontSize = ''; return; }
-      block.style.fontSize = Math.min(160, Math.max(44, 100 * innen / gemessen)) + 'px';
+      var groesse = 100 * innen / gemessen * ANTEIL;
+      block.style.fontSize = Math.min(160 * ANTEIL, Math.max(44 * ANTEIL, groesse)) + 'px';
     }
 
     markeEinpassen();
@@ -1672,41 +2046,31 @@ var Anwendung = {
       ]));
     }
 
-    inhalt.appendChild(el('div', { class: 'merksatz', style: 'margin-top:var(--df-r4)', text: HINWEISTEXT }));
+    /* Der Genauigkeitshinweis steht nicht mehr hier. Er betrifft Anriss,
+       nicht die Anwendung als Ganzes, und hat auf der Startseite nichts zu
+       suchen; im Geraetefenster des Werkzeugs steht er weiter. */
     this.wurzel.appendChild(inhalt);
   },
 
   /* --- Werkzeugansicht: Kopf, Bedienleiste, Zeichenflaeche --------------- */
 
   werkzeugAnsicht: function (werkzeug) {
-    this.wurzel.appendChild(this.kopfzeile(werkzeug.name, '#/'));
-
+    var selbst = this;
     var container = el('div', {
       style: 'flex:1 1 auto; display:flex; flex-direction:column; min-height:0;'
     });
     this.wurzel.appendChild(container);
     this.aktivesWerkzeug = werkzeug;
+    /* Das Werkzeug baut seine Leiste selbst und setzt den Kopf davor. Es
+       fragt ihn bei jedem Neuaufbau neu ab, damit er auch im Kalibriermodus
+       stehen bleibt. */
+    Kontext.leistenkopf = function () { return selbst.leistenkopf(werkzeug, '#/'); };
     werkzeug.aufbauen(container, Kontext);
   },
 
-  hinweisDialog: function () {
-    var hg = el('div', { class: 'dialog-hg' });
-    var dialog = el('div', { class: 'dialog' }, [
-      el('h2', { text: 'Dietrich' }),
-      el('div', { class: 'merksatz', text: HINWEISTEXT }),
-      el('div', { class: 'zeile', style: 'margin-top:var(--df-r4); justify-content:flex-end' }, [
-        el('button', {
-          class: 'haupt', text: 'Verstanden',
-          onclick: function () {
-            Speicher.schreiben('hinweisGesehen', true);
-            document.body.removeChild(hg);
-          }
-        })
-      ])
-    ]);
-    hg.appendChild(dialog);
-    document.body.appendChild(hg);
-  }
+  /* Es gibt keinen Genauigkeitsdialog beim ersten Start mehr. Er unterbrach
+     die Anwendung wegen eines Vorbehalts, der nur Anriss betrifft; er steht
+     im Geraetefenster des Werkzeugs, wo er hingehoert. */
 };
 
 /* ---------- 7. Zeichenhilfen -------------------------------------------- */
@@ -1788,7 +2152,7 @@ Zeichner.prototype.text = function (inhalt, x, y, farbe, ausrichtung, grundlinie
   ctx.save();
   ctx.globalAlpha = 1;
   ctx.fillStyle = farbe;
-  ctx.font = (fett ? '600 ' : '') + (groesse || 13) + 'px system-ui, sans-serif';
+  ctx.font = (fett ? '600 ' : '') + (groesse || stufePx('--df-t2')) + 'px system-ui, sans-serif';
   ctx.textAlign = ausrichtung || 'center';
   ctx.textBaseline = grundlinie || 'alphabetic';
   ctx.fillText(inhalt, x, y);
@@ -2027,6 +2391,17 @@ var AnrissWerkzeug = {
 
   /* --- Bedienleiste ----------------------------------------------------- */
 
+  /* Zurueck, Werkzeugzeichen und Name stehen am Anfang derselben Leiste.
+     Sie werden bei jedem Neuaufbau mitgesetzt, auch im Kalibriermodus:
+     sonst gaebe es dort keinen Weg zurueck. */
+  kopfVoranstellen: function () {
+    var selbst = this;
+    if (!this.kontext || typeof this.kontext.leistenkopf !== 'function') return;
+    this.kontext.leistenkopf().forEach(function (knoten) {
+      selbst.leiste.appendChild(knoten);
+    });
+  },
+
   leisteAufbauen: function () {
     var selbst = this, z = this.zustand;
     if (!this.leiste) return;
@@ -2034,6 +2409,8 @@ var AnrissWerkzeug = {
     this.aufklapp = null;
 
     if (z.kalibrieren) { this.kalibrierLeiste(); return; }
+
+    this.kopfVoranstellen();
 
     /* a) Geometrie */
     var auswahl = el('select', { 'aria-label': 'Geometrie' });
@@ -2050,7 +2427,10 @@ var AnrissWerkzeug = {
       selbst.leisteAufbauen();
       selbst.zeichnen();
     });
-    this.leiste.appendChild(auswahl);
+    this.leiste.appendChild(el('div', { class: 'auswahlfeld' }, [
+      auswahl,
+      el('span', { class: 'pfeil', 'aria-hidden': 'true', html: ZEICHEN.chevron })
+    ]));
 
     /* b, c, d) Werte, Schrittsteuerung, Ausrichtung */
     if (z.geometrie === 'linie') {
@@ -2078,25 +2458,25 @@ var AnrissWerkzeug = {
 
     } else if (z.geometrie === 'rechteck') {
       this.leiste.appendChild(this.wertgruppe({
-        etikett: 'Breite', kurz: 'B',
+        etikett: 'Breite', kurz: 'B', mehrfach: true,
         lesen: function () { return z.rechteck.breite; },
         setzen: function (mm) { z.rechteck.breite = mm; }
       }));
       this.leiste.appendChild(this.wertgruppe({
-        etikett: 'Höhe', kurz: 'H',
+        etikett: 'Höhe', kurz: 'H', mehrfach: true,
         lesen: function () { return z.rechteck.hoehe; },
         setzen: function (mm) { z.rechteck.hoehe = mm; }
       }));
 
     } else {
       this.leiste.appendChild(this.wertgruppe({
-        etikett: 'Winkel', kurz: '∠',
+        etikett: 'Winkel', kurz: '∠', mehrfach: true,
         grad: true, min: 0, max: 180,
         lesen: function () { return z.winkel.grad; },
         setzen: function (grad) { z.winkel.grad = grad; }
       }));
       this.leiste.appendChild(this.wertgruppe({
-        etikett: 'Schenkel', kurz: 'S',
+        etikett: 'Schenkel', kurz: 'S', mehrfach: true,
         lesen: function () { return z.winkel.schenkel; },
         setzen: function (mm) { z.winkel.schenkel = mm; }
       }));
@@ -2108,7 +2488,10 @@ var AnrissWerkzeug = {
       function () { return z.einheit; },
       function (wert) { z.einheit = wert; }));
 
-    /* f, g, h) Geraet, Code, Kalibrieren */
+    /* f) Mattenfarbe, abgesetzt vor dem Geraetebereich */
+    this.leiste.appendChild(this.matteFeld());
+
+    /* g, h, i) Geraet, Code, Kalibrieren */
     var rechts = el('div', { class: 'leiste-rechts' }, [
       this.geraetFeld(),
       this.codeKnopf(),
@@ -2173,9 +2556,12 @@ var AnrissWerkzeug = {
 
     function anzeigewert() { return grad ? opt.lesen() : selbst.ausMm(opt.lesen()); }
 
+    /* Der Platzhalter traegt die Beschriftung, wenn sie auf schmalen
+       Bildschirmen aus der Leiste faellt. */
     var eingabe = el('input', {
       type: 'text', inputmode: 'decimal', autocomplete: 'off',
       value: zahlSchreiben(anzeigewert(), stellen),
+      placeholder: opt.etikett,
       'aria-label': opt.etikett + ' in ' + (grad ? 'Grad' : selbst.einheit().kuerzel)
     });
 
@@ -2229,46 +2615,176 @@ var AnrissWerkzeug = {
       }
     });
 
-    return el('div', { class: 'wertgruppe' }, [
-      el('span', { class: 'etikett' }, [
-        el('span', { class: 'lang', text: opt.etikett }),
-        el('span', { class: 'kurz', text: opt.kurz || opt.etikett.charAt(0) })
-      ]),
+    return el('div', { class: 'wertgruppe' + (opt.mehrfach ? ' mehrfach' : '') }, [
+      el('span', { class: 'etikett', text: opt.etikett }),
+      el('span', { class: 'etikett-kurz', text: opt.kurz || opt.etikett.charAt(0) }),
       eingabe,
       el('span', { class: 'einheit-nach', text: kuerzel }),
-      el('button', {
-        'aria-label': opt.etikett + ' verringern', text: '−',
-        onclick: function () { setzen(anzeigewert() - schritte[z.schrittIndex], true); }
-      }),
-      schrittKnopf,
-      el('button', {
-        'aria-label': opt.etikett + ' erhöhen', text: '+',
-        onclick: function () { setzen(anzeigewert() + schritte[z.schrittIndex], true); }
-      })
+      /* Ein Kasten fuer beide Richtungen. Am Zeigergeraet steht er
+         gestapelt und traegt Pfeile, am Tastgeraet waagerecht mit Minus und
+         Plus; die Anordnung entscheidet allein das Stylesheet. */
+      el('div', { class: 'stepper' }, [
+        el('button', {
+          class: 'auf', 'aria-label': opt.etikett + ' erhöhen',
+          onclick: function () { setzen(anzeigewert() + schritte[z.schrittIndex], true); }
+        }, [
+          el('span', { class: 'pfeilzeichen', 'aria-hidden': 'true', html: ZEICHEN.auf }),
+          el('span', { class: 'rechenzeichen', 'aria-hidden': 'true', html: ZEICHEN.plus })
+        ]),
+        el('button', {
+          class: 'ab', 'aria-label': opt.etikett + ' verringern',
+          onclick: function () { setzen(anzeigewert() - schritte[z.schrittIndex], true); }
+        }, [
+          el('span', { class: 'pfeilzeichen', 'aria-hidden': 'true', html: ZEICHEN.ab }),
+          el('span', { class: 'rechenzeichen', 'aria-hidden': 'true', html: ZEICHEN.minus })
+        ])
+      ]),
+      schrittKnopf
     ]);
   },
 
-  segmentsteuerung: function (paare, lesen, setzen) {
+  /* "nachher" gibt eine Steuerung ausserhalb der Leiste die Moeglichkeit,
+     sich selbst nachzuziehen. Ohne das wuerde leisteAufbauen das offene
+     Aufklappfenster mitten im Bedienen abraeumen. */
+  segmentsteuerung: function (paare, lesen, setzen, nachher) {
     var selbst = this;
-    var kasten = el('div', { class: 'segmente' });
-    paare.forEach(function (paar) {
-      kasten.appendChild(el('button', {
-        text: paar[1],
-        'aria-pressed': lesen() === paar[0] ? 'true' : 'false',
-        onclick: function () {
-          setzen(paar[0]);
-          selbst.sichern();
-          selbst.leisteAufbauen();
-          selbst.zeichnen();
-        }
-      }));
+    var kasten = el('div', { class: 'segmente', role: 'group' });
+    var marke = el('div', { class: 'marke-segment', 'aria-hidden': 'true' });
+    kasten.appendChild(marke);
+
+    var knoepfe = paare.map(function (paar, i) {
+      var knopf = el('button', {
+        text: paar[1], 'data-stelle': String(i),
+        'aria-pressed': lesen() === paar[0] ? 'true' : 'false'
+      });
+      kasten.appendChild(knopf);
+      return knopf;
     });
+
+    var anzahl = paare.length;
+    var stelle = 0;
+    paare.forEach(function (paar, i) { if (lesen() === paar[0]) stelle = i; });
+
+    /* Die Marke deckt genau ein Segment. Ihre Breite kommt aus dem Kasten,
+       damit sie auch dann stimmt, wenn die Segmente verschieden breit
+       beschriftet sind: alle Segmente teilen sich die Breite gleich. */
+    function marke_setzen(anteil) {
+      marke.style.width = (100 / anzahl) + '%';
+      marke.style.transform = 'translateX(' + (anteil * 100) + '%)';
+    }
+
+    function beschriften(neueStelle) {
+      knoepfe.forEach(function (k, i) {
+        k.setAttribute('aria-pressed', i === neueStelle ? 'true' : 'false');
+      });
+    }
+
+    marke_setzen(stelle);
+    beschriften(stelle);
+
+    function uebernehmen(neueStelle) {
+      if (neueStelle === stelle) return;
+      stelle = neueStelle;
+      setzen(paare[neueStelle][0]);
+      selbst.sichern();
+      if (nachher) nachher();
+      else selbst.leisteAufbauen();
+      selbst.zeichnen();
+    }
+
+    /* Ziehen wie bei einer Segmentsteuerung unter iOS: die Marke folgt dem
+       Zeiger, statt erst beim Loslassen zu springen. Pointer Events
+       behandeln Maus und Finger gleich. Ueber die Kante hinaus wird
+       geklemmt, ein Weg zurueck stellt die Ausgangswahl wieder her. */
+    var zieht = false, startStelle = 0, zielStelle = 0, gezogen = false;
+    var unterdruecken = false;
+
+    function stelleAus(x) {
+      var kante = kasten.getBoundingClientRect();
+      var breite = kante.width / anzahl;
+      if (!(breite > 0)) return stelle;
+      var i = Math.floor((x - kante.left) / breite);
+      return Math.max(0, Math.min(anzahl - 1, i));
+    }
+
+    function anteilAus(x) {
+      var kante = kasten.getBoundingClientRect();
+      var breite = kante.width / anzahl;
+      if (!(breite > 0)) return stelle;
+      var a = (x - kante.left - breite / 2) / breite;
+      return Math.max(0, Math.min(anzahl - 1, a));
+    }
+
+    kasten.addEventListener('pointerdown', function (fall) {
+      var knopf = null;
+      knoepfe.forEach(function (k) { if (k === fall.target || k.contains(fall.target)) knopf = k; });
+      if (!knopf) return;
+      zieht = true;
+      gezogen = false;
+      unterdruecken = false;
+      startStelle = stelle;
+      zielStelle = parseInt(knopf.getAttribute('data-stelle'), 10);
+      kasten.classList.add('zieht');
+      if (kasten.setPointerCapture) kasten.setPointerCapture(fall.pointerId);
+    });
+
+    kasten.addEventListener('pointermove', function (fall) {
+      if (!zieht) return;
+      gezogen = true;
+      marke_setzen(anteilAus(fall.clientX));
+      var neu = stelleAus(fall.clientX);
+      if (neu !== zielStelle) { zielStelle = neu; beschriften(neu); }
+    });
+
+    function loslassen(fall) {
+      if (!zieht) return;
+      zieht = false;
+      kasten.classList.remove('zieht');
+      /* Ein Tipp ohne Bewegung waehlt das beruehrte Segment; ein Ziehen
+         waehlt das, ueber dem der Zeiger endet. */
+      var ziel = gezogen ? stelleAus(fall.clientX) : zielStelle;
+      /* Auf das Loslassen folgt ein Klick. Endet das Ziehen ausserhalb des
+         Kastens, traegt dieser Klick noch das Segment, auf dem das Ziehen
+         begann, und wuerde die Wahl zurueckdrehen. Er wird deshalb einmal
+         verworfen. */
+      if (gezogen) unterdruecken = true;
+      marke_setzen(ziel);
+      beschriften(ziel);
+      if (ziel === startStelle) return;
+      uebernehmen(ziel);
+    }
+
+    kasten.addEventListener('pointerup', loslassen);
+    kasten.addEventListener('pointercancel', function () {
+      if (!zieht) return;
+      zieht = false;
+      kasten.classList.remove('zieht');
+      marke_setzen(startStelle);
+      beschriften(startStelle);
+    });
+
+    /* Tastatur und Umgebungen ohne Pointer Events: der Klick bleibt.
+       Ein Klick von der Tastatur traegt detail === 0 und wird nie verworfen;
+       sonst bliebe eine Unterdrueckung, der kein Zeigerklick folgte, an der
+       naechsten Leertaste haengen. */
+    knoepfe.forEach(function (knopf, i) {
+      knopf.addEventListener('click', function (fall) {
+        if (unterdruecken && fall && fall.detail !== 0) return;
+        marke_setzen(i);
+        beschriften(i);
+        uebernehmen(i);
+      });
+    });
+
+    kasten.addEventListener('click', function () { unterdruecken = false; });
+
     return kasten;
   },
 
   /* --- Geraeteanzeige mit Aufklappfenster -------------------------------- */
 
   codeKnopf: function () {
+    var selbst = this;
     var code = Geraet.code() || '–';
     var feld = el('span', { class: 'code', text: code });
     this.codeFeld = feld;
@@ -2276,17 +2792,97 @@ var AnrissWerkzeug = {
       class: 'chip leiste-code', 'aria-label': 'Übertragungscode kopieren',
       title: 'Übertragungscode kopieren'
     }, [feld]);
+    /* Der Chip traegt ein Wort, der ganze Satz steht im Meldeband. Ein
+       Satz im Chip wuerde die Leiste breiter machen, als sie sein darf. */
+    function zurueck() { feld.textContent = Geraet.code() || '–'; }
+
     knopf.addEventListener('click', function () {
       if (!Geraet.code()) return;
       if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(Geraet.code()).then(function () {
           feld.textContent = 'kopiert';
-          setTimeout(function () { feld.textContent = Geraet.code() || '–'; }, 1400);
-        }, function () { feld.textContent = 'nicht möglich'; setTimeout(function () {
-          feld.textContent = Geraet.code() || '–'; }, 1400); });
+          setTimeout(zurueck, 1400);
+        }, function () {
+          feld.textContent = 'gesperrt';
+          selbst.melden('Zwischenablage gesperrt. Code von Hand abtippen.');
+          setTimeout(zurueck, 1400);
+        });
+      } else {
+        selbst.melden('Zwischenablage gesperrt. Code von Hand abtippen.');
       }
     });
     return knopf;
+  },
+
+  /* Mattenwahl. Aufbau und Bedienung wie beim Geraetemenue: Klick oeffnet,
+     Klick, Klick ausserhalb oder Escape schliesst. Kein Ueberfahren. */
+  matteFeld: function () {
+    var selbst = this;
+    var punkt = el('span', { class: 'punkt', 'aria-hidden': 'true' });
+    punkt.style.background = Matte.grund();
+    this.mattePunkt = punkt;
+
+    var knopf = el('button', {
+      class: 'knopf', 'aria-haspopup': 'dialog', 'aria-expanded': 'false',
+      'aria-label': 'Mattenfarbe wählen', title: 'Mattenfarbe'
+    }, [punkt]);
+
+    var fenster = el('div', { class: 'aufklapp', role: 'dialog', 'aria-label': 'Mattenfarbe' });
+    var feld = el('div', { class: 'farbfeld' }, [knopf, fenster]);
+    fenster.elternfeld = feld;
+
+    function oeffnen() {
+      selbst.aufklappSchliessen();
+      leeren(fenster);
+      selbst.matteFuellen(fenster);
+      fenster.classList.add('offen');
+      knopf.setAttribute('aria-expanded', 'true');
+      selbst.aufklapp = fenster;
+    }
+
+    knopf.addEventListener('click', function (fall) {
+      fall.stopPropagation();
+      if (fenster.classList.contains('offen')) selbst.aufklappSchliessen();
+      else oeffnen();
+    });
+    fenster.addEventListener('click', function (fall) { fall.stopPropagation(); });
+
+    return el('div', { class: 'leiste-matte' }, [feld]);
+  },
+
+  matteFuellen: function (fenster) {
+    var selbst = this;
+    fenster.appendChild(el('h3', { text: 'Matte' }));
+    var liste = el('div', { class: 'farbliste' });
+    MATTEN.forEach(function (matte) {
+      var aktiv = Matte.id === matte.id;
+      var punkt = el('span', { class: 'punkt', 'aria-hidden': 'true' });
+      punkt.style.background = Farbe.lies(matte.token);
+      liste.appendChild(el('button', {
+        class: 'wahl', 'aria-current': aktiv ? 'true' : 'false',
+        onclick: function () {
+          Matte.waehlen(matte.id);
+          if (selbst.mattePunkt) selbst.mattePunkt.style.background = Matte.grund();
+          selbst.matteErneuern(fenster);
+          selbst.zeichnen();
+        }
+      }, [
+        el('span', { class: 'haken', 'aria-hidden': 'true', html: aktiv ? ZEICHEN.haken : '' }),
+        punkt,
+        el('span', { class: 'beschriftung', text: matte.name })
+      ]));
+    });
+    fenster.appendChild(liste);
+    fenster.appendChild(el('div', {
+      class: 'hinweis',
+      text: 'Die Matte färbt nur die Zeichenfläche. Zeichenfarbe und Kontrast folgen ihr.'
+    }));
+  },
+
+  /* Nur die Liste wird ersetzt, das Fenster bleibt offen. */
+  matteErneuern: function (fenster) {
+    leeren(fenster);
+    this.matteFuellen(fenster);
   },
 
   geraetFeld: function () {
@@ -2299,13 +2895,19 @@ var AnrissWerkzeug = {
     });
     this.chipName = chipName;
     this.chipPunkt = punkt;
+    /* Auf schmalen Bildschirmen ist dieser Schalter zugleich der
+       Ueberlaufknopf: hinter ihm stehen Geraetewahl, Uebertragungscode und
+       Kalibrieren. Dann traegt er das Ueberlaufzeichen statt des Namens,
+       denn der Name passt dort nicht mehr neben Geometrie, Wert und
+       Einheit. Der Warnpunkt bleibt in beiden Faellen sichtbar. */
     var chip = el('button', {
       class: 'chip', 'aria-haspopup': 'dialog', 'aria-expanded': 'false',
-      'aria-label': 'Bildschirmprofil wählen'
+      'aria-label': 'Bildschirm, Übertragungscode und Kalibrieren'
     }, [
       punkt,
       chipName,
-      el('span', { class: 'pfeil', 'aria-hidden': 'true', text: '▾' })
+      el('span', { class: 'pfeil', 'aria-hidden': 'true', html: ZEICHEN.chevron }),
+      el('span', { class: 'mehr', 'aria-hidden': 'true', html: ZEICHEN.mehr })
     ]);
     this.warnpunktSetzen();
     var fenster = el('div', { class: 'aufklapp', role: 'dialog', 'aria-label': 'Bildschirm' });
@@ -2322,14 +2924,17 @@ var AnrissWerkzeug = {
       selbst.aufklapp = fenster;
     }
 
+    /* Klick oder Tipp ist die einzige Bedienung. Kein Oeffnen beim
+       Ueberfahren: der Zeiger verlaesst den Ausloeser auf dem Weg zum
+       Eintrag, das Fenster schloesse sich genau dann. Kein Oeffnen bei
+       Fokus: das Fenster spraenge beim blossen Durchtabben auf.
+       Geschlossen wird ueber denselben Klick, ueber einen Klick ausserhalb
+       und ueber die Escape-Taste. */
     chip.addEventListener('click', function (fall) {
       fall.stopPropagation();
       if (fenster.classList.contains('offen')) selbst.aufklappSchliessen();
       else oeffnen();
     });
-    feld.addEventListener('mouseenter', oeffnen);
-    feld.addEventListener('mouseleave', function () { selbst.aufklappSchliessen(); });
-    chip.addEventListener('focus', oeffnen);
     fenster.addEventListener('click', function (fall) { fall.stopPropagation(); });
 
     return feld;
@@ -2346,7 +2951,7 @@ var AnrissWerkzeug = {
   },
 
   aufklappFuellen: function (fenster) {
-    var selbst = this;
+    var selbst = this, z = this.zustand;
     var profil = Geraet.profil();
     var signatur = Geraet.signatur();
     var erkannt = Geraet.erkennen();
@@ -2366,7 +2971,7 @@ var AnrissWerkzeug = {
           selbst.aufklappErneuern();
         }
       }, [
-        el('span', { class: 'haken', 'aria-hidden': 'true', text: aktiv ? '✓' : '' }),
+        el('span', { class: 'haken', 'aria-hidden': 'true', html: aktiv ? ZEICHEN.haken : '' }),
         el('span', { class: 'beschriftung', text: geraet.name }),
         erkannt && erkannt.id === geraet.id
           ? el('span', { class: 'zusatz', text: 'erkannt' }) : null
@@ -2378,7 +2983,7 @@ var AnrissWerkzeug = {
       liste.appendChild(el('button', {
         class: 'wahl', 'aria-current': 'true'
       }, [
-        el('span', { class: 'haken', 'aria-hidden': 'true', text: '✓' }),
+        el('span', { class: 'haken', 'aria-hidden': 'true', html: ZEICHEN.haken }),
         el('span', {
           class: 'beschriftung',
           text: 'Benutzerdefiniert, ' + zahlSchreiben(Geraet.effektiveKanteMm(), 1) + ' mm'
@@ -2403,6 +3008,46 @@ var AnrissWerkzeug = {
       }));
     }
 
+    /* Mattenfarbe. Auf schmalen Bildschirmen steht sie nur hier. */
+    var selbst2 = this;
+    var farbliste = el('div', { class: 'farbliste' });
+    MATTEN.forEach(function (matte) {
+      var aktiv = Matte.id === matte.id;
+      var punkt = el('span', { class: 'punkt', 'aria-hidden': 'true' });
+      punkt.style.background = Farbe.lies(matte.token);
+      farbliste.appendChild(el('button', {
+        class: 'wahl', 'aria-current': aktiv ? 'true' : 'false',
+        onclick: function () {
+          Matte.waehlen(matte.id);
+          if (selbst2.mattePunkt) selbst2.mattePunkt.style.background = Matte.grund();
+          selbst2.aufklappErneuern();
+          selbst2.zeichnen();
+        }
+      }, [
+        el('span', { class: 'haken', 'aria-hidden': 'true', html: aktiv ? ZEICHEN.haken : '' }),
+        punkt,
+        el('span', { class: 'beschriftung', text: matte.name })
+      ]));
+    });
+    fenster.appendChild(el('div', { class: 'wahl-trenner aufklapp-matte' }));
+    fenster.appendChild(el('h3', { class: 'aufklapp-matte', text: 'Matte' }));
+    farbliste.className = 'farbliste aufklapp-matte';
+    fenster.appendChild(farbliste);
+
+    /* Schrittweite. Sie steht nur hier, wenn sie aus der Leiste faellt:
+       auf 402 Pixel Breite passt der Knopf nicht mehr neben zwei Wertfelder,
+       ohne die Leiste auf drei Zeilen zu treiben. */
+    var schritte = this.einheit().schritte;
+    fenster.appendChild(el('div', { class: 'wahl-trenner aufklapp-schritt' }));
+    fenster.appendChild(el('div', { class: 'zeile aufklapp-schritt' }, [
+      el('span', { class: 'hinweis', style: 'margin:0', text: 'Schrittweite' }),
+      this.segmentsteuerung(
+        schritte.map(function (w, i) { return [String(i), schrittText(w)]; }),
+        function () { return String(z.schrittIndex); },
+        function (wert) { z.schrittIndex = parseInt(wert, 10); },
+        function () { selbst.leisteAufbauen(); selbst.aufklappErneuern(); })
+    ]));
+
     /* 3. Zwei Aktionen am Fuss */
     fenster.appendChild(el('div', { class: 'wahl-trenner' }));
 
@@ -2415,7 +3060,7 @@ var AnrissWerkzeug = {
         codeAktion.setAttribute('aria-expanded', offen ? 'false' : 'true');
       }
     }, [
-      el('span', { class: 'haken', 'aria-hidden': 'true', text: '' }),
+      el('span', { class: 'haken', 'aria-hidden': 'true' }),
       el('span', { class: 'beschriftung', text: 'Code eingeben' })
     ]);
     codeAktion.setAttribute('aria-expanded', 'false');
@@ -2425,7 +3070,7 @@ var AnrissWerkzeug = {
       class: 'wahl',
       onclick: function () { selbst.aufklappSchliessen(); selbst.kalibrierModus(true); }
     }, [
-      el('span', { class: 'haken', 'aria-hidden': 'true', text: '' }),
+      el('span', { class: 'haken', 'aria-hidden': 'true' }),
       el('span', { class: 'beschriftung', text: 'Neu kalibrieren' })
     ]));
 
@@ -2454,9 +3099,9 @@ var AnrissWerkzeug = {
           if (navigator.clipboard && navigator.clipboard.writeText) {
             navigator.clipboard.writeText(Geraet.code()).then(
               function () { melden('Code liegt in der Zwischenablage.', true); },
-              function () { melden('Kopieren nicht möglich. Code markieren und abschreiben.', false); });
+              function () { melden('Zwischenablage gesperrt. Code markieren und abschreiben.', false); });
           } else {
-            melden('Kopieren nicht möglich. Code markieren und abschreiben.', false);
+            melden('Zwischenablage gesperrt. Code markieren und abschreiben.', false);
           }
         }
       })
@@ -2516,7 +3161,7 @@ var AnrissWerkzeug = {
     fenster.appendChild(regler);
 
     fenster.appendChild(el('div', {
-      class: 'merksatz', style: 'margin-top:var(--df-r3); font-size:13px', text: HINWEISTEXT
+      class: 'merksatz', style: 'margin-top:var(--df-r3); font-size:var(--df-t2)', text: HINWEISTEXT
     }));
   },
 
@@ -2580,6 +3225,7 @@ var AnrissWerkzeug = {
 
   kalibrierLeiste: function () {
     var selbst = this, z = this.zustand;
+    this.kopfVoranstellen();
     this.leiste.appendChild(el('span', {
       class: 'hinweis', style: 'margin:0 var(--df-r2) 0 var(--df-r2)', text: 'Referenz'
     }));
@@ -2675,17 +3321,27 @@ var AnrissWerkzeug = {
 
   linealBreite: function (breite) { return breite < 560 ? 22 : 28; },
 
+  /* Alle Farben der Zeichenflaeche kommen aus der Leiter der aktiven Matte.
+     Ausserhalb dieser Rollen wird auf der Zeichenflaeche keine Farbe
+     gesetzt. */
   farbe: function (rolle) {
-    if (rolle === 'geometrie') return Farbe.lies('--df-silber-hell');
-    if (rolle === 'bemassung') return Farbe.lies('--df-silber');
-    if (rolle === 'hilfslinie') return Farbe.lies('--df-silber-dunkel');
-    if (rolle === 'grund') return Farbe.lies('--df-schwarz');
-    return Farbe.lies('--df-text-sekundaer');
+    if (rolle === 'grund')       return Matte.grund();
+    if (rolle === 'geometrie')   return Matte.riss(1);
+    if (rolle === 'bemassung')   return Matte.riss(2);
+    if (rolle === 'hilfslinie')  return Matte.riss(3);
+    if (rolle === 'linealgrund') return Matte.riss(6);
+    if (rolle === 'linealrahmen') return Matte.riss(4);
+    return Matte.riss(3);   /* neben */
   },
 
   zeichnen: function () {
     if (!this.ctx || !this.buehne) return;
     var selbst = this;
+
+    /* Die Flaeche unter der Leinwand traegt dieselbe Matte: waehrend eines
+       Groessenwechsels darf am Rand kein Schwarz aufblitzen. */
+    this.buehne.style.background = this.farbe('grund');
+    if (this.warnband) this.warnband.style.background = this.farbe('grund');
 
     var zoom = this.kontext.zoom;
     var gesperrt = !zoom.ok || (!this.kontext.istKalibriert && !this.zustand.kalibrieren);
@@ -2765,9 +3421,9 @@ var AnrissWerkzeug = {
     var e = this.einheit();
     var ctx = z.ctx;
     var stufen = [
-      { einheiten: e.fein, farbe: Farbe.lies('--df-grau'), mindest: 4.5 },
-      { einheiten: e.mittel, farbe: Farbe.lies('--df-linie'), mindest: 3 },
-      { einheiten: e.grob, farbe: Farbe.lies('--df-silber-dunkel'), mindest: 3 }
+      { einheiten: e.fein, farbe: Matte.riss(6), mindest: 4.5 },
+      { einheiten: e.mittel, farbe: Matte.riss(5), mindest: 3 },
+      { einheiten: e.grob, farbe: Matte.riss(4), mindest: 3 }
     ];
 
     for (var i = 0; i < stufen.length; i++) {
@@ -2798,13 +3454,13 @@ var AnrissWerkzeug = {
   zeichneLineale: function (z, feld, breite, hoehe, rand) {
     var ctx = z.ctx;
     var e = this.einheit();
-    var strich = Farbe.lies('--df-silber-dunkel');
-    var zahlFarbe = Farbe.lies('--df-text-sekundaer');
-    var kante = Farbe.lies('--df-linie');
+    var strich = this.farbe('hilfslinie');
+    var zahlFarbe = this.farbe('bemassung');
+    var kante = this.farbe('linealrahmen');
     var grad = rand < 26 ? 8 : 9;
 
     ctx.save();
-    ctx.fillStyle = Farbe.lies('--df-grau');
+    ctx.fillStyle = this.farbe('linealgrund');
     ctx.fillRect(0, 0, breite, rand);
     ctx.fillRect(0, hoehe - rand, breite, rand);
     ctx.fillRect(0, rand, rand, hoehe - 2 * rand);
@@ -2857,14 +3513,14 @@ var AnrissWerkzeug = {
   /* Das eingegebene Mass wird vom Nullpunkt aus auf den Linealen abgetragen */
   zeichneMassMarken: function (z, feld, breite, hoehe, rand, marken) {
     var ctx = z.ctx;
-    var hell = Farbe.lies('--df-silber-hell');
+    var hell = this.farbe('geometrie');
     var grund = this.farbe('grund');
     var dick = Math.max(z.duenn, 2 / z.dpr);
     var selbst = this;
 
     function kasten(text, x, y, ausrichtung) {
       ctx.save();
-      ctx.font = '600 11px system-ui, sans-serif';
+      ctx.font = '600 ' + stufePx('--df-t1') + 'px system-ui, sans-serif';
       var w = ctx.measureText(text).width;
       var links = ausrichtung === 'links' ? x - w - 6 : x + 2;
       ctx.fillStyle = grund;
