@@ -641,6 +641,12 @@ input[type="range"]::-moz-range-thumb {
 /* Bedienelemente ueber der Flaeche bleiben bedienbar. */
 .buehne .ueberlagerung, .buehne .warnband { touch-action: auto; }
 
+/* Sobald die Zoomueberwachung anschlaegt, wird die Sperre aufgehoben: die
+   Warnung verlangt, die Ansicht mit zwei Fingern zurueckzuziehen, und genau
+   diese Geste haette touch-action: none unterbunden. Eine Anwendung darf
+   nie in einen Zustand geraten, aus dem es keinen Weg heraus gibt. */
+.buehne.zoomoffen { touch-action: pinch-zoom; }
+
 .warnband {
   position: absolute;
   inset: 0;
@@ -677,6 +683,7 @@ input[type="range"]::-moz-range-thumb {
 }
 
 .warnband.sachlich .streifen { background: var(--df-silber-dunkel); }
+.warnband .hinweis { max-width: 34em; margin-top: 0; }
 
 /* ---------- Bedienleiste ------------------------------------------------ */
 
@@ -875,6 +882,13 @@ input[type="range"]::-moz-range-thumb {
 }
 
 @media (pointer: coarse) {
+  /* Begruendete Ausnahme von der Groessenleiter: iOS Safari zoomt die Seite
+     heran, sobald ein Eingabefeld mit weniger als 16 Pixel den Fokus
+     bekommt. Der Zoom bricht die Masshaltigkeit. Stufe t4 ist die kleinste
+     Stufe darueber. Gilt nur fuer Felder, nur bei Tastgeraeten. */
+  input, select, textarea,
+  .auswahlfeld select, .leiste select, .wertgruppe input { font-size: var(--df-t4); }
+
   .stepper { flex-direction: row; gap: var(--df-segment-luft); }
   .stepper .ab { order: -1; }
   .stepper .rechenzeichen { display: flex; }
@@ -1002,10 +1016,12 @@ input[type="range"]::-moz-range-thumb {
   margin-left: auto;
 }
 
-/* Steht die Mattenwahl nicht in der Leiste, uebernimmt die Geraetegruppe
-   den Abstand nach links. */
+/* Die Gruppe rechts wird nach rechts geschoben. Steht die Mattenwahl davor,
+   uebernimmt diese den Schub.
+   Nicht :first-of-type verwenden: das meint den Elementtyp, nicht die
+   Klasse, und traf hier nie zu. */
+.leiste > .leiste-rechts { margin-left: auto; }
 .leiste-matte ~ .leiste-rechts { margin-left: 0; }
-.leiste-rechts:first-of-type { margin-left: auto; }
 
 .farbfeld { position: relative; }
 
@@ -1189,10 +1205,33 @@ input[type="range"]::-moz-range-thumb {
   /* Eine einzige Zeile. In der Leiste bleiben Zurueck, Werkzeugzeichen,
      Geometriename, Wertfeld und der Ueberlaufknopf. Alles andere steht im
      Ueberlaufmenue: Schrittsteuerung, Ausrichtung, Einheit, Matte, Geraet,
-     Uebertragungscode und Kalibrieren. */
+     Uebertragungscode und Kalibrieren.
+     Kein Umbruch: der Ueberlaufknopf sitzt immer am Ende derselben Zeile,
+     damit er blind treffbar bleibt. Was links davon steht, schrumpft. */
+  .leiste { flex-wrap: nowrap; }
   .leiste-code, .leiste-kalibrieren, .werkzeugname, .leiste-matte,
   .leiste > .segmente:not(.segmente-referenz), .leiste .auswahlfeld,
   .wertgruppe .stepper { display: none; }
+
+  /* Der Zugang zu den weiteren Einstellungen behaelt seine Groesse und
+     bleibt rechtsbuendig, auch wenn die Mattenwahl davor ausgeblendet ist. */
+  .leiste-rechts { flex: 0 0 auto; }
+  /* Dieselbe Genauigkeit wie die Regel, die den Schub auf dem Rechner an
+     die Mattenwahl abgibt: sonst gewinnt jene, und der Knopf steht mitten
+     in der Leiste. */
+  .leiste-matte ~ .leiste-rechts { margin-left: auto; }
+  .leiste-rechts .chip { flex: 0 0 auto; }
+
+  /* Alles davor gibt bei Platzmangel nach. */
+  /* Schrumpfen ja, wachsen nein: ein Wertfeld ueber die halbe Leiste zu
+     ziehen, weil Platz frei ist, hilft niemandem. */
+  .leiste > .wertgruppe { flex: 0 1 auto; min-width: 0; }
+  .geometriename {
+    flex: 0 1 auto;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
   /* Im Kalibriermodus bleibt die Referenzauswahl in der Leiste; ihre
      Beschriftung entfaellt, die Segmente sagen es selbst. */
   .kalibrier-etikett { display: none; }
@@ -1202,15 +1241,14 @@ input[type="range"]::-moz-range-thumb {
   /* Der Ueberlaufknopf traegt nur ein Zeichen; ohne Mindestbreite bliebe er
      bei 40 Pixeln und damit unter der Antippflaeche. */
   .chip { padding: 0 var(--df-r2); gap: var(--df-r1); min-width: var(--df-h-bedien); }
-  /* Auf schmalen Bildschirmen bleibt nur eine Gruppe rechts, also keine
-     Trennlinie. */
-  .leiste-trenner { padding-left: 0; }
-  .leiste-trenner::before { display: none; }
+  /* Die Trennlinie vor dem Ueberlaufknopf bleibt: sie setzt den Zugang zu
+     den weiteren Einstellungen ab, genau wie auf dem Rechner die
+     Geraetegruppe. */
 
   /* Zwei Zeilen zu je 44 Pixeln, ein Zwischenraum und zweimal Luft
      ergeben genau 100 Pixel. Mehr darf die Leiste nicht werden. */
   .leiste { gap: var(--df-r1); padding: var(--df-r1) var(--df-r2); }
-  .auswahlfeld select { padding: 0 var(--df-r5) 0 var(--df-r2); font-size: var(--df-t2); }
+  .auswahlfeld select { padding: 0 var(--df-r5) 0 var(--df-r2); }
   .auswahlfeld .pfeil { right: var(--df-r2); }
   /* Die lange Beschriftung weicht dem Platzhalter. Wo zwei Wertfelder
      nebeneinander stehen, bleibt ein Buchstabe: ein Platzhalter ist nur im
@@ -1218,11 +1256,12 @@ input[type="range"]::-moz-range-thumb {
      auseinanderzuhalten. */
   .wertgruppe .etikett { display: none; }
   .wertgruppe.mehrfach .etikett-kurz { display: inline; padding: 0 0 0 var(--df-r2); }
-  /* Die aktive Einheit steht als Nachsatz im Feld: der Umschalter ist auf
-     schmalen Bildschirmen nicht sichtbar. */
-  .wertgruppe .einheit-nach { display: inline; }
-  .wertgruppe input { width: 3.4em; font-size: var(--df-t3); }
-  .wertgruppe.ohne-einheit .einheit-nach { display: none; }
+  /* Das Einheitenkuerzel entfaellt hier. Die Einheit steht in der Ecke der
+     Lineale und an der Bemassung der Geometrie; verwechseln laesst sie sich
+     also nicht. Auf dem Rechner bleibt das Kuerzel, dort ist der Platz da
+     und der Umschalter steht daneben. */
+  .wertgruppe .einheit-nach { display: none; }
+  .wertgruppe input { width: 3.4em; min-width: 2.6em; }
   /* Das Einheitenkuerzel steht als Umschalter in derselben Zeile, der
      Schrittweitenknopf im Ueberlaufmenue. Beides zusammen spart die dritte
      Zeile, ohne eine Antippflaeche unter 44 Pixel zu druecken. */
@@ -1762,6 +1801,34 @@ var Geraet = {
 
 var Zoom = {
   letzterZustand: null,
+
+  /* iOS Safari bietet keinen Weg, einen mit zwei Fingern erzeugten Zoom aus
+     dem Skript heraus zurueckzusetzen: visualViewport ist nur lesbar, und
+     scrollTo aendert die Vergroesserung nicht. Was hilft, ist das kurze
+     Setzen einer Obergrenze im Viewport-Vermerk; Safari zieht die Ansicht
+     dann auf die Ausgangsgroesse zurueck. Die Obergrenze wird sofort wieder
+     entfernt, damit das Vergroessern nicht dauerhaft gesperrt bleibt.
+     Weil dieser Weg nicht auf jeder Fassung greift, steht der Handweg
+     immer daneben. */
+  RUECKWEG: 'Falls das nicht wirkt: mit zwei Fingern zusammenziehen oder ' +
+            'zweimal auf die Fläche tippen.',
+
+  zuruecksetzen: function () {
+    try {
+      if (document.activeElement && document.activeElement.blur) {
+        document.activeElement.blur();
+      }
+      var vermerk = document.querySelector('meta[name="viewport"]');
+      if (!vermerk) return false;
+      var vorher = vermerk.getAttribute('content');
+      vermerk.setAttribute('content',
+        'width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover');
+      setTimeout(function () { vermerk.setAttribute('content', vorher); }, 320);
+      return true;
+    } catch (fehler) {
+      return false;
+    }
+  },
 
   pruefen: function () {
     var sicht = window.visualViewport;
@@ -2625,16 +2692,6 @@ var AnrissWerkzeug = {
       function () { return z.einheit; },
       function (wert) { z.einheit = wert; }));
 
-    /* Stehen zwei Wertfelder nebeneinander, traegt nur das letzte das
-       Einheitenkuerzel: beide zeigen dieselbe Einheit, und auf 402 Pixel
-       Breite entscheiden die zwanzig Pixel ueber die zweite Zeile. */
-    var gruppen = this.leiste.querySelectorAll('.wertgruppe');
-    if (gruppen.length > 1) {
-      Array.prototype.forEach.call(gruppen, function (g, i) {
-        if (i < gruppen.length - 1) g.className += ' ohne-einheit';
-      });
-    }
-
     /* f) Mattenfarbe, abgesetzt vor dem Geraetebereich */
     this.leiste.appendChild(this.matteFeld());
 
@@ -3350,6 +3407,14 @@ var AnrissWerkzeug = {
     }));
   },
 
+  zoomZuruecksetzen: function () {
+    var selbst = this;
+    Zoom.zuruecksetzen();
+    /* Nach dem Zuruecksetzen neu bewerten; greift der Weg nicht, bleibt die
+       Warnung mit dem Handweg stehen. */
+    setTimeout(function () { selbst.zeichnen(); }, 400);
+  },
+
   /* --- Meldung ueber der Zeichenflaeche ---------------------------------- */
 
   melden: function (text) {
@@ -3530,12 +3595,19 @@ var AnrissWerkzeug = {
     var zoom = this.kontext.zoom;
     var gesperrt = !zoom.ok || (!this.kontext.istKalibriert && !this.zustand.kalibrieren);
 
+    this.buehne.classList[zoom.ok ? 'remove' : 'add']('zoomoffen');
+
     if (!zoom.ok) {
       leeren(this.warnband);
       this.warnband.className = 'warnband zeigen';
       this.warnband.appendChild(el('span', { class: 'streifen', 'aria-hidden': 'true' }));
       this.warnband.appendChild(el('strong', { text: 'Maße gesperrt' }));
       this.warnband.appendChild(el('span', { text: zoom.text }));
+      this.warnband.appendChild(el('button', {
+        class: 'haupt', text: 'Ansicht zurücksetzen',
+        onclick: function () { selbst.zoomZuruecksetzen(); }
+      }));
+      this.warnband.appendChild(el('span', { class: 'hinweis', text: Zoom.RUECKWEG }));
     } else if (gesperrt) {
       leeren(this.warnband);
       this.warnband.className = 'warnband sachlich zeigen';
